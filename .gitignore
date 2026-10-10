@@ -1,0 +1,6 @@
+node_modules/
+dist/
+public/draco/
+*.blend1
+renders/
+__pycache__/
