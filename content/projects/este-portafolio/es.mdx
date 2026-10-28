@@ -1,0 +1,42 @@
+---
+title: Este portafolio y su robot 3D
+summary: Robot modelado, riggeado y animado con scripts de Blender, exportado a glTF con Draco (0,8 MB) y animado en la web con Three.js y GSAP, sincronizado con la interfaz.
+kind: Web · 3D · Caso de estudio
+role: Diseño, modelado 3D y desarrollo full stack (proyecto personal)
+---
+
+## Contexto y problema
+
+Quería un portafolio que mostrara a la vez criterio de ingeniería y gusto por el detalle, sin sacrificar lo que de verdad importa a quien contrata: encontrar rápido el rol, los proyectos y la forma de contacto.
+
+## Mi rol
+
+Todo el proyecto: diseño de la interfaz, modelado y animación del robot, integración en la web, contenido bilingüe y calidad (pruebas, accesibilidad y rendimiento).
+
+## Solución
+
+Una intro breve en la que un robot arma la tarjeta de bienvenida y se despide, seguida de un Home de estilo Apple con tarjetas tipo bento. El robot solo existe en la intro: el resto del sitio es HTML del servidor, rápido y accesible.
+
+## Arquitectura
+
+- **Blender por scripts:** cada pieza del robot (cabeza, torso, brazos, piernas, detalles) y el rig se generan con scripts de Python reproducibles, y las animaciones se exportan como clips de glTF.
+- **Exportación:** las piezas se unen por hueso y material y se comprimen con Draco hasta unos 0,8 MB.
+- **Web:** Next.js con App Router y TypeScript; Three.js puro dentro de un único componente cliente para la intro; contenido en JSON y MDX validado con Velite; español e inglés con next-intl.
+
+## Decisiones técnicas
+
+- Three.js puro en lugar de React Three Fiber, para reutilizar el código del prototipo y coreografiar la intro con GSAP por tiempo.
+- Las animaciones se hacen en Blender, no en el navegador: la web solo reproduce clips y reacciona a sus eventos.
+- Todo el contenido vive en `content/` y se valida al compilar, así que un error de datos rompe el build y no la web publicada.
+
+## Retos
+
+Sincronizar los eventos de los clips de Blender (agarrar, soltar, barrer) con el DOM de la tarjeta de bienvenida, y que la intro no penalice el rendimiento del Home.
+
+## Resultados
+
+Un sitio bilingüe con la intro 3D, páginas estáticas y pruebas automáticas en cada cambio. [pendiente: métricas de Lighthouse tras el lanzamiento]
+
+## Qué haría distinto
+
+[pendiente]

@@ -1,0 +1,9 @@
+{
+  "period": { "start": "[pendiente]", "end": "[pendiente]" },
+  "stack": ["Next.js", "Node", "PostgreSQL"],
+  "color": "blue",
+  "links": {},
+  "featured": true,
+  "order": 2,
+  "draft": true
+}

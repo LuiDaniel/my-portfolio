@@ -1,0 +1,108 @@
+{
+  "sections": [
+    { "id": "about", "visible": true },
+    { "id": "projects", "visible": true },
+    { "id": "experience", "visible": true },
+    { "id": "skills", "visible": true },
+    { "id": "education", "visible": true },
+    { "id": "blog", "visible": true },
+    { "id": "contact", "visible": true }
+  ],
+  "hero": {
+    "primaryCta": {
+      "label": { "es": "Ver proyectos", "en": "View projects" },
+      "route": "/",
+      "section": "projects"
+    },
+    "secondaryCta": { "label": { "es": "Descargar CV", "en": "Download CV" }, "action": "cv" },
+    "bento": { "featuredProject": "plataforma-reservas", "showGithub": true, "showClock": true }
+  },
+  "about": {
+    "eyebrow": { "es": "Sobre mí", "en": "About" },
+    "title": { "es": "Ingeniería y producto,", "en": "Engineering and product," },
+    "titleSoft": { "es": "en el mismo lugar.", "en": "in one place." },
+    "more": {
+      "label": { "es": "Mi historia completa", "en": "My full story" },
+      "route": "/sobre-mi"
+    },
+    "paragraphs": [
+      {
+        "es": "Soy desarrollador full stack y estudiante de Ingeniería de Sistemas. Me gusta construir productos completos: entender el problema, diseñar los datos, escribir la API y cuidar cada detalle de la interfaz.",
+        "en": "I'm a full stack developer and Systems Engineering student. I like building complete products: understanding the problem, designing the data, writing the API and polishing every detail of the interface."
+      },
+      {
+        "es": "Trabajo sobre todo con **TypeScript, React, Next.js y Node**, y me interesan la arquitectura, el rendimiento y la experiencia de usuario. Este portafolio, con su robot modelado en Blender y animado en la web, es un ejemplo de cómo disfruto aprender algo nuevo hasta dominarlo.",
+        "en": "I mostly work with **TypeScript, React, Next.js and Node**, and I care about architecture, performance and user experience. This portfolio, with its robot modeled in Blender and animated on the web, shows how I enjoy learning something new until I master it."
+      },
+      {
+        "es": "Busco un equipo donde seguir creciendo como ingeniero y aportar desde el primer día. [pendiente]",
+        "en": "I'm looking for a team where I can keep growing as an engineer and contribute from day one. [pendiente]"
+      }
+    ],
+    "values": [
+      {
+        "icon": "layers",
+        "color": "blue",
+        "title": { "es": "De punta a punta", "en": "End to end" },
+        "text": {
+          "es": "Base de datos, API, interfaz y despliegue: entiendo cómo encaja cada capa.",
+          "en": "Database, API, interface and deployment: I understand how every layer fits together."
+        }
+      },
+      {
+        "icon": "badge-check",
+        "color": "mint",
+        "title": { "es": "Calidad que se mide", "en": "Measurable quality" },
+        "text": {
+          "es": "Pruebas, accesibilidad y rendimiento forman parte del trabajo, no un extra.",
+          "en": "Testing, accessibility and performance are part of the job, not an extra."
+        }
+      },
+      {
+        "icon": "sparkles",
+        "color": "amber",
+        "title": { "es": "Curiosidad constante", "en": "Constant curiosity" },
+        "text": {
+          "es": "Del 3D en el navegador a la infraestructura: aprendo construyendo y lo comparto en el blog.",
+          "en": "From 3D in the browser to infrastructure: I learn by building and share it on the blog."
+        }
+      }
+    ]
+  },
+  "projects": {
+    "eyebrow": { "es": "Proyectos destacados", "en": "Featured projects" },
+    "title": { "es": "Lo que he construido.", "en": "What I've built." },
+    "more": {
+      "label": { "es": "Ver todos los proyectos", "en": "View all projects" },
+      "route": "/proyectos"
+    },
+    "limit": 3
+  },
+  "experience": {
+    "eyebrow": { "es": "Experiencia", "en": "Experience" },
+    "title": { "es": "Dónde he trabajado.", "en": "Where I've worked." },
+    "more": { "label": { "es": "Ver CV completo", "en": "View full CV" }, "route": "/cv" }
+  },
+  "skills": {
+    "eyebrow": { "es": "Habilidades", "en": "Skills" },
+    "title": { "es": "Herramientas que uso.", "en": "Tools I use." }
+  },
+  "education": {
+    "eyebrow": { "es": "Formación y logros", "en": "Education and achievements" },
+    "title": { "es": "Lo que sigo aprendiendo.", "en": "What I keep learning." }
+  },
+  "blog": {
+    "eyebrow": { "es": "Blog", "en": "Blog" },
+    "title": { "es": "Notas técnicas.", "en": "Technical notes." },
+    "more": { "label": { "es": "Todos los artículos", "en": "All articles" }, "route": "/blog" },
+    "limit": 3
+  },
+  "contact": {
+    "eyebrow": { "es": "Contacto", "en": "Contact" },
+    "title": { "es": "¿Hablamos?", "en": "Let's talk" },
+    "text": {
+      "es": "Si tienes una vacante, un proyecto técnico o simplemente quieres conversar, escríbeme.",
+      "en": "If you have an opening, a technical project or just want to chat, write to me."
+    }
+  }
+}

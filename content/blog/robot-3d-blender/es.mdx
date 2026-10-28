@@ -1,0 +1,28 @@
+---
+title: "Cómo hice un robot 3D en Blender y lo llevé a la web"
+description: "Modelado por scripts, rig, exportación con Draco y animación con Three.js."
+date: 2026-10-28
+tags: [Blender, Three.js, 3D]
+color: violet
+icon: box
+label: "3D"
+draft: true
+---
+
+## Por qué por scripts
+
+Cada pieza del robot se genera con un script de Python en Blender. Así el modelo es reproducible: cambiar una cota y volver a ejecutar es más rápido que editar a mano.
+
+## Del rig a los clips
+
+El rig tiene un hueso por pieza rígida y las animaciones (despertar, mirar, saludar y la intro) se guardan como acciones que se exportan como clips de glTF.
+
+## Exportar ligero
+
+Las piezas se unen por hueso y material y el resultado se comprime con Draco hasta unos 0,8 MB.
+
+## En la web
+
+Three.js carga el modelo, reproduce los clips y escucha sus eventos para sincronizar la interfaz.
+
+[pendiente: revisar y ampliar antes de publicar]

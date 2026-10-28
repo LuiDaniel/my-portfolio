@@ -1,0 +1,9 @@
+{
+  "period": { "start": "[pendiente]", "end": "[pendiente]" },
+  "stack": ["Node", "Docker", "Redis"],
+  "color": "mint",
+  "links": {},
+  "featured": true,
+  "order": 3,
+  "draft": true
+}

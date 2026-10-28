@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
 import { Link } from '@/i18n/navigation';
-import type { SiteData } from '@/lib/site-fixture';
+import type { NavLink } from '@/lib/content';
 import { LocaleSwitch } from './LocaleSwitch';
 import { navHref } from '@/lib/nav';
 
@@ -14,7 +14,7 @@ export function MobileMenu({
   active,
   onClose,
 }: {
-  items: SiteData['nav'];
+  items: NavLink[];
   active: number;
   onClose: (focusButton?: boolean) => void;
 }) {

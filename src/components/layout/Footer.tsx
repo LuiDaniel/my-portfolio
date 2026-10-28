@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Logo } from '@/components/ui/Logo';
 import { Link } from '@/i18n/navigation';
-import type { SiteData } from '@/lib/site-fixture';
+import { isPending, type Site } from '@/lib/content';
 import { navHref } from '@/lib/nav';
 
 // Pie de cristal oscuro: marca, tres columnas de enlaces y copyright.
@@ -9,7 +9,11 @@ export async function Footer({
   name,
   initials,
   footer,
-}: Pick<SiteData, 'name' | 'initials' | 'footer'>) {
+}: {
+  name: string;
+  initials: string;
+  footer: Site['footer'];
+}) {
   const t = await getTranslations();
 
   return (
@@ -28,7 +32,9 @@ export async function Footer({
               <ul className="grid gap-2.5 text-[14.5px] text-muted">
                 {group.links.map((link) => (
                   <li key={link.label}>
-                    {'href' in link ? (
+                    {'href' in link && isPending(link.href) ? (
+                      <span>{link.label}</span>
+                    ) : 'href' in link ? (
                       <a
                         href={link.href}
                         target="_blank"

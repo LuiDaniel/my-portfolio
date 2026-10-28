@@ -1,0 +1,24 @@
+{
+  "name": "Luis Daniel",
+  "fullName": "Luis Daniel [pendiente]",
+  "initials": "LD",
+  "role": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
+  "tagline": {
+    "es": "Construyo aplicaciones web completas, **del modelo de datos a la interfaz**: APIs fiables, interfaces cuidadas y despliegues que se pueden mantener.",
+    "en": "I build complete web applications, **from the data model to the interface**: reliable APIs, polished interfaces and deployments that are easy to maintain."
+  },
+  "status": {
+    "available": true,
+    "label": { "es": "Disponible para nuevas oportunidades", "en": "Open to new opportunities" }
+  },
+  "location": { "city": "[pendiente]", "country": "[pendiente]", "timezone": "[pendiente]" },
+  "workModes": { "es": "remoto o híbrido", "en": "remote or hybrid" },
+  "responseTime": { "es": "Respondo en menos de 24 horas.", "en": "I reply within 24 hours." },
+  "email": "[pendiente]",
+  "github": { "username": "[pendiente]" },
+  "socials": [
+    { "id": "github", "label": "GitHub", "url": "[pendiente]", "handle": "@[pendiente]" },
+    { "id": "linkedin", "label": "LinkedIn", "url": "[pendiente]", "handle": "/in/[pendiente]" }
+  ],
+  "cv": { "es": "/cv/cv-es.pdf", "en": "/cv/cv-en.pdf" }
+}

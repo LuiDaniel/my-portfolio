@@ -1,0 +1,89 @@
+{
+  "featured": [
+    { "name": "TypeScript", "color": "#3178c6" },
+    { "name": "React", "color": "#61dafb" },
+    { "name": "Next.js", "color": "#ffffff" },
+    { "name": "Node.js", "color": "#5fa04e" },
+    { "name": "PostgreSQL", "color": "#4f7fd9" },
+    { "name": "Docker", "color": "#2496ed" }
+  ],
+  "areas": [
+    {
+      "id": "frontend",
+      "icon": "monitor",
+      "color": "blue",
+      "title": { "es": "Frontend", "en": "Frontend" },
+      "items": [
+        { "name": "React", "level": "daily" },
+        { "name": "Next.js", "level": "daily" },
+        { "name": "TypeScript", "level": "daily" },
+        { "name": "Tailwind CSS", "level": "experienced" },
+        { "name": "Three.js", "level": "experienced" },
+        { "name": "Svelte", "level": "learning" }
+      ]
+    },
+    {
+      "id": "backend",
+      "icon": "server",
+      "color": "mint",
+      "title": { "es": "Backend", "en": "Backend" },
+      "items": [
+        { "name": "Node.js", "level": "daily" },
+        { "name": "Express", "level": "daily" },
+        { "name": "REST", "level": "experienced" },
+        { "name": "GraphQL", "level": "experienced" },
+        { "name": "Go", "level": "learning" }
+      ]
+    },
+    {
+      "id": "data",
+      "icon": "database",
+      "color": "violet",
+      "title": { "es": "Datos", "en": "Data" },
+      "items": [
+        { "name": "PostgreSQL", "level": "daily" },
+        { "name": "MongoDB", "level": "experienced" },
+        { "name": "Prisma", "level": "experienced" },
+        { "name": "Redis", "level": "experienced" }
+      ]
+    },
+    {
+      "id": "devops",
+      "icon": "cloud",
+      "color": "cyan",
+      "title": { "es": "DevOps y cloud", "en": "DevOps and cloud" },
+      "items": [
+        { "name": "Git", "level": "daily" },
+        { "name": "Docker", "level": "experienced" },
+        { "name": "Vercel", "level": "experienced" },
+        { "name": "GitHub Actions", "level": "experienced" },
+        { "name": "AWS", "level": "learning" }
+      ]
+    },
+    {
+      "id": "tools",
+      "icon": "wrench",
+      "color": "amber",
+      "title": { "es": "Herramientas", "en": "Tools" },
+      "items": [
+        { "name": "VS Code", "level": "daily" },
+        { "name": "Figma", "level": "experienced" },
+        { "name": "Blender", "level": "experienced" },
+        { "name": "Postman", "level": "experienced" }
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "icon": "cpu",
+      "color": "coral",
+      "title": { "es": "Fundamentos", "en": "Fundamentals" },
+      "items": [
+        { "name": "Estructuras de datos", "level": "daily" },
+        { "name": "Algoritmos", "level": "experienced" },
+        { "name": "Redes", "level": "experienced" },
+        { "name": "Sistemas operativos", "level": "experienced" },
+        { "name": "Ing. de software", "level": "experienced" }
+      ]
+    }
+  ]
+}

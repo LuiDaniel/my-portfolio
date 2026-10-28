@@ -1,0 +1,64 @@
+{
+  "url": "[pendiente]",
+  "seo": {
+    "title": {
+      "es": "Luis Daniel · Desarrollador Full Stack",
+      "en": "Luis Daniel · Full Stack Developer"
+    },
+    "description": {
+      "es": "Portafolio de Luis Daniel, desarrollador full stack y estudiante de Ingeniería de Sistemas: proyectos, experiencia y notas técnicas.",
+      "en": "Portfolio of Luis Daniel, full stack developer and Systems Engineering student: projects, experience and technical notes."
+    }
+  },
+  "nav": [
+    { "label": { "es": "Inicio", "en": "Home" }, "route": "/" },
+    { "label": { "es": "Sobre mí", "en": "About" }, "route": "/", "section": "about" },
+    { "label": { "es": "Proyectos", "en": "Projects" }, "route": "/", "section": "projects" },
+    { "label": { "es": "Experiencia", "en": "Experience" }, "route": "/", "section": "experience" },
+    { "label": { "es": "Blog", "en": "Blog" }, "route": "/blog" }
+  ],
+  "navCta": { "label": { "es": "Contacto", "en": "Contact" }, "route": "/", "section": "contact" },
+  "intro": {
+    "enabled": true,
+    "kicker": { "es": "Bienvenido a mi", "en": "Welcome to my" },
+    "title": { "es": "Portafolio Web", "en": "Portfolio" },
+    "url": "[pendiente]"
+  },
+  "footer": {
+    "about": {
+      "es": "Desarrollador full stack. Este sitio está hecho con Next.js, Three.js y un robot modelado en Blender.",
+      "en": "Full stack developer. This site is built with Next.js, Three.js and a robot modeled in Blender."
+    },
+    "groups": [
+      {
+        "title": { "es": "Navegación", "en": "Navigation" },
+        "links": [
+          { "label": { "es": "Sobre mí", "en": "About" }, "route": "/sobre-mi" },
+          { "label": { "es": "Proyectos", "en": "Projects" }, "route": "/proyectos" },
+          {
+            "label": { "es": "Experiencia", "en": "Experience" },
+            "route": "/",
+            "section": "experience"
+          },
+          { "label": { "es": "Blog", "en": "Blog" }, "route": "/blog" }
+        ]
+      },
+      {
+        "title": { "es": "Recursos", "en": "Resources" },
+        "links": [
+          { "label": { "es": "CV", "en": "CV" }, "route": "/cv" },
+          { "label": { "es": "Colofón", "en": "Colophon" }, "route": "/colofon" },
+          { "label": { "es": "Uses", "en": "Uses" }, "route": "/uses" }
+        ]
+      },
+      {
+        "title": { "es": "Redes", "en": "Social" },
+        "links": [
+          { "label": { "es": "GitHub", "en": "GitHub" }, "href": "[pendiente]" },
+          { "label": { "es": "LinkedIn", "en": "LinkedIn" }, "href": "[pendiente]" },
+          { "label": { "es": "Email", "en": "Email" }, "route": "/", "section": "contact" }
+        ]
+      }
+    ]
+  }
+}

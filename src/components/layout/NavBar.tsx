@@ -5,12 +5,10 @@ import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Logo } from '@/components/ui/Logo';
 import { Link, usePathname } from '@/i18n/navigation';
-import type { SiteData } from '@/lib/site-fixture';
+import type { NavLink, Site } from '@/lib/content';
 import { navHref } from '@/lib/nav';
 import { LocaleSwitch } from './LocaleSwitch';
 import { MobileMenu } from './MobileMenu';
-
-type NavItem = SiteData['nav'][number];
 
 // Menú de cristal flotante: resaltado que se desliza entre enlaces, ES/EN y «Contacto».
 // Por debajo de 980 px los enlaces se cambian por un botón que abre MobileMenu.
@@ -20,8 +18,8 @@ export function NavBar({
   cta,
 }: {
   initials: string;
-  items: NavItem[];
-  cta: SiteData['navCta'];
+  items: NavLink[];
+  cta: Site['navCta'];
 }) {
   const t = useTranslations('Nav');
   const pathname = usePathname();

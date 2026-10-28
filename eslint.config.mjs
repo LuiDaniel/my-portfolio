@@ -7,6 +7,15 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   prettier,
+  {
+    rules: {
+      // Quitar campos con { campo, ...resto } es intencionado.
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { ignoreRestSiblings: true, varsIgnorePattern: '^_' },
+      ],
+    },
+  },
   globalIgnores([
     '.next/**',
     'out/**',
@@ -18,6 +27,7 @@ const eslintConfig = defineConfig([
     'design/**',
     'public/**',
     'renders/**',
+    '.velite/**',
   ]),
 ]);
 

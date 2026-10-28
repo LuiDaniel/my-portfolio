@@ -16,3 +16,6 @@ prototype/
 public/
 referencias/
 renders/
+
+# Contenido: el MDX lo escribe la persona; Prettier solo formatea los JSON
+content/**/*.mdx

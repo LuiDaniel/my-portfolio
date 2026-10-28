@@ -23,3 +23,6 @@ next-env.d.ts
 coverage/
 test-results/
 playwright-report/
+
+# Imágenes del contenido copiadas por Velite
+public/static/

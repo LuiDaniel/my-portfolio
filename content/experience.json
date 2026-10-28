@@ -1,0 +1,45 @@
+[
+  {
+    "id": "dietrim",
+    "role": { "es": "Desarrollador full stack freelance", "en": "Freelance full stack developer" },
+    "org": "Dietrim",
+    "url": "[pendiente]",
+    "type": "freelance",
+    "start": "[pendiente]",
+    "end": null,
+    "color": "mint",
+    "highlights": {
+      "es": [
+        "Diseño y desarrollo de sitios y aplicaciones web para clientes, de la propuesta al despliegue. [pendiente]",
+        "Gestión directa con clientes: requisitos, estimaciones y entregas."
+      ],
+      "en": [
+        "Design and development of websites and web applications for clients, from proposal to deployment. [pendiente]",
+        "Direct client management: requirements, estimates and deliveries."
+      ]
+    },
+    "stack": ["React", "Node", "PostgreSQL"]
+  },
+  {
+    "id": "otra-experiencia",
+    "role": { "es": "[pendiente]", "en": "[pendiente]" },
+    "org": "[pendiente]",
+    "type": "job",
+    "start": "[pendiente]",
+    "end": "[pendiente]",
+    "color": "violet",
+    "highlights": { "es": ["[pendiente]"], "en": ["[pendiente]"] },
+    "stack": []
+  },
+  {
+    "id": "proyectos-academicos",
+    "role": { "es": "Proyectos académicos", "en": "Academic projects" },
+    "org": "Ingeniería de Sistemas · [pendiente]",
+    "type": "academic",
+    "start": "[pendiente]",
+    "end": null,
+    "color": "amber",
+    "highlights": { "es": ["[pendiente]"], "en": ["[pendiente]"] },
+    "stack": []
+  }
+]

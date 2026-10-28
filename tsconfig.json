@@ -14,10 +14,16 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "#site/content": ["./.velite"]
+    },
+    "allowImportingTsExtensions": true
   },
   "include": [
     "next-env.d.ts",
