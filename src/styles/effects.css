@@ -1,0 +1,147 @@
+/* Materiales y movimiento comunes (design/home.html). Solo se anima transform, opacity y filter. */
+
+/* ---------------------------------------------------------------- materiales */
+
+/* Cristal: superficie translúcida con brillo superior interior. */
+@utility glass {
+  background: var(--color-glass);
+  border: 1px solid var(--color-edge);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+
+/* Borde iluminado: degradado radial de 1 px centrado en el cursor (--mx, --my) del color --glow.
+   Las variables las actualiza un único listener (usePointerGlow, fase 4). */
+@utility glow-edge {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 50%),
+      var(--glow, rgb(150 140 255 / 0.8)),
+      transparent 60%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------- movimiento */
+
+@theme {
+  --animate-rise: rise 0.9s var(--ease-spring) both; /* texto del hero */
+  --animate-pop: pop 0.9s var(--ease-spring) both; /* tarjetas del bento */
+  --animate-drop: drop 0.9s var(--ease-spring) both; /* menú */
+  --animate-drift: drift 28s ease-in-out infinite alternate; /* manchas del fondo */
+  --animate-pulse: pulse 2.4s ease-out infinite; /* punto de estado */
+  --animate-sheen: sheen 6s ease-in-out infinite alternate; /* degradado del rol */
+  --animate-wheel: wheel 1.8s var(--ease-spring) infinite; /* rueda del ratón */
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(8px);
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+      filter: blur(6px);
+    }
+  }
+  @keyframes drop {
+    from {
+      opacity: 0;
+      transform: translateY(-14px) scale(0.96);
+    }
+  }
+  @keyframes drift {
+    to {
+      transform: translate(-6vmax, 5vmax) scale(1.1);
+    }
+  }
+  @keyframes pulse {
+    to {
+      transform: scale(3);
+      opacity: 0;
+    }
+  }
+  @keyframes sheen {
+    to {
+      background-position: 100% 0;
+    }
+  }
+  @keyframes wheel {
+    0% {
+      opacity: 0;
+      transform: translateY(-2px);
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(9px);
+    }
+  }
+}
+
+/* Aparición ligada al scroll; sin soporte, el contenido se ve sin animación. */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0.15;
+    transform: translateY(48px) scale(0.97);
+    filter: blur(6px);
+  }
+}
+
+/* ---------------------------------------------------------------- preferencias */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal,
+  .animate-drift {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #10121c;
+  }
+}

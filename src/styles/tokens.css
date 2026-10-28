@@ -1,0 +1,59 @@
+/* Tokens del diseño (docs/04-diseno.md · design/home.html). Una sola apariencia oscura.
+   Se anula la paleta de Tailwind: en los componentes solo existen estos colores. */
+
+@theme {
+  --color-*: initial;
+
+  /* base */
+  --color-bg: #05060b;
+  --color-bg-2: #0a0b14;
+  --color-fg: #f4f5fb;
+  --color-muted: rgb(226 230 245 / 0.66);
+  --color-faint: rgb(226 230 245 / 0.55); /* la maqueta usa .42; .55 cumple AA */
+  --color-glass: rgb(255 255 255 / 0.055);
+  --color-glass-hi: rgb(255 255 255 / 0.1);
+  --color-edge: rgb(255 255 255 / 0.11);
+  --color-white: #fff;
+
+  /* marca (dominante) */
+  --color-blue: #5b84ff;
+  --color-indigo: #7b74ff;
+  --color-violet: #a77bff;
+
+  /* acentos con significado fijo */
+  --color-green: #39d353;
+  --color-mint: #3ddc97;
+  --color-amber: #f6b55a;
+  --color-coral: #ff7d93;
+  --color-cyan: #4cc9f0;
+
+  /* escala de contribuciones de GitHub (niveles 0–4) */
+  --color-gh-0: #161b22;
+  --color-gh-1: #0e4429;
+  --color-gh-2: #006d32;
+  --color-gh-3: #26a641;
+  --color-gh-4: #39d353;
+
+  /* forma */
+  --radius-card: 24px;
+  --radius-box: 32px;
+  --container-site: 1240px;
+
+  /* movimiento: críticamente amortiguado, sin rebote */
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fuentes de next/font (variables en <html>): en Apple manda la del sistema. */
+@theme inline {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', Consolas, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --grad: linear-gradient(100deg, var(--color-blue), var(--color-indigo) 50%, var(--color-violet));
+  --pad-l: max(24px, env(safe-area-inset-left, 0px));
+  --pad-r: max(24px, env(safe-area-inset-right, 0px));
+  --section-gap: clamp(80px, 11vw, 140px);
+}

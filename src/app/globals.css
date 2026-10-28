@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+@import '../styles/tokens.css';
+@import '../styles/effects.css';
+
+@layer base {
+  html {
+    background: var(--color-bg);
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font: 16px/1.55 var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+}
