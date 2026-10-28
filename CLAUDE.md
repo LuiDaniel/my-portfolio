@@ -31,9 +31,11 @@ Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería
 
 ## Estado actual (2026-10-28)
 
-- **Fase 0 terminada:** documentación completa y Home diseñado y aprobado (`design/home.html`).
-- **Siguiente:** fase 1 (base Next.js), cuando el usuario diga «empieza».
-- **Código actual:** solo el **prototipo de la intro** en Vite + Three.js (`index.html`, `vite.config.js`, `src/*.js`; `npm run dev` → http://localhost:5173). En la fase 1 se mueve a `prototype/` y la raíz pasa a ser la app Next.js.
+- **Fases 0 y 1 terminadas:** documentación, Home diseñado y aprobado (`design/home.html`) y base de Next.js (tokens, fuentes, Prettier, Vitest, Playwright, CI).
+- **Siguiente:** fase 2 (idiomas y estructura), cuando el usuario diga «empieza».
+- **Código actual:** app Next.js en la raíz (`npm run dev` → http://localhost:3000) con una página provisional. El **prototipo de la intro** está en `prototype/` (`npm run prototype` → http://localhost:5173) y las maquetas se sirven con `npm run design` (http://localhost:5175/home.html).
+- **Versiones:** Next.js 16.4 (Turbopack, `proxy.ts`, sin `next lint`), React 19.3, **TypeScript 6.0** y **ESLint 9** (las versiones 7 y 10 aún no son compatibles con `eslint-config-next`), Tailwind 4.3 vía PostCSS. Antes de usar una API de Next, leer `node_modules/next/dist/docs/` (lo pide `AGENTS.md`, que regenera `next dev`).
+- **Decisión pendiente:** `cacheComponents` / `partialPrefetching` (activos por defecto en la plantilla de Next 16.4) están **desactivados**; adoptarlos cambiaría el modelo SSG + `revalidate` y requiere un ADR.
 - Todo el trabajo está en `main` (en GitHub: `LuiDaniel/my-portfolio`).
 
 ## Decisiones del usuario que no hay que olvidar
@@ -53,7 +55,7 @@ Diseño original (inspirado en `referencias/5.jpg`, sin copiar ningún robot com
 - **Scripts reproducibles** en `blender/`: `build_head.py`, `build_torso.py`, `build_waist.py`, `build_arms.py`, `build_legs.py`, `build_details.py` (`build_all.py` los ejecuta y guarda `blender/robot.blend`). Cotas compartidas (`ARM`, `LEG`) en `robot_utils.py`. Brazos y piernas se modelan del lado `_L` y se espejan a `_R`. Los detalles llevan la propiedad `detail`; los pistones tienen camisa (`*Sleeve`, pieza superior) y vástago (`*Rod`, pieza inferior), que la web reorienta con `lookAt`.
 - **Rig** (`build_rig.py`): armature `Robot_Rig` con huesos `B_*`; piezas rígidas colgadas de su hueso. Clips a 30 fps: `WakeUp`, `Discover`, `Idle` (cíclico), `LookAround`, `Wave`, `Stretch`, `Blink` (solo ojos), `Intro` (6,8 s) e `Intro_Sweep` (2,1 s), estos dos creados por `build_intro.py`. En `Intro`/`Intro_Sweep` los brazos van por IK analítica hacia `B_Grip_L/R` (pinza = `PINCH_ANGLES`/`PINCH_THUMB`), con curvas de interpolación cúbica monótona. Los momentos clave (`grab_*`, `release_*`, `sweep`) se guardan en la propiedad `events` de la acción y se exportan como `extras` del glTF. `Cam_Intro` es el encuadre de la web.
 - **Exportar:** `blender -b blender/robot.blend -P blender/export_glb.py` → `public/models/robot.glb` (Draco, ~0,8 MB). Une las piezas por (hueso, material) en mallas `<Hueso>`, `_Neon`, `_Metal`, `_Plate`, `_Steel`, `_Cable` y `_Visor`; deja aparte `Eye_L/R` y los pistones.
-- **Prototipo web** (`src/` hasta la fase 1, luego `prototype/src/`):
+- **Prototipo web** (`prototype/src/`; antes de la fase 1 estaba en `src/`):
   - `robot.js`: carga Draco, mixer, `play`/`enqueue` con eventos del clip, mirada al cursor sobre `B_Neck`/`B_Head`, parpadeo, expresiones, líneas de luz por regiones (azul → violeta según la altura del hueso), pistones y piernas ocultas (`B_Thigh/Shin/Foot`). Los huesos que se giran a mano se reinician cada frame a su pose base. La mirada ignora proyecciones NaN (lienzo a 0 px).
   - `eyes.js`: patrones LED (`normal`, `happy`, `focus`, `surprised`, `love`, `bored`, `off`) en un `CanvasTexture`, con degradado por filas.
   - `intro.js`: gemas de luz (izquierda azul, derecha violeta), tarjeta anclada a `ANCHOR`, vuelo de cada gema a su pieza y barrido FLIP a la columna izquierda (`.is-settled`).

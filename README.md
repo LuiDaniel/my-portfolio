@@ -2,7 +2,7 @@
 
 Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería de Sistemas**, en español e inglés. Empieza con una intro 3D: un robot hecho en Blender despierta, arma la tarjeta de bienvenida con gemas de luz, la aparta y se despide. En su lugar aparece el Home: cristal translúcido, tipografía grande y tarjetas tipo bento, en índigo y violeta.
 
-> **Estado:** fase 0 terminada (documentación y diseño del Home aprobado). El código actual es el **prototipo de la intro** en Vite + Three.js. La versión final en Next.js se construye por fases según el [roadmap](docs/roadmap.md).
+> **Estado:** fase 1 terminada (base de Next.js con tokens, fuentes, pruebas y CI). El **prototipo de la intro** en Vite + Three.js está en `prototype/`. El resto se construye por fases según el [roadmap](docs/roadmap.md).
 
 ## Empezar por aquí
 
@@ -27,19 +27,20 @@ Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería
 | [Roadmap](docs/roadmap.md) | Plan de implementación por fases |
 | [ADRs](docs/adr/) | Registro de decisiones |
 
-## Ejecutar el prototipo (hasta la fase 1)
+## Desarrollo
 
-Requisitos: Node.js 20 o superior.
+Requisitos: Node.js 20.9 o superior (se usa el 24, ver `.nvmrc`). `npm install` copia los decodificadores Draco a `public/draco/`.
 
-```bash
-npm install
-```
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Web en Next.js → http://localhost:3000 |
+| `npm run prototype` | Prototipo de la intro (Vite) → http://localhost:5173 |
+| `npm run design` | Maquetas de `design/` → http://localhost:5175/home.html |
+| `npm run check` | Lint + formato + tipos + pruebas + build (lo mismo que CI) |
+| `npm run test:e2e` | Pruebas E2E con Playwright (la primera vez: `npx playwright install chromium webkit`) |
+| `npm run format` | Formatea el código con Prettier |
 
-```bash
-npm run dev
-```
-
-Se abre en http://localhost:5173. La maqueta del Home se ve en http://localhost:5173/design/home.html. `npm install` copia los decodificadores Draco a `public/draco/`.
+Variables de entorno: copia `.env.example` a `.env.local` (en desarrollo no hace falta ninguna).
 
 Regenerar el modelo del robot (Blender 5.1):
 

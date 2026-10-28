@@ -22,11 +22,29 @@
 | Calidad | ESLint, Prettier, TypeScript, Vitest, Playwright + axe, Lighthouse CI | [06 · Calidad](06-calidad.md) |
 | CI/CD | GitHub Actions en cada push a `main` → Vercel (producción desde `main`) | |
 
+### Versiones fijadas (fase 1, 2026-10-28)
+
+| Paquete | Versión | Nota |
+|---|---|---|
+| Node | ≥ 20.9 (`engines`); se usa el 24 (`.nvmrc`, también en CI) | |
+| Next.js / eslint-config-next | 16.4 | Turbopack por defecto, `proxy.ts`, sin `next lint` |
+| React | 19.3 | |
+| TypeScript | **~6.0** | La 7 no es compatible con `typescript-eslint` (pide < 6.1). Rango `~` para no subir a la 6.1 sin querer |
+| ESLint | **9.39** | Los plugins de `eslint-config-next` (`react`, `import`, `jsx-a11y`) aún no admiten la 10 |
+| Tailwind CSS | 4.3, vía `@tailwindcss/postcss` | Es lo que documenta Next; la plantilla de `create-next-app` usa un loader de Turbopack sin documentar |
+| Prettier | 3.9 + `prettier-plugin-tailwindcss` 0.8 | `endOfLine: auto` porque Git convierte a CRLF en Windows |
+| Vitest / Playwright / axe | 5.0 / 1.64 / 4.14 | |
+
+**Notas de Next.js 16.4:**
+- La plantilla oficial activa `cacheComponents` y `partialPrefetching`. Aquí están **desactivados**: la arquitectura usa el modelo clásico (SSG + `revalidate`). Adoptarlos requiere un ADR.
+- `next dev` crea y mantiene `AGENTS.md`, que pide leer la documentación de la versión instalada en `node_modules/next/dist/docs/`. Se sube al repo.
+- `typecheck` ejecuta `next typegen` antes de `tsc` para que existan los tipos globales de rutas (`PageProps`, `LayoutProps`) sin compilar.
+
 ## Estructura de carpetas (objetivo)
 
 ```
 portafolio/
-├─ .claude/launch.json         # servidores de vista previa: "next" (3000) y "prototype" (5173)
+├─ .claude/launch.json         # servidores de vista previa: "next" (3000), "prototype" (5173) y "design" (5175)
 ├─ .github/workflows/          # ci.yml, lighthouse.yml
 ├─ blender/                    # scripts del robot (modelado, rig, animaciones, exportación) → ver 05
 ├─ content/                    # ★ CONTENIDO EDITABLE (JSON + MDX) → ver 07
@@ -80,12 +98,13 @@ portafolio/
 │  ├─ unit/                    # Vitest: contenido, utilidades, i18n
 │  └─ e2e/                     # Playwright: navegación, intro, Home, formulario, axe
 ├─ velite.config.ts            # colecciones y esquemas de content/
-├─ next.config.ts, tsconfig.json, eslint.config.mjs, .prettierrc, vitest.config.ts, playwright.config.ts
-├─ .env.example
-└─ CLAUDE.md, README.md, package.json
+├─ next.config.ts, tsconfig.json, eslint.config.mjs, postcss.config.mjs, .prettierrc, .prettierignore
+├─ vitest.config.ts, playwright.config.ts
+├─ .env.example, .nvmrc
+└─ CLAUDE.md, AGENTS.md (lo genera next dev), README.md, package.json
 ```
 
-`.velite/` (salida generada), `.next/`, `public/draco/` y `node_modules/` van en `.gitignore`.
+`.velite/` (salida generada), `.next/`, `next-env.d.ts`, `public/draco/`, `node_modules/`, los informes de pruebas y todos los `.env*` salvo `.env.example` van en `.gitignore`.
 
 ## Rutas, idiomas y anclas
 
@@ -158,13 +177,15 @@ GITHUB_TOKEN=
 |---|---|
 | `dev` | Next.js en desarrollo (Velite en modo *watch*) → http://localhost:3000 |
 | `build` / `start` | Build de producción / servirlo |
-| `lint` / `format` | ESLint / Prettier |
-| `typecheck` | `tsc --noEmit` |
+| `lint` | ESLint (con `eslint-config-prettier`) |
+| `format` / `format:check` | Prettier: formatear / comprobar |
+| `typecheck` | `next typegen && tsc --noEmit` |
 | `test` | Vitest (incluye pruebas de contenido) |
-| `test:e2e` | Playwright + axe |
-| `check` | `lint` + `typecheck` + `test` + `build` (lo mismo que CI) |
+| `test:e2e` | Playwright + axe (Chromium y WebKit móvil; arranca `next dev` si no está en marcha) |
+| `check` | `lint` + `format:check` + `typecheck` + `test` + `build` (lo mismo que CI) |
 | `cv` | Genera los PDF del CV |
-| `prototype` | Prototipo Vite de la intro → http://localhost:5173 (hasta la fase 9) |
+| `prototype` / `prototype:build` | Prototipo Vite de la intro → http://localhost:5173 (hasta la fase 9) |
+| `design` | Sirve las maquetas de `design/` → http://localhost:5175/home.html |
 | `postinstall` | Copia los decodificadores Draco |
 
 ## Convenciones

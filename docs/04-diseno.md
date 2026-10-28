@@ -16,6 +16,8 @@
 
 Una sola apariencia **oscura** (decisión deliberada: es la identidad del robot). Tokens en `src/styles/tokens.css`, expuestos a Tailwind v4 con `@theme`.
 
+**Nombres en el código:** las tablas usan los nombres cortos de la maqueta; en `tokens.css` llevan el prefijo de Tailwind para que generen clases: `--bg` → `--color-bg` (`bg-bg`), `--muted` → `--color-muted` (`text-muted`), `--violet` → `--color-violet`, la escala de GitHub → `--color-gh-0…4`, `--spring` → `--ease-spring` (`ease-spring`), radios `--radius-card` (24 px) y `--radius-box` (32 px), contenedor `--container-site` (`max-w-site`). `--grad`, `--pad-l/r` y `--section-gap` quedan en `:root` (no generan clases). La paleta por defecto de Tailwind está anulada: no hay más colores que estos. Las animaciones son clases `animate-rise`, `animate-pop`, `animate-drop`, `animate-drift`, `animate-pulse`, `animate-sheen` y `animate-wheel`, y los materiales `glass`, `glow-edge` y `reveal` (`src/styles/effects.css`).
+
 ### Base
 
 | Token | Valor | Uso |

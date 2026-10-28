@@ -14,7 +14,7 @@ También están publicadas como artefactos privados de claude.ai (requieren inic
 ## Cómo verlas
 
 - Doble clic en el archivo (se abre en el navegador), o
-- con el prototipo de Vite en marcha (`npm run dev`): http://localhost:5173/design/home.html
+- con `npm run design` (Vite sirve esta carpeta): http://localhost:5175/home.html
 
 ## Cómo usarlas al programar
 
@@ -26,6 +26,6 @@ También están publicadas como artefactos privados de claude.ai (requieren inic
 
 ## Qué no está en la maqueta
 
-- La **intro del robot** (va antes del Home, solo en la primera visita): ver [`docs/05-robot-3d.md`](../docs/05-robot-3d.md) y el prototipo en `src/`.
+- La **intro del robot** (va antes del Home, solo en la primera visita): ver [`docs/05-robot-3d.md`](../docs/05-robot-3d.md) y el prototipo en `prototype/`.
 - Las **páginas interiores** (`/proyectos`, caso de estudio, `/blog`, artículo, `/sobre-mi`, `/cv`, 404): se diseñarán con el mismo lenguaje visual cuando lleguen sus fases.
 - El **menú móvil desplegable**: en la maqueta solo está el botón.

@@ -27,17 +27,19 @@ Reglas que evitan errores:
 - [x] Intro del robot en el prototipo: paleta azul/violeta, cintura para arriba, tarjeta que queda a la izquierda.
 - [x] Maqueta del Home aprobada: `design/home.html`.
 
-## Fase 1 · Base del proyecto
+## Fase 1 · Base del proyecto ✅
 
 **Objetivo:** app Next.js vacía con las herramientas de calidad, sin perder el prototipo.
 
-- [ ] Mover el prototipo a `prototype/` (`index.html`, `vite.config.js`, `src/*.js` → `prototype/`), con `root: 'prototype'` y `publicDir: '../public'` en su `vite.config.js`. Script `npm run prototype`. Comprobar que la intro sigue funcionando.
-- [ ] Crear la app Next.js (App Router, TypeScript estricto, `src/`, alias `@/*`, ESLint) en la raíz, conservando `blender/`, `public/models/`, `scripts/copy-draco.mjs` (en `postinstall`), `design/`, `docs/` y `referencias/`.
-- [ ] Tailwind CSS v4 + `src/styles/tokens.css` con **todos** los tokens de [04 · Diseño](04-diseno.md#color) en `@theme` + `effects.css` (cristal, borde iluminado, keyframes `rise`, `pop`, `drop`, `drift`, `pulse`, `sheen`, `reveal`).
-- [ ] Fuentes con `next/font`: Inter (variable) y JetBrains Mono.
-- [ ] Prettier, Vitest, Playwright (configurados, con una prueba mínima cada uno) y el script `check`.
-- [ ] `.env.example`, `.gitignore` (`.next/`, `.velite/`, `public/draco/`, `.env*.local`) y `.claude/launch.json` con `next` (3000) y `prototype` (5173).
-- [ ] GitHub Actions `ci.yml`: install → lint → typecheck → test → build.
+- [x] Mover el prototipo a `prototype/` (`index.html`, `vite.config.js`, `src/*.js` y `src/style.css` → `prototype/`), con `prototype/` como raíz y `publicDir: '../public'` en su `vite.config.js`. Script `npm run prototype`. Comprobar que la intro sigue funcionando.
+- [x] Crear la app Next.js (App Router, TypeScript estricto, `src/`, alias `@/*`, ESLint) en la raíz, conservando `blender/`, `public/models/`, `scripts/copy-draco.mjs` (en `postinstall`), `design/`, `docs/` y `referencias/`.
+- [x] Tailwind CSS v4 + `src/styles/tokens.css` con **todos** los tokens de [04 · Diseño](04-diseno.md#color) en `@theme` + `effects.css` (cristal, borde iluminado, keyframes `rise`, `pop`, `drop`, `drift`, `pulse`, `sheen`, `reveal` y `wheel`).
+- [x] Fuentes con `next/font`: Inter (variable, `opsz`) y JetBrains Mono.
+- [x] Prettier, Vitest, Playwright + axe (configurados, con una prueba mínima cada uno) y el script `check`.
+- [x] `.env.example`, `.gitignore` (`.next/`, `.velite/`, `public/draco/`, `.env*` salvo `.env.example`) y `.claude/launch.json` con `next` (3000), `prototype` (5173) y `design` (5175).
+- [x] GitHub Actions `ci.yml`: install → lint → formato → typecheck → test → build.
+
+Versiones y notas de Next.js 16.4 en [03 · Arquitectura](03-arquitectura.md#versiones-fijadas-fase-1-2026-10-28).
 
 **Hecho cuando:** `npm run check` pasa · `npm run dev` muestra una página con fondo `--bg` y las dos fuentes · `npm run prototype` reproduce la intro como antes.
 

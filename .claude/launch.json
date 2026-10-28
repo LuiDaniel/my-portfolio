@@ -12,6 +12,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "prototype", "--", "--port", "5173", "--strictPort"],
       "port": 5173
+    },
+    {
+      "name": "design",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "design"],
+      "port": 5175
     }
   ]
 }
