@@ -11,6 +11,7 @@ Cada decisión importante de arquitectura se documenta en un archivo corto e inm
 | [0005](0005-vercel-y-servicios.md) | Vercel + Resend + Upstash para despliegue y backend | Aceptado |
 | [0006](0006-datos-json-mdx.md) | Contenido editable en `content/`: JSON para datos y MDX para textos largos | Aceptado |
 | [0007](0007-diseno-apple-bento.md) | Diseño Apple Design + bento, con `design/home.html` como referencia | Aceptado |
+| [0008](0008-sin-cache-components.md) | Sin Cache Components por ahora: SSG + `revalidate` | Aceptado |
 
 ## Plantilla
 

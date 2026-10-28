@@ -36,7 +36,7 @@
 | Vitest / Playwright / axe | 5.0 / 1.64 / 4.14 | |
 
 **Notas de Next.js 16.4:**
-- La plantilla oficial activa `cacheComponents` y `partialPrefetching`. Aquí están **desactivados**: la arquitectura usa el modelo clásico (SSG + `revalidate`). Adoptarlos requiere un ADR.
+- La plantilla oficial activa `cacheComponents` y `partialPrefetching`. Aquí están **desactivados**: la arquitectura usa el modelo clásico (SSG + `revalidate`). Ver [ADR 0008](adr/0008-sin-cache-components.md).
 - `next dev` crea y mantiene `AGENTS.md`, que pide leer la documentación de la versión instalada en `node_modules/next/dist/docs/`. Se sube al repo.
 - `typecheck` ejecuta `next typegen` antes de `tsc` para que existan los tipos globales de rutas (`PageProps`, `LayoutProps`) sin compilar.
 
