@@ -115,7 +115,7 @@ content/
 
 - `tagline` es *enriquecido* (admite `**negrita**`).
 - `status.available: false` oculta la píldora verde del hero.
-- `timezone` (formato IANA) alimenta el reloj del bento: muestra **tu** hora, no la de quien visita.
+- `timezone` (formato IANA) alimenta el reloj del bento: muestra **tu** hora, no la de quien visita. Mientras sea `[pendiente]`, el reloj muestra la hora de quien visita.
 - `socials[].id` elige el icono y el color de relleno al pasar el cursor: `github`, `linkedin`, `x`, `youtube`, `devto`, `email`.
 
 ### `home.json`
@@ -157,7 +157,8 @@ content/
 - **Reordenar** el Home = cambiar el orden de `sections`. **Ocultar** una sección = `"visible": false`. El hero va siempre primero.
 - El menú solo muestra enlaces a secciones visibles.
 - `about.paragraphs` es *enriquecido*. El primer párrafo se muestra más grande.
-- `bento.featuredProject` es el slug del proyecto de la tarjeta grande del hero. Si no existe, el build falla.
+- `bento.featuredProject` es el slug del proyecto de la tarjeta grande del hero. Si no existe, falla la prueba de contenido. Si es un borrador, en producción se usa el primer proyecto destacado.
+- `more` (en `about`, `projects`, `experience` y `blog`) es el enlace «Ver más» de la cabecera de cada sección.
 - `blog.limit` y `projects.limit` limitan cuántos se muestran en el Home.
 
 ### `skills.json`
@@ -281,7 +282,7 @@ draft: false
 ---
 ```
 
-`color` define el degradado de la portada si no hay `cover`. El tiempo de lectura y la tabla de contenidos se calculan solos.
+`color` define el degradado de la portada si no hay `cover`; `label` (hasta 6 letras, p. ej. «3D») e `icon` (Lucide) son la palabra grande y el icono de esa portada. El tiempo de lectura y la tabla de contenidos se calculan solos.
 
 ## Recetas
 
@@ -318,7 +319,7 @@ draft: false
   - cada proyecto destacado tiene `es.mdx` y `en.mdx`;
   - los colores e iconos existen;
   - no hay slugs repetidos.
-- **Datos de relleno:** mientras falte información real, los proyectos y artículos de ejemplo de la maqueta van con `"draft": true`, y los campos pendientes se marcan como `[pendiente]`. Una prueba impide publicar si queda algún `[pendiente]` en contenido visible en producción.
+- **Datos de relleno:** mientras falte información real, los proyectos y artículos de ejemplo de la maqueta van con `"draft": true`, y los campos pendientes se marcan como `[pendiente]`. Una prueba impide publicar si queda algún `[pendiente]` en contenido visible en producción: `CONTENT_PUBLISH=1 npm run test` (se omite en el `npm run test` normal porque hoy quedan datos pendientes).
 
 ## Cómo llegan los datos a los componentes
 

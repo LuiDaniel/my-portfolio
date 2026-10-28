@@ -57,16 +57,16 @@ Notas: el idioma se lee con `next/root-params` (sin `setRequestLocale`); las rut
 
 **Hecho cuando:** se navega por todas las rutas en los dos idiomas · el menú se ve y se comporta como en la maqueta (comparado a 1440, 1024 y 390 px) · `npm run check` pasa.
 
-## Fase 3 · Capa de datos
+## Fase 3 · Capa de datos ✅
 
 **Objetivo:** todo el contenido sale de `content/`, validado.
 
-- [ ] `velite.config.ts` con las colecciones y esquemas de [07 · Datos](07-datos.md) (JSON *single*, proyectos `meta.json` + MDX, blog, páginas, imágenes), integrado en `next.config.ts`.
-- [ ] `content/` con los datos **reales que haya** y el relleno de la maqueta para el resto: proyectos y artículos de ejemplo con `draft: true` y `[pendiente]` donde falte.
-- [ ] Plantillas `content/projects/_plantilla/` y `content/blog/_plantilla/`.
-- [ ] `src/lib/content.ts` (getters tipados por idioma, orden, borradores, unión `meta.json` + MDX) y `src/lib/rich-text.ts`.
-- [ ] `NavBar` y `Footer` leen `site.json` y `profile.json`.
-- [ ] Pruebas de contenido ([06 · Calidad](06-calidad.md#pruebas)).
+- [x] `velite.config.ts` con las colecciones y esquemas de [07 · Datos](07-datos.md) (JSON *single*, proyectos `meta.json` + MDX, blog, páginas, imágenes), ejecutado desde los scripts de npm (ver [03](03-arquitectura.md#datos)).
+- [x] `content/` con los datos **reales que haya** y el relleno de la maqueta para el resto: proyectos y artículos de ejemplo con `draft: true` y `[pendiente]` donde falte.
+- [x] Plantillas `content/projects/_plantilla/` y `content/blog/_plantilla/`.
+- [x] `src/lib/content.ts` (getters tipados por idioma, orden, borradores, unión `meta.json` + MDX) y `src/lib/rich-text.ts`.
+- [x] `NavBar` y `Footer` leen `site.json` y `profile.json`.
+- [x] Pruebas de contenido ([06 · Calidad](06-calidad.md#pruebas)).
 
 **Hecho cuando:** cambiar un texto en `content/*.json` cambia la web sin tocar código · un error a propósito en un JSON rompe `npm run dev` con un mensaje que dice archivo y campo · `npm run check` pasa.
 

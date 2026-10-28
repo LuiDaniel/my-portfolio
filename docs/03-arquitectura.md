@@ -126,7 +126,7 @@ Todo el contenido vive en `content/` y se lee **solo** a través de `src/lib/con
 content/ ──Velite (Zod + MDX + imágenes)──► .velite/ ──► src/lib/content.ts ──► Server Components
 ```
 
-- **Velite** se integra con Next.js como indica su guía oficial: se arranca desde `next.config.ts` (modo *watch* en desarrollo, *clean* en build).
+- **Velite** se ejecuta desde los scripts de npm (alternativa de su guía oficial), no desde `next.config.ts`: Next carga la configuración en varios procesos y dos Velite escribiendo `.velite/` a la vez dejaban JSON a medias. `predev`, `prebuild`, `pretypecheck` y `pretest` ejecutan `velite --strict --clean` (un error de contenido detiene el comando con archivo, campo y motivo) y `scripts/dev.mjs` arranca un único `velite --watch` junto a `next dev`.
 - `content.ts` devuelve los datos ya resueltos al idioma (`string`, no `{ es, en }`), ordenados y sin borradores en producción.
 - **Texto enriquecido:** los campos marcados como tal admiten solo `**negrita**`, que convierte `lib/rich-text.ts`. Sin HTML arbitrario, para que no haya inyección de código.
 
@@ -178,7 +178,8 @@ GITHUB_TOKEN=
 
 | Script | Qué hace |
 |---|---|
-| `dev` | Next.js en desarrollo (Velite en modo *watch*) → http://localhost:3000 |
+| `dev` | `scripts/dev.mjs`: Velite en modo *watch* + `next dev` → http://localhost:3000 |
+| `content` | `velite --strict --clean`: compila `content/` (lo ejecutan `predev`, `prebuild`, `pretypecheck` y `pretest`) |
 | `build` / `start` | Build de producción / servirlo |
 | `lint` | ESLint (con `eslint-config-prettier`) |
 | `format` / `format:check` | Prettier: formatear / comprobar |
