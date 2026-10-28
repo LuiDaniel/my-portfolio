@@ -1,7 +1,8 @@
 // Intro: pantalla negra -> el robot abre los ojos (parpadea) -> la cámara se aleja y aparece su
-// silueta (torso para arriba) -> atrapa en el aire tres gemas de luz y con cada una arma un
-// componente de la portada -> barre la portada hacia un lado con el brazo.
-// Después: recorrido con scroll (prueba) -> el robot se ilumina, se ve entero y se acomoda a un lado.
+// silueta (cintura para arriba; más abajo se funde con el fondo) -> atrapa en el aire tres gemas
+// de luz y con cada una arma un componente de la portada -> los barre hacia la izquierda, donde se
+// quedan, mientras él se aparta a la derecha y se ilumina.
+// Después: al hacer scroll, la portada y el robot se desvanecen (el robot solo vive en la intro).
 import './style.css';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
@@ -27,20 +28,22 @@ renderer.setSize(innerWidth, innerHeight, false);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 
+const BG = 0x05060a;
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x030406);
-scene.fog = new THREE.Fog(0x030406, 6, 14);
+scene.background = new THREE.Color(BG);
+scene.fog = new THREE.Fog(BG, 6, 14);
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
 const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.05, 50);
 
-// luces: al principio todo a oscuras. Las de contorno (rim) dibujan la silueta en la intro.
+// luces: al principio todo a oscuras. Las de contorno (rim) dibujan la silueta en la intro: azul
+// por un lado y violeta por el otro, para que el borde del robot sea un degradado.
 const lights = [
-  [new THREE.DirectionalLight(0xfff4ea, 1.3), [-2.2, 3.0, 2.6], false], // principal
-  [new THREE.DirectionalLight(0x9fdcff, 0.3), [2.6, 1.4, 2.0], false], // relleno
-  [new THREE.DirectionalLight(0x5fe8ff, 2.4), [-1.8, 2.4, -2.4], true], // contorno cian
-  [new THREE.DirectionalLight(0xffffff, 1.8), [1.9, 1.8, -2.2], true], // contorno blanco
+  [new THREE.DirectionalLight(0xf2f4ff, 1.3), [-2.2, 3.0, 2.6], false], // principal
+  [new THREE.DirectionalLight(0xb4c0ff, 0.3), [2.6, 1.4, 2.0], false], // relleno
+  [new THREE.DirectionalLight(0x5f8cff, 2.6), [-1.8, 2.4, -2.4], true], // contorno azul
+  [new THREE.DirectionalLight(0xa47cff, 2.2), [1.9, 1.8, -2.2], true], // contorno violeta
 ].map(([l, p, rim]) => {
   l.position.set(...p);
   l.userData = { base: l.intensity, rim };
@@ -48,26 +51,16 @@ const lights = [
   return l;
 });
 
-// suelo oscuro que se funde con el fondo + sombra suave bajo los pies
-const floor = new THREE.Mesh(
-  new THREE.CircleGeometry(12, 64),
-  new THREE.MeshStandardMaterial({ color: 0x050608, roughness: 0.92, metalness: 0.0, envMapIntensity: 0.15 }),
-);
-floor.rotation.x = -Math.PI / 2;
-scene.add(floor);
-const shadow = new THREE.Mesh(
-  new THREE.PlaneGeometry(1.4, 1.4),
-  new THREE.MeshBasicMaterial({ map: radialTexture('rgba(0,0,0,0.9)'), transparent: true, depthWrite: false, opacity: 0.8 }),
-);
-shadow.rotation.x = -Math.PI / 2;
-shadow.position.y = 0.002;
-scene.add(shadow);
-
-// halo cian muy tenue detrás del robot: recorta su silueta oscura contra el fondo
+// halo muy tenue detrás del robot (índigo en el centro, violeta hacia fuera): recorta su silueta
+// oscura contra el fondo
 const halo = new THREE.Mesh(
   new THREE.PlaneGeometry(4.2, 4.2),
   new THREE.MeshBasicMaterial({
-    map: radialTexture('rgba(18,120,128,0.55)'),
+    map: radialTexture([
+      [0, 'rgba(38,50,150,0.42)'],
+      [0.45, 'rgba(62,40,135,0.16)'],
+      [1, 'rgba(0,0,0,0)'],
+    ]),
     transparent: true,
     depthWrite: false,
     fog: false,
@@ -77,13 +70,12 @@ const halo = new THREE.Mesh(
 halo.position.set(0, 1.45, -1.4);
 scene.add(halo);
 
-function radialTexture(inner) {
+function radialTexture(stops) {
   const c = document.createElement('canvas');
   c.width = c.height = 128;
   const g = c.getContext('2d');
   const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-  grd.addColorStop(0, inner);
-  grd.addColorStop(1, 'rgba(0,0,0,0)');
+  for (const [at, color] of stops) grd.addColorStop(at, color);
   g.fillStyle = grd;
   g.fillRect(0, 0, 128, 128);
   const tex = new THREE.CanvasTexture(c);
@@ -91,10 +83,10 @@ function radialTexture(inner) {
   return tex;
 }
 
-// resplandor del neón, los ojos y las gemas
+// resplandor de las líneas de luz, los ojos y las gemas (contenido: sin efecto neón)
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.5, 0.35, 0.92);
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.38, 0.35, 0.92);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
@@ -111,11 +103,21 @@ const SHOTS = {
     const fitWidth = 0.42 / (Math.tan(THREE.MathUtils.degToRad(HERO_FOV / 2)) * (innerWidth / innerHeight));
     return { pos: [0, 1.38, Math.max(2.3, fitWidth)], target: [0, 1.38, 0], fov: HERO_FOV };
   },
-  torso: () => ({ pos: [0.25, 1.42, narrow() ? 3.3 : 2.1], target: [0, 1.3, 0] }),
-  body: () => (narrow() ? { pos: [1.6, 1.25, 4.4], target: [0, 0.92, 0] } : { pos: [1.7, 1.2, 3.3], target: [0, 0.93, 0] }),
-  // se acomoda a un lado: deja sitio para el contenido del portafolio
-  aside: () => (narrow() ? { pos: [0, 1.3, 5.6], target: [0, 1.25, 0] } : { pos: [-0.35, 1.1, 3.9], target: [-0.8, 0.95, 0] }),
+  // tras el barrido: el mismo plano desplazado para que el robot quede en el tercio derecho y los
+  // componentes a la izquierda. En pantallas estrechas el robot sube y los componentes van debajo.
+  heroAside: () => {
+    const h = SHOTS.hero();
+    if (narrow()) return { ...h, pos: [0, 1.15, h.pos[2]], target: [0, 1.15, 0] };
+    const halfWidth = Math.tan(THREE.MathUtils.degToRad(HERO_FOV / 2)) * h.pos[2] * (innerWidth / innerHeight);
+    const x = -0.4 * halfWidth; // el robot queda en x = +0,4 de la pantalla (NDC)
+    return { ...h, pos: [x, h.pos[1], h.pos[2]], target: [x, h.target[1], 0] };
+  },
 };
+// La cintura del robot (y en metros): por encima se ve; desde WAIST_FADE[0] se funde con el fondo y
+// en WAIST_FADE[1] ya es fondo. Así no se ven las piernas en ningún encuadre.
+const WAIST_FADE = [1.1, 0.88];
+// Iluminación tras el barrido: el robot deja de ser solo silueta y se encienden sus líneas de luz.
+const LIT = { light: 0.4, neon: 1 };
 // light: luces principales | rim: contorno (silueta) | halo: resplandor detrás del robot
 const state = { px: 0, py: 0, pz: 0, tx: 0, ty: 0, tz: 0, fov: 35, neon: 0, light: 0, rim: 0, halo: 0 };
 const shot = (name) => {
@@ -125,7 +127,12 @@ const shot = (name) => {
 Object.assign(state, shot('hero'));
 const lookTarget = new THREE.Vector3();
 const parallax = { x: 0, y: 0 };
-let heroLocked = false; // la cámara se queda en el plano 'hero' (se recalcula al cambiar el tamaño)
+// plano en el que se queda la cámara ('hero' o 'heroAside'); se recalcula al cambiar el tamaño
+let lockedShot = null;
+
+const stage = document.getElementById('stage');
+const stageFade = stage.querySelector('.stage-fade');
+let stageVisible = true; // con el escenario ya desvanecido por el scroll no se renderiza
 
 function applyCamera() {
   camera.position.set(state.px + parallax.x * 0.03, state.py + parallax.y * 0.02, state.pz);
@@ -138,6 +145,23 @@ function applyCamera() {
   for (const l of lights) l.intensity = l.userData.base * (l.userData.rim ? Math.max(state.light, state.rim) : state.light);
   scene.environmentIntensity = 0.28 * state.light; // reflejos discretos: el robot debe verse negro
   halo.material.opacity = state.halo;
+  updateWaistFade();
+}
+
+/** Coloca el degradado que oculta al robot de la cintura para abajo. */
+const _fade = new THREE.Vector3();
+let fadeKey = '';
+function updateWaistFade() {
+  camera.updateMatrixWorld();
+  const [start, end] = WAIST_FADE.map((y) => {
+    _fade.set(0, y, 0).project(camera);
+    return (((1 - _fade.y) / 2) * 100).toFixed(2);
+  });
+  const key = `${start}|${end}`;
+  if (key === fadeKey) return;
+  fadeKey = key;
+  stageFade.style.setProperty('--fade-start', `${start}%`);
+  stageFade.style.setProperty('--fade-end', `${end}%`);
 }
 
 // ---------------------------------------------------------------- robot + intro
@@ -172,14 +196,14 @@ async function start() {
   eyeCenter.multiplyScalar(1 / robot.eyeMeshes.length);
 
   if (reducedMotion) {
-    // sin movimiento: la portada ya armada, el robot en silueta
-    Object.assign(state, shot('hero'), { rim: 1, halo: 1 });
-    heroLocked = true;
+    // sin movimiento: la portada ya armada a la izquierda y el robot a la derecha, iluminado
+    lockedShot = 'heroAside';
+    Object.assign(state, shot(lockedShot), { rim: 1, halo: 1, ...LIT });
     robot.eyePower = 1;
     robot.look.weight = 0;
     robot.startIdle(0);
     intro.showAll();
-    introActive = true;
+    intro.finish();
     document.getElementById('loader').classList.add('is-done');
     buildScrollTimeline();
     return;
@@ -226,75 +250,64 @@ function runIntro() {
     .add(() => (clip.timeScale = 0), 0.35 + 0.55)
     // 2. La cámara se aleja: aparece la silueta (luz de contorno + halo detrás)
     .to(state, { ...shot('hero'), rim: 1, halo: 1, duration: 1.5, ease: 'power2.inOut' }, 0.75)
-    .add(() => (heroLocked = true))
+    .add(() => (lockedShot = 'hero'))
     // 3. Retoma el clip: atrapa las gemas (los eventos del clip arman la portada)
     .add(() => (clip.timeScale = 1), 1.95);
 }
 
-// 4. Barre la portada hacia la izquierda con el brazo izquierdo y deja paso a la página
+// 4. Barre la portada hacia la izquierda con el brazo izquierdo: los componentes se quedan ahí y el
+//    robot se aparta a la derecha mientras se ilumina
 function sweepIntro() {
   robot
-    .play('Intro_Sweep', { fade: 0.35, events: { sweep: () => intro.sweep() } })
+    .play('Intro_Sweep', {
+      fade: 0.35,
+      events: {
+        sweep: () => {
+          intro.sweep();
+          lockedShot = null;
+          gsap.to(state, {
+            ...shot('heroAside'),
+            ...LIT,
+            duration: 1.6,
+            ease: 'power2.inOut',
+            onComplete: () => (lockedShot = 'heroAside'),
+          });
+        },
+      },
+    })
     .then(finishIntro);
 }
 
 function finishIntro() {
   intro.finish();
   introActive = false;
-  heroLocked = false;
   robot.autoBlink = true;
   gsap.to(robot.look, { weight: 1, duration: 1.2 });
-  // provisional: hasta que exista la página principal, sigue el recorrido con scroll de prueba
-  gsap.to(state, {
-    light: 0.25,
-    neon: 0.12,
-    duration: 1.2,
-    ease: 'power1.inOut',
-    onComplete: () => {
-      document.documentElement.style.overflow = '';
-      buildScrollTimeline();
-      hint.classList.add('is-visible');
-    },
-  });
+  document.documentElement.style.overflow = '';
+  buildScrollTimeline();
+  hint.classList.add('is-visible');
 }
 
 // ---------------------------------------------------------------- scroll
+// Al bajar, la portada sube y se desvanece y después el robot también: solo existe en la intro.
 function buildScrollTimeline() {
-  let discovered = false;
-  const to = (name, extra = {}) => ({
-    px: () => shot(name).px, py: () => shot(name).py, pz: () => shot(name).pz,
-    tx: () => shot(name).tx, ty: () => shot(name).ty, tz: () => shot(name).tz,
-    fov: () => shot(name).fov,
-    ...extra,
-  });
-
-  gsap.timeline({
-    defaults: { ease: 'power1.inOut' },
-    scrollTrigger: {
-      trigger: '#intro',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 1.2,
-      onUpdate: (self) => {
-        heroLocked = false;
-        hint.classList.toggle('is-visible', self.progress < 0.02 && !robot.busy);
-        // al ver el cuerpo entero, el robot se descubre (una sola vez)
-        if (!discovered && self.progress > 0.5) {
-          discovered = true;
-          robot.enqueue('Discover');
-        }
+  const rise = reducedMotion ? 0 : 1; // con movimiento reducido solo se desvanecen, sin desplazarse
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: '#intro',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: reducedMotion ? true : 0.6,
+        onUpdate: (self) => {
+          hint.classList.toggle('is-visible', self.progress < 0.02);
+          stageVisible = self.progress < 0.66; // a partir de ahí el escenario ya es transparente
+        },
       },
-    },
-  })
-    // con prefers-reduced-motion la portada sigue visible: se retira al empezar a bajar
-    .to('#hero', { autoAlpha: 0, duration: 0.3 }, 0)
-    // se ilumina el robot y se acerca al torso; se encienden las líneas de neón
-    .to(state, to('torso', { neon: 0.45, light: 0.6, halo: 0, duration: 1.4 }), 0)
-    // cuerpo completo: la cámara orbita un poco
-    .to(state, to('body', { neon: 1, light: 1, duration: 1.6 }))
-    .to(state, { duration: 1.2 }) // pausa mientras se mira las manos
-    // se acomoda a un lado
-    .to(state, to('aside', { duration: 1.4 }));
+    })
+    .to('#hero', { y: () => -0.12 * innerHeight * rise, autoAlpha: 0, duration: 0.4, ease: 'power1.in' }, 0)
+    .to(stage, { y: () => -0.08 * innerHeight * rise, autoAlpha: 0, duration: 0.55, ease: 'power1.in' }, 0.1)
+    .to({}, { duration: 0.35 }); // el último tramo ya sin robot: entra el contenido
 }
 
 // ---------------------------------------------------------------- interacción: mirada y clic
@@ -309,7 +322,8 @@ addEventListener('deviceorientation', (e) => {
 
 const raycaster = new THREE.Raycaster();
 addEventListener('click', (e) => {
-  if (!robot.root || robot.busy || introActive || reducedMotion || e.target.closest('a, button, input, textarea')) return;
+  if (!robot.root || robot.busy || introActive || reducedMotion || !stageVisible) return;
+  if (e.target.closest('a, button, input, textarea')) return;
   raycaster.setFromCamera(new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
   if (!robot.hitTest(raycaster)) return;
   robot.setExpression('happy');
@@ -320,6 +334,7 @@ addEventListener('click', (e) => {
 const timer = new THREE.Timer();
 renderer.setAnimationLoop((now) => {
   timer.update(now);
+  if (!stageVisible) return; // el robot ya se desvaneció: nada que dibujar
   const dt = Math.min(timer.getDelta(), 0.05);
   const t = timer.getElapsed();
   if (!reducedMotion) {
@@ -352,6 +367,6 @@ function fitToCanvas() {
   renderer.setSize(w, h, false);
   composer.setSize(w, h);
   bloom.setSize(w, h);
-  if (heroLocked) Object.assign(state, shot('hero'));
+  if (lockedShot) Object.assign(state, shot(lockedShot));
   ScrollTrigger.refresh();
 }

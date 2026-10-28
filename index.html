@@ -3,18 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#030406" />
+    <meta name="theme-color" content="#05060a" />
     <title>Portafolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <!-- Escena 3D fija detrás de todo -->
-    <canvas id="webgl" aria-hidden="true"></canvas>
+    <!-- Escena 3D fija detrás de todo. El degradado funde al robot con el fondo de la cintura para
+         abajo (su posición la calcula main.js cada frame). Al bajar, todo el escenario se desvanece. -->
+    <div id="stage" aria-hidden="true">
+      <canvas id="webgl"></canvas>
+      <div class="stage-fade"></div>
+    </div>
 
     <!-- Pantalla negra con los ojos LED mientras baja el modelo -->
     <div id="loader" role="status" aria-live="polite">
@@ -26,8 +30,8 @@
     </div>
 
     <!-- Intro: el robot (en silueta) atrapa en el aire una gema por cada componente y la lleva a
-         su sitio, donde el componente aparece. No es interactiva: al terminar, el robot la barre
-         hacia un lado. Los componentes van juntos, centrados sobre el pecho del robot. -->
+         su sitio, donde el componente aparece. Los componentes van juntos, centrados sobre el pecho
+         del robot; al terminar, el robot los barre hacia la izquierda y se quedan ahí (.is-settled). -->
     <section id="hero" aria-label="Bienvenida">
       <div class="hero-stack">
         <div class="hero-part hero-icons" data-part="icons" aria-hidden="true">
@@ -62,12 +66,15 @@
     </section>
 
     <main>
-      <!-- Recorrido con scroll (prueba): el robot se ilumina, se ve entero y se acomoda a un lado -->
+      <!-- Al bajar, la portada y el robot se desvanecen: el robot solo existe en la intro -->
       <section id="intro" aria-label="Introducción">
         <p class="scroll-hint" aria-hidden="true">desliza</p>
       </section>
 
-      <!-- Aquí irá el portafolio (nombre, proyectos, contacto) -->
+      <!-- Aquí irá el portafolio (secciones, proyectos, contacto) -->
+      <section class="placeholder">
+        <p>Aquí irá el contenido del portafolio</p>
+      </section>
     </main>
 
     <script type="module" src="/src/main.js"></script>

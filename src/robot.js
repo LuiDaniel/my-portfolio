@@ -6,6 +6,12 @@ import { EyeDisplay } from './eyes.js';
 
 // Orden en que se encienden las líneas de neón al alejarse la cámara (de la cabeza a los pies).
 const NEON_REGIONS = ['Head', 'Neck', 'Chest', 'Spine', 'Hips', 'UpperArm', 'Forearm', 'Thigh', 'Shin', 'Foot'];
+// Las líneas de luz pasan de azul (cabeza) a violeta (cintura) según la altura de su hueso.
+const NEON_TOP = new THREE.Color(0x4f7dff);
+const NEON_BOTTOM = new THREE.Color(0x9a62ff);
+const NEON_SPAN = [1.6, 0.9]; // alturas (m) de NEON_TOP y NEON_BOTTOM
+// Piezas de las piernas: la intro solo muestra al robot de la cintura para arriba.
+const LEG_BONE = /^B_(Thigh|Shin|Foot)_[LR]$/;
 
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -56,22 +62,31 @@ export class Robot {
     this.mixer = new THREE.AnimationMixer(this.root);
     this.bones = {};
 
+    this.root.updateMatrixWorld(true);
     this.root.traverse((o) => {
       if (o.isBone) this.bones[o.name] = o;
       if (!o.isMesh) return;
+      if (LEG_BONE.test(o.parent.name)) {
+        o.visible = false;
+        return;
+      }
       this.meshes.push(o);
       if (o.name.endsWith('_Neon')) {
         o.material = o.material.clone(); // cada región con su material para encenderla aparte
         const region = o.name.split('_')[0];
-        // intensidad más baja que en Blender: el bloom de la web ya añade el resplandor
-        this.neon.push({ mat: o.material, base: o.material.emissiveIntensity * 0.35, idx: NEON_REGIONS.indexOf(region) });
+        const h = o.parent.getWorldPosition(_v1).y;
+        const t = THREE.MathUtils.clamp((NEON_SPAN[0] - h) / (NEON_SPAN[0] - NEON_SPAN[1]), 0, 1);
+        o.material.emissive.lerpColors(NEON_TOP, NEON_BOTTOM, t);
+        o.material.color.copy(o.material.emissive); // el color base del modelo es cian
+        // mucho más baja que en Blender: líneas de luz discretas que conservan su color (sin quemarse a blanco)
+        this.neon.push({ mat: o.material, base: o.material.emissiveIntensity * 0.16, idx: NEON_REGIONS.indexOf(region) });
       }
       if (/^Eye_[LR]$/.test(o.name)) this.eyeMeshes.push(o);
     });
 
     // ojos: textura LED dibujable (expresiones) en lugar de la imagen fija del modelo
     const eyeMat = this.eyeMeshes[0].material.clone();
-    this.eyeBase = 2.6; // más bajo que en Blender: aquí el bloom ya añade resplandor
+    this.eyeBase = 1.4; // más bajo que en Blender: aquí el bloom ya añade resplandor (y así no se quema a blanco)
     eyeMat.emissiveMap = this.eyes.texture;
     eyeMat.emissive.set(0xffffff);
     eyeMat.color.set(0x000000);
@@ -164,6 +179,8 @@ export class Robot {
     const head = this.bones.B_Head;
     if (!head) return;
     head.getWorldPosition(_v1).project(camera);
+    // con el lienzo a 0 px (pestaña oculta) la proyección da NaN, que se quedaría pegado en la mirada
+    if (!Number.isFinite(_v1.x) || !Number.isFinite(_v1.y)) return;
     this.look.tYaw = THREE.MathUtils.clamp((ndcX - _v1.x) * 0.9, -0.75, 0.75);
     this.look.tPitch = THREE.MathUtils.clamp(-(ndcY - _v1.y) * 0.6, -0.45, 0.35);
   }

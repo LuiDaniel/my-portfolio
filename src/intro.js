@@ -24,27 +24,31 @@ function canvasTexture(size, draw) {
   return tex;
 }
 
-const glowTexture = () =>
+// Color de cada gema (r, g, b): la de la mano izquierda es azul y la de la derecha, violeta.
+const GEM_COLORS = { L: [92, 132, 255], R: [158, 104, 255] };
+const rgba = ([r, g, b], a) => `rgba(${r},${g},${b},${a})`;
+
+const glowTexture = (rgb) =>
   canvasTexture(128, (g, s) => {
     const grd = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
     grd.addColorStop(0, 'rgba(255,255,255,1)');
-    grd.addColorStop(0.12, 'rgba(210,255,255,0.95)');
-    grd.addColorStop(0.3, 'rgba(0,229,255,0.45)');
-    grd.addColorStop(0.65, 'rgba(0,160,200,0.08)');
+    grd.addColorStop(0.12, 'rgba(230,234,255,0.95)');
+    grd.addColorStop(0.3, rgba(rgb, 0.45));
+    grd.addColorStop(0.65, rgba(rgb, 0.08));
     grd.addColorStop(1, 'rgba(0,0,0,0)');
     g.fillStyle = grd;
     g.fillRect(0, 0, s, s);
   });
 
 // destello de 4 puntas (cruz fina con degradado)
-const starTexture = () =>
+const starTexture = (rgb) =>
   canvasTexture(128, (g, s) => {
     const c = s / 2;
     for (const [w, h] of [[s, 3], [3, s]]) {
       const grd = w > h ? g.createLinearGradient(0, 0, s, 0) : g.createLinearGradient(0, 0, 0, s);
-      grd.addColorStop(0, 'rgba(0,229,255,0)');
-      grd.addColorStop(0.5, 'rgba(220,255,255,1)');
-      grd.addColorStop(1, 'rgba(0,229,255,0)');
+      grd.addColorStop(0, rgba(rgb, 0));
+      grd.addColorStop(0.5, 'rgba(236,238,255,1)');
+      grd.addColorStop(1, rgba(rgb, 0));
       g.fillStyle = grd;
       g.fillRect(c - w / 2, c - h / 2, w, h);
     }
@@ -52,11 +56,13 @@ const starTexture = () =>
 
 /** Gema de luz que sigue el punto de agarre de una mano e ilumina la mano (silueta). */
 class Gem {
-  constructor(scene, glow, star) {
+  constructor(scene, rgb) {
+    const glow = glowTexture(rgb);
+    const star = starTexture(rgb);
     const mat = (map) =>
       new THREE.SpriteMaterial({
         map,
-        color: new THREE.Color(2.4, 2.8, 3.0), // > 1 para que el bloom la haga brillar
+        color: new THREE.Color(2.6, 2.6, 3.0), // > 1 para que el bloom la haga brillar
         blending: THREE.AdditiveBlending,
         transparent: true,
         depthTest: false,
@@ -69,7 +75,7 @@ class Gem {
     this.star = new THREE.Sprite(mat(star));
     this.core.renderOrder = this.star.renderOrder = 10;
     // la luz existe siempre (intensidad 0): añadir luces después obligaría a recompilar shaders
-    this.light = new THREE.PointLight(0x7ff4ff, 0, 0.9, 2);
+    this.light = new THREE.PointLight(new THREE.Color(`rgb(${rgb})`), 0, 0.9, 2);
     this.group.add(this.core, this.star, this.light);
     scene.add(this.group);
     this.state = { power: 0, size: 0 };
@@ -129,14 +135,14 @@ export class Intro {
     this.urlChars = splitChars(this.parts.url.querySelector('.hero-url-text'));
     for (const s of [...this.kickerChars, ...this.urlChars]) s.setAttribute('aria-hidden', 'true');
 
-    const glow = glowTexture();
-    const star = starTexture();
-    this.gems = { L: new Gem(scene, glow, star), R: new Gem(scene, glow, star) };
+    this.gems = { L: new Gem(scene, GEM_COLORS.L), R: new Gem(scene, GEM_COLORS.R) };
     this.time = 0;
+    this.settled = false; // tras el barrido el bloque queda a un lado (lo coloca el CSS, no el robot)
   }
 
   /** Centra el bloque de la portada delante del pecho del robot. */
   layout() {
+    if (this.settled) return;
     _v.copy(ANCHOR).project(this.camera);
     this.stack.style.left = `${((_v.x + 1) / 2) * innerWidth}px`;
     this.stack.style.top = `${((1 - _v.y) / 2) * innerHeight}px`;
@@ -245,36 +251,46 @@ export class Intro {
     }
   }
 
-  /** Todo visible sin animación (prefers-reduced-motion). */
+  /** Todo visible sin animación (prefers-reduced-motion), ya acomodado a un lado. */
   showAll() {
     for (const k of Object.keys(PARTS)) this.reveal(k, true);
+    this.settled = true;
+    this.stack.classList.add('is-settled');
+    this.stack.style.left = this.stack.style.top = '';
   }
 
-  /** El brazo pasa barriendo: los componentes salen despedidos hacia la izquierda. */
+  /** El brazo pasa barriendo: los componentes salen despedidos hacia la izquierda y frenan en su
+   *  sitio definitivo (columna izquierda; en pantallas estrechas, abajo). Técnica FLIP: se mide dónde
+   *  están, se cambia el layout y se animan desde la posición antigua hasta la nueva. */
   sweep() {
-    const handY = (() => {
-      this.robot.gripPosition('L', _v).project(this.camera);
-      return ((1 - _v.y) / 2) * innerHeight;
-    })();
-    for (const el of Object.values(this.parts)) {
-      const r = el.getBoundingClientRect();
-      const dist = Math.abs(r.top + r.height / 2 - handY) / innerHeight; // lo más cercano a la mano sale antes
-      gsap.to(el, {
-        x: -(r.right + 120),
-        y: (r.top + r.height / 2 - handY) * 0.18,
-        rotation: -4 - 6 * Math.random(),
-        skewX: 12,
-        filter: 'blur(6px)',
-        opacity: 0,
-        duration: 0.9,
-        delay: dist * 0.25,
-        ease: 'power3.out',
-      });
-    }
+    this.robot.gripPosition('L', _v).project(this.camera);
+    const handY = ((1 - _v.y) / 2) * innerHeight;
+    const els = Object.values(this.parts);
+    const first = els.map((el) => el.getBoundingClientRect());
+
+    this.settled = true;
+    this.stack.classList.add('is-settled');
+    this.stack.style.left = this.stack.style.top = '';
+
+    els.forEach((el, i) => {
+      const f = first[i];
+      const l = el.getBoundingClientRect();
+      const dist = Math.abs(f.top + f.height / 2 - handY) / innerHeight; // lo más cercano a la mano sale antes
+      const delay = dist * 0.25;
+      gsap.fromTo(
+        el,
+        { x: f.left - l.left, y: f.top - l.top, scale: f.width / l.width, transformOrigin: '0 0' },
+        { x: 0, y: 0, scale: 1, duration: 1.3, delay, ease: 'expo.out', clearProps: 'transform' },
+      );
+      // el golpe del brazo: se inclinan y desenfocan un instante, y se recomponen al frenar
+      gsap
+        .timeline({ delay })
+        .to(el, { skewX: 10, filter: 'blur(3px)', duration: 0.18, ease: 'power2.out' })
+        .to(el, { skewX: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out', clearProps: 'filter' });
+    });
   }
 
   finish() {
-    this.root.classList.add('is-done');
     for (const g of Object.values(this.gems)) {
       g.state.power = 0;
       g.group.visible = false;

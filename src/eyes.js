@@ -4,8 +4,9 @@ import * as THREE from 'three';
 
 export const COLS = 10;
 export const ROWS = 6;
-const ON = '#00e6ff';
-const OFF = 'rgb(0, 6, 8)'; // LED apagado: apenas visible
+// Encendidos: degradado de azul (fila de arriba) a violeta (fila de abajo).
+const ON = ['#6f9cff', '#6a8dff', '#707dff', '#7f70ff', '#8f66ff', '#a061ff'];
+const OFF = 'rgb(4, 5, 12)'; // LED apagado: apenas visible
 
 // '#' = encendido. Filas de arriba a abajo, tal como se ven desde delante.
 export const PATTERNS = {
@@ -38,7 +39,7 @@ export class EyeDisplay {
     const rows = PATTERNS[name] ?? PATTERNS.normal;
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
-        this.ctx.fillStyle = rows[r][c] === '#' ? ON : OFF;
+        this.ctx.fillStyle = rows[r][c] === '#' ? ON[r] : OFF;
         this.ctx.fillRect(c, r, 1, 1);
       }
     }

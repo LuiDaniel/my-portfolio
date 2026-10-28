@@ -1,9 +1,15 @@
 :root {
-  --bg: #030406;
-  --cyan: #00e5ff;
-  --led-off: #04161a;
+  --bg: #05060a;
+  --text: #e7eaf3;
+  --muted: #9aa3b8;
+  /* paleta: azul → índigo → violeta, siempre combinados en degradado */
+  --blue: #5b8cff;
+  --indigo: #7a7cff;
+  --violet: #a46bff;
+  --gradient: linear-gradient(100deg, var(--blue), var(--indigo) 50%, var(--violet));
   --led-size: 6px;
   --led-gap: 4px;
+  --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 }
 
 *,
@@ -16,17 +22,35 @@ html,
 body {
   margin: 0;
   background: var(--bg);
-  color: #e8f6f8;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
-#webgl {
+/* ---------------------------------------------------------------- escenario 3D */
+#stage {
   position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+#webgl {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  z-index: 0;
+}
+/* Funde al robot con el fondo de la cintura para abajo. --fade-start / --fade-end los fija main.js
+   proyectando la cintura del robot a la pantalla. */
+.stage-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent var(--fade-start, 70%),
+    color-mix(in srgb, var(--bg) 70%, transparent) calc((var(--fade-start, 70%) + var(--fade-end, 85%)) / 2),
+    var(--bg) var(--fade-end, 85%)
+  );
 }
 
 main {
@@ -34,9 +58,23 @@ main {
   z-index: 1;
 }
 
-/* Longitud del scroll de la intro: más alto = animación más lenta */
+/* Recorrido del scroll en el que la portada y el robot se desvanecen */
 #intro {
-  height: 520vh;
+  height: 100vh;
+}
+
+.placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+.placeholder p {
+  margin: 0;
+  font: 400 13px/1 var(--mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.6;
 }
 
 .scroll-hint {
@@ -45,16 +83,16 @@ main {
   bottom: 28px;
   transform: translateX(-50%);
   margin: 0;
-  font: 500 11px/1 ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font: 500 11px/1 var(--mono);
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--cyan);
+  color: var(--muted);
   opacity: 0;
   transition: opacity 0.6s;
   pointer-events: none;
 }
 .scroll-hint.is-visible {
-  opacity: 0.75;
+  opacity: 0.8;
   animation: hint 2.2s ease-in-out infinite;
 }
 @keyframes hint {
@@ -83,15 +121,19 @@ main {
 .led-eyes {
   display: flex;
   gap: calc(var(--led-size) * 5);
+  filter: drop-shadow(0 0 6px rgb(110 120 255 / 0.7));
 }
 
-/* 10 x 6 LEDs con la forma de píldora del modelo (esquinas apagadas) */
+/* 10 x 6 LEDs con la forma de píldora del modelo (esquinas apagadas). El color es un degradado
+   vertical azul → violeta, como en los ojos del robot; los puntos son una máscara. */
 .led-eye {
+  --dots: radial-gradient(circle, #000 0 calc(var(--led-size) / 2 - 0.5px), transparent calc(var(--led-size) / 2)) 0 0 /
+    calc(var(--led-size) + var(--led-gap)) calc(var(--led-size) + var(--led-gap));
   width: calc(var(--led-size) * 10 + var(--led-gap) * 9);
   height: calc(var(--led-size) * 6 + var(--led-gap) * 5);
-  background: radial-gradient(circle, var(--cyan) 0 calc(var(--led-size) / 2 - 0.5px), transparent calc(var(--led-size) / 2))
-    0 0 / calc(var(--led-size) + var(--led-gap)) calc(var(--led-size) + var(--led-gap));
-  filter: drop-shadow(0 0 6px var(--cyan));
+  background: linear-gradient(to bottom, #6f9cff, #7f70ff 60%, #a061ff);
+  -webkit-mask: var(--dots);
+  mask: var(--dots);
   clip-path: polygon(20% 0, 80% 0, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0 70%, 0 30%);
   animation: blink 3.2s infinite;
   transform-origin: center;
@@ -107,23 +149,21 @@ main {
 
 .loader-pct {
   margin: 0;
-  font: 500 11px/1 ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font: 500 11px/1 var(--mono);
   letter-spacing: 0.3em;
-  color: var(--cyan);
-  opacity: 0.6;
+  color: var(--muted);
+  opacity: 0.7;
 }
 
 /* ---------------------------------------------------------------- intro (hero)
-   Bloque compacto (iconos, saludo, título, URL) centrado por JS sobre el pecho del robot. */
+   Bloque compacto (iconos, saludo, título, URL): durante la intro lo centra JS sobre el pecho del
+   robot; tras el barrido (.is-settled) queda en la columna izquierda (en pantallas estrechas, abajo). */
 #hero {
   position: fixed;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   overflow: hidden;
-}
-#hero.is-done {
-  display: none;
 }
 
 .hero-stack {
@@ -143,26 +183,24 @@ main {
 
 .hero-icons {
   display: flex;
-  gap: clamp(18px, 2.6vw, 30px);
+  gap: clamp(14px, 2vw, 22px);
   margin-bottom: clamp(18px, 4.2vh, 40px);
 }
 .hero-icon {
   display: grid;
   place-items: center;
-  width: clamp(46px, 4.6vw, 60px);
+  width: clamp(44px, 4.2vw, 54px);
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid rgba(0, 229, 255, 0.35);
-  background: radial-gradient(circle at 50% 40%, rgba(0, 229, 255, 0.08), rgba(3, 4, 6, 0.6) 70%);
-  box-shadow:
-    0 0 18px rgba(0, 229, 255, 0.22),
-    inset 0 0 12px rgba(0, 229, 255, 0.1);
+  border: 1px solid rgb(150 160 255 / 0.22);
+  background: rgb(255 255 255 / 0.03);
+  box-shadow: 0 0 24px rgb(110 110 255 / 0.12);
 }
 .hero-icon svg,
 .hero-url svg {
   width: 42%;
   fill: none;
-  stroke: #bff6f6;
+  stroke: #dfe4ff;
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -175,19 +213,19 @@ main {
   font-weight: 400;
   text-align: center;
   white-space: nowrap;
-  filter: drop-shadow(0 0 22px rgba(0, 229, 255, 0.2)); /* en el contenedor: el título anima su propio filter */
+  filter: drop-shadow(0 0 28px rgb(110 110 255 / 0.16)); /* en el contenedor: el título anima su propio filter */
 }
 .hero-kicker {
-  font: 500 clamp(11px, 1.15vw, 17px) / 1 'JetBrains Mono', ui-monospace, monospace;
-  letter-spacing: 0.55em;
-  margin-right: -0.55em; /* compensa el espaciado de la última letra para centrar */
+  font: 500 clamp(11px, 1.05vw, 15px) / 1 var(--mono);
+  letter-spacing: 0.5em;
+  margin-right: -0.5em; /* compensa el espaciado de la última letra para centrar */
   text-transform: uppercase;
-  color: #d5dde0;
+  color: var(--muted);
 }
 .hero-name {
-  font: 500 min(8.4vw, 11vh) / 1.1 'Inter', system-ui, sans-serif;
-  letter-spacing: -0.015em;
-  background: linear-gradient(180deg, #c4f7f4 0%, #6fe7dd 40%, #1fcdb9 100%);
+  font: 600 min(8.4vw, 11vh) / 1.1 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  background: linear-gradient(100deg, #eef1ff 0%, #a9bcff 35%, #8f86ff 68%, #b98cff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -199,14 +237,44 @@ main {
   margin-top: clamp(12px, 2.6vh, 26px);
   align-items: center;
   gap: 0.75em;
-  font: 400 clamp(12px, 1.05vw, 16px) / 1 'JetBrains Mono', ui-monospace, monospace;
+  font: 400 clamp(12px, 1vw, 15px) / 1 var(--mono);
   letter-spacing: 0.04em;
-  color: #2fd6c8;
+  color: #aab4ff;
   white-space: nowrap;
 }
 .hero-url svg {
   width: 1.25em;
-  stroke: #2fd6c8;
+  stroke: #aab4ff;
+}
+
+/* tras el barrido: a la izquierda, alineado a la izquierda y más pequeño */
+.hero-stack.is-settled {
+  left: clamp(24px, 8vw, 140px);
+  top: 50%;
+  transform: translateY(-50%);
+  align-items: flex-start;
+}
+.is-settled .hero-title {
+  justify-items: start;
+  text-align: left;
+}
+.is-settled .hero-kicker {
+  margin-right: 0;
+}
+.is-settled .hero-name {
+  font-size: min(5.6vw, 9vh);
+}
+@media (max-aspect-ratio: 17/20) {
+  .hero-stack.is-settled {
+    left: 24px;
+    right: 24px;
+    top: auto;
+    bottom: 12vh;
+    transform: none;
+  }
+  .is-settled .hero-name {
+    font-size: min(10vw, 8vh);
+  }
 }
 
 /* destello circular donde el robot suelta la gema */
@@ -216,10 +284,10 @@ main {
   height: 16px;
   margin: -8px 0 0 -8px;
   border-radius: 50%;
-  border: 2px solid rgba(160, 250, 255, 0.9);
+  border: 2px solid rgb(205 208 255 / 0.9);
   box-shadow:
-    0 0 24px rgba(0, 229, 255, 0.9),
-    inset 0 0 12px rgba(0, 229, 255, 0.7);
+    0 0 24px rgb(120 120 255 / 0.85),
+    inset 0 0 12px rgb(150 110 255 / 0.6);
   pointer-events: none;
 }
 
