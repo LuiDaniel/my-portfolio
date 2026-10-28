@@ -2,12 +2,12 @@
   "name": "portafolio",
   "version": "0.1.0",
   "private": true,
-  "description": "Portafolio personal con intro 3D de un robot controlada por scroll",
+  "description": "Portafolio personal de Luis Daniel: Next.js + intro 3D de un robot",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "vite --config prototype/vite.config.js",
+    "prototype": "vite --config prototype/vite.config.js",
+    "prototype:build": "vite build --config prototype/vite.config.js",
     "postinstall": "node scripts/copy-draco.mjs"
   },
   "dependencies": {
