@@ -1,0 +1,34 @@
+{
+  "Nav": {
+    "label": "Main",
+    "home": "Home",
+    "language": "Language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Locale": {
+    "es": "Español",
+    "en": "English",
+    "switchTo": "View in {language}"
+  },
+  "Footer": {
+    "rights": "All rights reserved."
+  },
+  "Pages": {
+    "home": { "title": "Home" },
+    "projects": { "title": "Projects" },
+    "project": { "title": "Case study" },
+    "blog": { "title": "Blog" },
+    "post": { "title": "Article" },
+    "about": { "title": "About" },
+    "cv": { "title": "CV" },
+    "uses": { "title": "Uses" },
+    "colophon": { "title": "Colophon" },
+    "soon": "Page under construction."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "This address doesn't exist or has moved.",
+    "back": "Back to home"
+  }
+}

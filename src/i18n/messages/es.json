@@ -1,0 +1,34 @@
+{
+  "Nav": {
+    "label": "Principal",
+    "home": "Inicio",
+    "language": "Idioma",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "Locale": {
+    "es": "Español",
+    "en": "English",
+    "switchTo": "Ver en {language}"
+  },
+  "Footer": {
+    "rights": "Todos los derechos reservados."
+  },
+  "Pages": {
+    "home": { "title": "Inicio" },
+    "projects": { "title": "Proyectos" },
+    "project": { "title": "Caso de estudio" },
+    "blog": { "title": "Blog" },
+    "post": { "title": "Artículo" },
+    "about": { "title": "Sobre mí" },
+    "cv": { "title": "CV" },
+    "uses": { "title": "Uses" },
+    "colophon": { "title": "Colofón" },
+    "soon": "Página en construcción."
+  },
+  "NotFound": {
+    "title": "Página no encontrada",
+    "description": "La dirección no existe o se ha movido.",
+    "back": "Volver al inicio"
+  }
+}

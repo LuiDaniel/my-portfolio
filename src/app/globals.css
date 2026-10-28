@@ -2,6 +2,17 @@
 @import '../styles/tokens.css';
 @import '../styles/effects.css';
 
+/* Contenedor de 1240 px con márgenes seguros (el .wrap de la maqueta). */
+@utility wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-left: var(--pad-l);
+  padding-right: var(--pad-r);
+}
+
 @layer base {
   html {
     background: var(--color-bg);
@@ -14,6 +25,15 @@
     font: 16px/1.55 var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+  }
+  /* franja opaca bajo la muesca (el menú flota por encima del contenido) */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    z-index: 30;
+    background: var(--color-bg);
   }
   :focus-visible {
     outline: 2px solid var(--color-blue);

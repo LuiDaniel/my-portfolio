@@ -34,6 +34,17 @@
   --color-gh-3: #26a641;
   --color-gh-4: #39d353;
 
+  /* manchas del fondo (Ambient) */
+  --color-blob-blue: #2546d8;
+  --color-blob-violet: #6b2fd9;
+  --color-blob-deep: #1b2a7a;
+
+  /* puntos de corte de la maqueta: max-sm (< 620), max-md (< 980), max-lg (< 1080) */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 620px;
+  --breakpoint-md: 980px;
+  --breakpoint-lg: 1080px;
+
   /* forma */
   --radius-card: 24px;
   --radius-box: 32px;
