@@ -4,3 +4,22 @@ public/draco/
 *.blend1
 renders/
 __pycache__/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+
+# Contenido generado por Velite
+.velite/
+
+# Variables de entorno (solo se sube la plantilla)
+.env*
+!.env.example
+
+# Pruebas
+coverage/
+test-results/
+playwright-report/
