@@ -4,6 +4,9 @@
   "private": true,
   "description": "Portafolio personal de Luis Daniel: Next.js + intro 3D de un robot",
   "type": "module",
+  "engines": {
+    "node": ">=20.9"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
