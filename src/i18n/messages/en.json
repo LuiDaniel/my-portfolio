@@ -8,22 +8,39 @@
   },
   "Locale": {
     "es": "Español",
-    "en": "English",
-    "switchTo": "View in {language}"
+    "en": "English"
   },
   "Footer": {
     "rights": "All rights reserved."
   },
   "Pages": {
-    "home": { "title": "Home" },
-    "projects": { "title": "Projects" },
-    "project": { "title": "Case study" },
-    "blog": { "title": "Blog" },
-    "post": { "title": "Article" },
-    "about": { "title": "About" },
-    "cv": { "title": "CV" },
-    "uses": { "title": "Uses" },
-    "colophon": { "title": "Colophon" },
+    "home": {
+      "title": "Home"
+    },
+    "projects": {
+      "title": "Projects"
+    },
+    "project": {
+      "title": "Case study"
+    },
+    "blog": {
+      "title": "Blog"
+    },
+    "post": {
+      "title": "Article"
+    },
+    "about": {
+      "title": "About"
+    },
+    "cv": {
+      "title": "CV"
+    },
+    "uses": {
+      "title": "Uses"
+    },
+    "colophon": {
+      "title": "Colophon"
+    },
     "soon": "Page under construction."
   },
   "NotFound": {

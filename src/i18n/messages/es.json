@@ -8,22 +8,39 @@
   },
   "Locale": {
     "es": "Español",
-    "en": "English",
-    "switchTo": "Ver en {language}"
+    "en": "English"
   },
   "Footer": {
     "rights": "Todos los derechos reservados."
   },
   "Pages": {
-    "home": { "title": "Inicio" },
-    "projects": { "title": "Proyectos" },
-    "project": { "title": "Caso de estudio" },
-    "blog": { "title": "Blog" },
-    "post": { "title": "Artículo" },
-    "about": { "title": "Sobre mí" },
-    "cv": { "title": "CV" },
-    "uses": { "title": "Uses" },
-    "colophon": { "title": "Colofón" },
+    "home": {
+      "title": "Inicio"
+    },
+    "projects": {
+      "title": "Proyectos"
+    },
+    "project": {
+      "title": "Caso de estudio"
+    },
+    "blog": {
+      "title": "Blog"
+    },
+    "post": {
+      "title": "Artículo"
+    },
+    "about": {
+      "title": "Sobre mí"
+    },
+    "cv": {
+      "title": "CV"
+    },
+    "uses": {
+      "title": "Uses"
+    },
+    "colophon": {
+      "title": "Colofón"
+    },
     "soon": "Página en construcción."
   },
   "NotFound": {

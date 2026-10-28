@@ -20,5 +20,5 @@ test('sin violaciones de accesibilidad serias ni críticas', async ({ page }) =>
   await page.goto('/');
   const { violations } = await new AxeBuilder({ page }).analyze();
   const serious = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-  expect(serious.map((v) => v.id)).toEqual([]);
+  expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.html).join(' | ')}`)).toEqual([]);
 });
