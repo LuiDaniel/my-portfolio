@@ -10,6 +10,8 @@ export default defineConfig({
   reporter: process.env.CI ? 'github' : 'list',
   use: {
     baseURL: `http://localhost:${PORT}`,
+    // Navegador en español: en la primera visita el proxy elige el idioma por Accept-Language.
+    locale: 'es-ES',
     trace: 'on-first-retry',
   },
   projects: [
