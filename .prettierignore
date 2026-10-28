@@ -1,0 +1,18 @@
+# Generados
+.next/
+.velite/
+coverage/
+test-results/
+playwright-report/
+package-lock.json
+next-env.d.ts
+
+# Fuera de la app o escritos a mano (documentación, maquetas, Blender, prototipo)
+*.md
+docs/
+design/
+blender/
+prototype/
+public/
+referencias/
+renders/
