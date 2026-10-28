@@ -1,36 +1,79 @@
 {
-  "degree": { "es": "Ingeniería de Sistemas", "en": "Systems Engineering" },
+  "degree": {
+    "es": "Ingeniería de Sistemas",
+    "en": "Systems Engineering"
+  },
   "university": "[pendiente]",
   "city": "[pendiente]",
-  "status": { "es": "En curso", "en": "In progress" },
+  "status": {
+    "es": "En curso",
+    "en": "In progress"
+  },
   "progress": {
     "current": "[pendiente]",
     "total": "[pendiente]",
-    "unit": { "es": "ciclo", "en": "term" }
+    "unit": {
+      "es": "ciclo",
+      "en": "term"
+    }
   },
   "courses": [
-    { "es": "Bases de datos", "en": "Databases" },
-    { "es": "Ingeniería de software", "en": "Software engineering" },
-    { "es": "Redes", "en": "Networking" },
-    { "es": "Sistemas distribuidos", "en": "Distributed systems" }
+    {
+      "es": "Bases de datos",
+      "en": "Databases"
+    },
+    {
+      "es": "Ingeniería de software",
+      "en": "Software engineering"
+    },
+    {
+      "es": "Redes",
+      "en": "Networking"
+    },
+    {
+      "es": "Sistemas distribuidos",
+      "en": "Distributed systems"
+    }
   ],
   "certifications": [
-    { "title": "[pendiente]", "issuer": "[pendiente]", "year": "[pendiente]", "color": "blue" },
-    { "title": "[pendiente]", "issuer": "[pendiente]", "year": "[pendiente]", "color": "cyan" }
+    {
+      "title": "[pendiente]",
+      "issuer": "[pendiente]",
+      "year": "[pendiente]",
+      "color": "blue"
+    },
+    {
+      "title": "[pendiente]",
+      "issuer": "[pendiente]",
+      "year": "[pendiente]",
+      "color": "cyan"
+    }
   ],
   "achievements": [
     {
-      "title": { "es": "[pendiente]", "en": "[pendiente]" },
-      "detail": { "es": "[pendiente]", "en": "[pendiente]" },
+      "title": {
+        "es": "[pendiente]",
+        "en": "[pendiente]"
+      },
+      "detail": {
+        "es": "[pendiente]",
+        "en": "[pendiente]"
+      },
       "year": "[pendiente]",
       "icon": "trophy",
       "color": "amber"
     },
     {
-      "title": { "es": "[pendiente]", "en": "[pendiente]" },
-      "detail": { "es": "[pendiente]", "en": "[pendiente]" },
+      "title": {
+        "es": "[pendiente]",
+        "en": "[pendiente]"
+      },
+      "detail": {
+        "es": "[pendiente]",
+        "en": "[pendiente]"
+      },
       "year": "[pendiente]",
-      "icon": "award",
+      "icon": "star",
       "color": "mint"
     }
   ]

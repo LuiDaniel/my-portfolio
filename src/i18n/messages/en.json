@@ -47,5 +47,53 @@
     "title": "Page not found",
     "description": "This address doesn't exist or has moved.",
     "back": "Back to home"
+  },
+  "Home": {
+    "findMe": "Find me",
+    "copyEmail": "Copy email",
+    "copied": "Copied ✓",
+    "summary": "Summary",
+    "featured": "Featured project",
+    "caseStudy": "View case study",
+    "example": "example",
+    "stack": "Main stack",
+    "activity": "Activity",
+    "contributions": "contributions this year",
+    "less": "Less",
+    "more": "More",
+    "localTime": "My local time",
+    "scroll": "Scroll",
+    "levels": {
+      "daily": "Daily use",
+      "experienced": "Experienced",
+      "learning": "Learning"
+    },
+    "university": "University",
+    "progress": "Degree progress",
+    "progressOf": "{current} of {total}",
+    "certifications": "Certifications",
+    "achievements": "Achievements",
+    "current": "Current",
+    "today": "today",
+    "minutes": "{minutes} min",
+    "clickToCopy": "click to copy"
+  },
+  "Contact": {
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "you@company.com",
+    "message": "Message",
+    "messagePlaceholder": "Tell me about the role or the project",
+    "send": "Send message",
+    "sending": "Sending…",
+    "errors": {
+      "name": "Please enter your name.",
+      "email": "Check the email: it looks incomplete.",
+      "message": "Tell me a bit more (at least 10 characters).",
+      "rateLimited": "Too many attempts. Try again in a few minutes.",
+      "server": "Couldn't send it. Please email me directly."
+    },
+    "success": "Thanks! I'll get back to you soon."
   }
 }

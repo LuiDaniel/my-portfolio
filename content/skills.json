@@ -74,7 +74,7 @@
     },
     {
       "id": "fundamentals",
-      "icon": "cpu",
+      "icon": "book",
       "color": "coral",
       "title": { "es": "Fundamentos", "en": "Fundamentals" },
       "items": [

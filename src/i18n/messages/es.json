@@ -47,5 +47,53 @@
     "title": "Página no encontrada",
     "description": "La dirección no existe o se ha movido.",
     "back": "Volver al inicio"
+  },
+  "Home": {
+    "findMe": "Encuéntrame",
+    "copyEmail": "Copiar email",
+    "copied": "Copiado ✓",
+    "summary": "Resumen",
+    "featured": "Proyecto destacado",
+    "caseStudy": "Ver caso de estudio",
+    "example": "ejemplo",
+    "stack": "Stack principal",
+    "activity": "Actividad",
+    "contributions": "contribuciones este año",
+    "less": "Menos",
+    "more": "Más",
+    "localTime": "Mi hora local",
+    "scroll": "Desliza",
+    "levels": {
+      "daily": "Uso a diario",
+      "experienced": "Con experiencia",
+      "learning": "Aprendiendo"
+    },
+    "university": "Universidad",
+    "progress": "Avance de la carrera",
+    "progressOf": "{current} de {total}",
+    "certifications": "Certificaciones",
+    "achievements": "Logros",
+    "current": "Actual",
+    "today": "hoy",
+    "minutes": "{minutes} min",
+    "clickToCopy": "clic para copiar"
+  },
+  "Contact": {
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "email": "Email",
+    "emailPlaceholder": "tu@empresa.com",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntame sobre la vacante o el proyecto",
+    "send": "Enviar mensaje",
+    "sending": "Enviando…",
+    "errors": {
+      "name": "Escribe tu nombre.",
+      "email": "Revisa el email: parece incompleto.",
+      "message": "Cuéntame un poco más (mínimo 10 caracteres).",
+      "rateLimited": "Demasiados intentos. Prueba de nuevo en unos minutos.",
+      "server": "No se pudo enviar. Escríbeme directamente por email."
+    },
+    "success": "¡Gracias! Te responderé pronto."
   }
 }

@@ -1,0 +1,80 @@
+/* Miniatura de proyecto: imagen o maqueta abstracta sobre el degradado de sus dos colores. */
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  max-width: 100%;
+  overflow: hidden;
+  margin: 10px 10px 0;
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      120% 120% at 100% 0%,
+      color-mix(in srgb, var(--c1) 55%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      100% 100% at 0% 100%,
+      color-mix(in srgb, var(--c2) 45%, transparent),
+      transparent 60%
+    ),
+    #0d0f1c;
+}
+.media img,
+.mock {
+  transition: transform 0.8s var(--ease-spring);
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+:global(.group\/card):hover .media img,
+:global(.group\/card):hover .mock {
+  transform: scale(1.04);
+}
+
+.mock {
+  position: absolute;
+  inset: 14% 10% -6% 10%;
+  border-radius: 12px 12px 0 0;
+  background: rgb(10 12 22 / 0.75);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  padding: 12px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+  box-shadow: 0 20px 50px rgb(0 0 0 / 0.45);
+}
+.bar {
+  display: flex;
+  gap: 5px;
+}
+.bar i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.25);
+}
+.body {
+  display: grid;
+  grid-template-columns: 1fr 2.2fr;
+  gap: 10px;
+}
+.body div {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.body span {
+  display: block;
+  height: 12px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.1);
+}
+.body span.hi {
+  background: linear-gradient(90deg, var(--c1), var(--c2));
+  opacity: 0.85;
+}
+.body span.tall {
+  height: 52px;
+}

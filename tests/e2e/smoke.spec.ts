@@ -17,6 +17,9 @@ test('la página carga con el fondo y las fuentes del diseño', async ({ page })
 });
 
 test('sin violaciones de accesibilidad serias ni críticas', async ({ page }) => {
+  // Sin animaciones: la aparición con scroll deja el contenido aún no visto al 15 % de opacidad
+  // y axe mediría ese contraste intermedio, no el final.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const { violations } = await new AxeBuilder({ page }).analyze();
   const serious = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');

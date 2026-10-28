@@ -1,7 +1,7 @@
 import { icons } from 'lucide-react';
 import { describe, expect, it } from 'vitest';
 import * as data from '#site/content';
-import { getExperience, getProjects, getSite, isPending, localize } from '@/lib/content';
+import { getExperience, getHome, getProjects, getSite, isPending, localize } from '@/lib/content';
 import { parseRichText, plainText } from '@/lib/rich-text';
 
 // Pruebas de contenido (docs/06-calidad.md#pruebas). Los esquemas de Velite ya exigen que cada
@@ -80,6 +80,11 @@ describe('content.ts', () => {
     expect(localize(value, 'en')).toEqual({ a: 'hi', list: [{ t: ['y'] }], n: 1 });
   });
 
+  it('el Home solo incluye las secciones visibles, en el orden de home.json', () => {
+    const visible = data.home.sections.filter((s) => s.visible).map((s) => s.id);
+    expect(getHome('es').sections).toEqual(visible);
+  });
+
   it('el menú solo enlaza a secciones visibles', () => {
     const sections = new Set(data.home.sections.filter((s) => s.visible).map((s) => s.id));
     for (const link of getSite('es').nav) {
@@ -94,8 +99,11 @@ describe('content.ts', () => {
     expect(projects[0]?.stack.length).toBeGreaterThan(0);
   });
 
-  it('la experiencia pone primero el trabajo actual', () => {
-    expect(getExperience('es')[0]?.end).toBeNull();
+  it('la experiencia se ordena por fecha de inicio (la más reciente arriba)', () => {
+    const starts = getExperience('es')
+      .map((job) => job.start)
+      .filter((start) => !isPending(start));
+    expect(starts).toEqual([...starts].sort().reverse());
   });
 
   it('isPending detecta los datos que faltan', () => {

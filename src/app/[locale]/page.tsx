@@ -1,14 +1,36 @@
-import { getLocale } from 'next-intl/server';
-import { getProfile } from '@/lib/content';
+import { About } from '@/components/sections/About';
+import { Contact } from '@/components/sections/Contact';
+import { Education } from '@/components/sections/Education';
+import { Experience } from '@/components/sections/Experience';
+import { FeaturedProjects } from '@/components/sections/FeaturedProjects';
+import { Hero } from '@/components/sections/Hero';
+import { LatestPosts } from '@/components/sections/LatestPosts';
+import { Skills } from '@/components/sections/Skills';
+import type { Locale } from '@/i18n/routing';
+import { getHome, type SectionId } from '@/lib/content';
 
-// Provisional: el Home de design/home.html llega en la fase 4.
-export default async function HomePage() {
-  const { name } = getProfile(await getLocale());
+const SECTIONS: Record<SectionId, (props: { locale: Locale }) => React.ReactNode> = {
+  about: About,
+  projects: FeaturedProjects,
+  experience: Experience,
+  skills: Skills,
+  education: Education,
+  blog: LatestPosts,
+  contact: Contact,
+};
+
+/** Home: el hero siempre primero y después las secciones en el orden de home.json. */
+export default async function HomePage({ params }: PageProps<'/[locale]'>) {
+  const locale = (await params).locale as Locale;
+  const { sections } = getHome(locale);
+
   return (
-    <main className="wrap grid min-h-dvh content-center gap-4">
-      <h1 className="text-[clamp(52px,8.4vw,112px)] leading-[0.98] font-bold tracking-[-0.045em]">
-        {name}
-      </h1>
+    <main>
+      <Hero locale={locale} />
+      {sections.map((id) => {
+        const Section = SECTIONS[id];
+        return <Section key={id} locale={locale} />;
+      })}
     </main>
   );
 }

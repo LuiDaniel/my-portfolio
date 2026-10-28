@@ -6,6 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Logo } from '@/components/ui/Logo';
 import { Link, usePathname } from '@/i18n/navigation';
 import type { NavLink, Site } from '@/lib/content';
+import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { navHref } from '@/lib/nav';
 import { LocaleSwitch } from './LocaleSwitch';
 import { MobileMenu } from './MobileMenu';
@@ -28,12 +29,18 @@ export function NavBar({
   const hl = useRef<HTMLSpanElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
 
-  // Página activa: «Inicio» en el Home y las páginas propias por prefijo. Las secciones del Home
-  // se marcarán con el scrollspy (fase 4).
-  const active = items.findIndex(
-    (item) =>
-      !item.section && (item.route === '/' ? pathname === '/' : pathname.startsWith(item.route)),
+  // Página activa: las páginas propias por prefijo; en el Home, la sección visible (scrollspy),
+  // con «Inicio» mientras se ve el hero.
+  const onHome = pathname === '/';
+  const spy = useScrollSpy(
+    ['inicio', ...items.flatMap((item) => (item.section ? [item.section] : []))],
+    onHome,
   );
+  const page = items.findIndex(
+    (item) => !item.section && (item.route === '/' ? onHome : pathname.startsWith(item.route)),
+  );
+  const section = spy && spy !== 'inicio' ? items.findIndex((item) => item.section === spy) : -1;
+  const active = section >= 0 ? section : page;
 
   const moveHl = useCallback((a?: Element | null) => {
     const el = hl.current;

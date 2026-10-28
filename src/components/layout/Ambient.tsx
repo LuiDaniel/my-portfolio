@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { usePointerGlow } from '@/hooks/usePointerGlow';
 
-// Atmósfera del fondo: tres manchas que derivan, luz que sigue al cursor y grano.
+// Atmósfera del fondo: tres manchas que derivan, luz que sigue al cursor y grano. También monta
+// el único listener del borde iluminado de las tarjetas (usePointerGlow).
 export function Ambient() {
   const spot = useRef<HTMLDivElement>(null);
+  usePointerGlow();
 
   useEffect(() => {
     const el = spot.current;

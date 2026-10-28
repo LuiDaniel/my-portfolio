@@ -74,12 +74,12 @@ export type Profile = ReturnType<typeof getProfile>;
 export const getSkills = (locale: Locale) => localize(data.skills, locale);
 export const getEducation = (locale: Locale) => localize(data.education, locale);
 
-/** Experiencia: el trabajo actual primero y después por fecha de inicio, de la más reciente. */
+/** Experiencia por fecha de inicio, de la más reciente; las fechas [pendiente] quedan al final
+ *  y, entre iguales, se respeta el orden del archivo. */
 export function getExperience(locale: Locale) {
-  const key = (job: (typeof data.experience)[number]) =>
-    `${job.end === null ? '9' : '0'}${isPending(job.start) ? '' : job.start}`;
+  const start = (job: (typeof data.experience)[number]) => (isPending(job.start) ? '' : job.start);
   return [...data.experience]
-    .sort((a, b) => key(b).localeCompare(key(a)))
+    .sort((a, b) => start(b).localeCompare(start(a)))
     .map((job) => localize(job, locale));
 }
 

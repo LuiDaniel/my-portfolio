@@ -171,3 +171,17 @@
     background: #10121c;
   }
 }
+
+/* ---------------------------------------------------------------- entradas del Home */
+
+/* Texto del hero: sube 18 px y se enfoca, escalonado 70 ms desde 150 ms (--i = posición). */
+@utility enter-text {
+  animation: rise 0.9s var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 150ms);
+}
+
+/* Tarjetas del bento: escalonado 80 ms desde 500 ms. */
+@utility enter-card {
+  animation: pop 0.9s var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 500ms);
+}
