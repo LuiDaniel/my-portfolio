@@ -1,92 +1,94 @@
 # 02 · Contenido
 
-Mapa del sitio, qué va en cada sección y el inventario de datos que hay que reunir. Todo el contenido existe en **español e inglés**.
+Mapa del sitio, qué va en cada sección y qué datos faltan. Todo el contenido existe en **español e inglés** y se edita en `content/` (JSON + MDX, ver [07 · Datos](07-datos.md)).
 
-> Los campos marcados como `[PENDIENTE]` los completa Luis Daniel. Mientras falten, el sitio usa textos de relleno marcados como borrador y no se publica.
+> Los datos que solo Luis Daniel puede dar están marcados `[pendiente]`. Mientras falten, se usan los de relleno de la maqueta, marcados como borrador. El sitio **no se publica** con `[pendiente]` visibles: una prueba lo impide.
 
 ## Mapa del sitio
 
-| Página | Ruta ES | Ruta EN | Contenido |
-|---|---|---|---|
-| Portada | `/` | `/en` | Intro del robot (Hero) + resumen de todas las secciones |
-| Proyectos | `/proyectos` | `/en/projects` | Todos los proyectos, filtrables por tecnología y tipo |
-| Caso de estudio | `/proyectos/[slug]` | `/en/projects/[slug]` | Un proyecto en profundidad |
-| Blog | `/blog` | `/en/blog` | Lista de artículos con etiquetas |
-| Artículo | `/blog/[slug]` | `/en/blog/[slug]` | Un artículo |
-| CV | `/cv` | `/en/cv` | CV en HTML (imprimible) + descarga en PDF |
-| Sobre mí | `/sobre-mi` | `/en/about` | Historia larga, intereses, valores |
-| Uses | `/uses` | `/en/uses` | Equipo, editor, herramientas |
-| Colofón | `/colofon` | `/en/colophon` | Cómo se hizo el sitio (robot, stack, decisiones) |
-| 404 | — | — | El robot con los ojos `surprised` y enlaces de vuelta |
+Decisión: **híbrido**. El Home es una landing larga con el resumen de todo; lo que necesita profundidad o una URL propia va en páginas aparte. Contacto no tiene página propia: es la última sección del Home y está en el pie de todas las páginas.
 
-Además: `rss.xml` (blog por idioma), `sitemap.xml`, `robots.txt` e imágenes Open Graph generadas.
+| Página | Ruta ES | Ruta EN | Contenido | Diseño |
+|---|---|---|---|---|
+| Home | `/` | `/en` | Intro del robot (1.ª visita) → Home con todas las secciones | ✅ [`design/home.html`](../design/home.html) |
+| Proyectos | `/proyectos` | `/en/projects` | Todos los proyectos, filtrables por tecnología y tipo | Por diseñar (mismo lenguaje) |
+| Caso de estudio | `/proyectos/[slug]` | `/en/projects/[slug]` | Un proyecto en profundidad | Por diseñar |
+| Blog | `/blog` | `/en/blog` | Artículos con etiquetas | Por diseñar |
+| Artículo | `/blog/[slug]` | `/en/blog/[slug]` | Un artículo | Por diseñar |
+| Sobre mí | `/sobre-mi` | `/en/about` | Historia completa | Por diseñar |
+| CV | `/cv` | `/en/cv` | CV en HTML imprimible + PDF | Por diseñar |
+| Uses | `/uses` | `/en/uses` | Equipo y herramientas | Por diseñar |
+| Colofón | `/colofon` | `/en/colophon` | Cómo se hizo el sitio (robot, stack, decisiones) | Por diseñar |
+| 404 | — | — | Ojos LED `surprised` y enlaces de vuelta | Por diseñar |
 
-**Navegación principal:** Inicio · Proyectos · Blog · Sobre mí · CV · selector ES/EN · botón "Contacto". En móvil, menú desplegable. El pie lleva redes, email, RSS y enlace al colofón.
+Además: `rss.xml` por idioma, `sitemap.xml`, `robots.txt` e imágenes Open Graph generadas.
 
-## Portada (de arriba a abajo)
+**Menú** (de `site.json`): logo «LD» · Inicio · Sobre mí · Proyectos · Experiencia · Blog · ES/EN · botón «Contacto».
+- Inicio, Sobre mí, Proyectos, Experiencia y Contacto llevan a su **sección del Home** (con scroll suave si ya estás en el Home).
+- Blog lleva a `/blog`.
+- Desde las secciones se enlaza a las páginas completas («Mi historia completa» → `/sobre-mi`, «Ver todos los proyectos» → `/proyectos`, «Ver CV completo» → `/cv`).
 
-### 1. Hero (intro del robot)
+## Home (de arriba a abajo)
 
-Ver la coreografía completa en [05 · Robot 3D](05-robot-3d.md#integración-de-la-intro). El robot atrapa tres gemas, cada una trae una pieza:
+Referencia visual: [`design/home.html`](../design/home.html). Componentes en [04 · Diseño](04-diseno.md#de-la-maqueta-a-los-componentes).
 
-| Gema | Pieza | Contenido |
+### Intro (solo la primera visita de la sesión)
+
+El robot (de la cintura para arriba) atrapa tres gemas y arma la tarjeta **«Bienvenido a mi Portafolio Web»** con tres iconos decorativos y el dominio. La barre a la izquierda, se queda ~1 s y **todo se despide solo** (caída), sin deslizar. En la misma pantalla entra el Home. Botón «Saltar intro» visible todo el tiempo. Detalle en [05 · Robot 3D](05-robot-3d.md#integración-de-la-intro). Textos en `site.json → intro`.
+
+### 1. Hero
+
+| Elemento | Contenido | Datos |
 |---|---|---|
-| 1 (mano der.) | Enlaces | Iconos clicables: GitHub, LinkedIn, CV (PDF) |
-| 2 (mano izq.) | Nombre | `Luis Daniel [apellidos PENDIENTE]` |
-| 3 (mano der.) | Rol | "Full Stack Developer · Estudiante de Ing. de Sistemas" / "Full Stack Developer · Systems Engineering Student" |
+| Estado | Píldora «Disponible para nuevas oportunidades» con punto verde | `profile.status` |
+| Nombre (`h1`) | «Luis Daniel» | `profile.name` |
+| Rol | «Desarrollador Full Stack», en degradado | `profile.role` |
+| Frase de valor | «Construyo aplicaciones web completas, **del modelo de datos a la interfaz**…» | `profile.tagline` |
+| Botones | «Ver proyectos» (principal) · «Descargar CV» (cristal) | `home.hero.primaryCta / secondaryCta`, `profile.cv` |
+| Redes | Iconos redondos: GitHub, LinkedIn, email (se copia) | `profile.socials`, `profile.email` |
+| Bento: proyecto destacado | Tarjeta ancha con miniatura | `home.hero.bento.featuredProject` |
+| Bento: stack | Chips con el color de cada tecnología | `skills.featured` |
+| Bento: GitHub | Contribuciones reales del último año | API de GitHub (`profile.github.username`) |
+| Bento: formación | «Ingeniería de Sistemas · En curso» | `education` |
+| Bento: hora local | Reloj analógico con tu zona horaria | `profile.location` |
+| Aviso | «Desliza», con ratón animado | — |
 
-Tras el barrido, el bloque queda como cabecera en la columna izquierda, y se añaden debajo:
-- Frase de valor (una línea). `[PENDIENTE]` Ejemplo: "Construyo aplicaciones web completas, del modelo de datos a la interfaz."
-- Estado: "Abierto a oportunidades · [ciudad, país] · remoto". `[PENDIENTE]`
-- Botón "Saltar intro" (solo mientras corre la intro).
+Decisión de jerarquía (2026-10-28): **nombre grande, rol justo debajo**, y la condición de estudiante en el bento, para no competir con lo principal.
 
-### 2. Salida de la intro
+### 2. Sobre mí
+Título en dos tonos, 2–3 párrafos (el primero más grande) y tres tarjetas de valores con icono y color. Enlace «Mi historia completa» → `/sobre-mi`. Datos: `home.about`.
 
-Al hacer scroll, el Hero sube y se desvanece y el robot también: **el robot solo existe en la intro** (siempre de la cintura para arriba). Sin texto propio: es la transición hacia "Sobre mí".
+### 3. Proyectos destacados
+Tres tarjetas: una grande (dos filas, normalmente **este portafolio con el robot**) y dos medianas. Cada una con miniatura, tipo en mono, título, resumen y tecnologías. Enlace «Ver todos los proyectos». Datos: proyectos con `featured: true`, ordenados por `order`.
 
-### 3. Sobre mí (resumen)
+### 4. Experiencia
+Línea de tiempo vertical (ámbar → violeta). Cada entrada: rol, organización, fechas, 2–4 logros y tecnologías; la actual con la píldora «Actual». Primera entrada: **Dietrim (freelance)**. Enlace «Ver CV completo». Datos: `experience.json`.
 
-2–3 párrafos cortos: quién eres, qué te gusta construir, qué buscas. Foto opcional. Enlace a `/sobre-mi`.
+### 5. Habilidades
+Seis áreas (Frontend, Backend, Datos, DevOps y cloud, Herramientas, Fundamentos), cada una con su icono y color, y tres niveles honestos, sin porcentajes:
+- **Uso a diario:** lo podrías usar en una entrevista técnica sin preparación.
+- **Con experiencia:** lo has usado en proyectos reales.
+- **Aprendiendo:** lo estás estudiando ahora.
 
-### 4. Proyectos destacados
+Datos: `skills.json → areas`.
 
-3–4 tarjetas grandes de casos de estudio (marcados `featured: true`) con imagen, una línea de impacto y tecnologías. Enlace a `/proyectos`.
+### 6. Formación y logros
+Universidad con barra de avance y cursos relevantes; certificaciones; logros (hackatones, concursos, becas). Datos: `education.json`.
 
-### 5. Experiencia
+### 7. Blog
+Los 3 artículos más recientes del idioma actual. Enlace «Todos los artículos». Datos: `content/blog`.
 
-Línea de tiempo: empleos, freelance (Dietrim), prácticas, voluntariado, docencia o liderazgo de grupos. Cada entrada: rol, organización, fechas, 2–4 logros con verbos de acción y métricas cuando existan.
+### 8. Contacto
+«¿Hablamos?»: texto, accesos directos (email que se copia, LinkedIn, GitHub) y formulario (nombre, email, mensaje). Datos: `home.contact`, `profile`.
 
-### 6. Habilidades
-
-Agrupadas por área, con tres niveles honestos (sin porcentajes):
-
-- **Uso a diario** — lo que podrías usar en una entrevista técnica sin preparación.
-- **Con experiencia** — lo has usado en proyectos reales.
-- **Aprendiendo** — lo estás estudiando ahora.
-
-Áreas: Frontend · Backend · Bases de datos · DevOps / Cloud · Herramientas · Fundamentos (estructuras de datos, algoritmos, redes, sistemas operativos, ingeniería de software).
-
-### 7. Formación y logros
-
-Universidad, carrera, ciclo actual y fecha estimada de egreso; cursos relevantes; certificaciones; logros (hackatones, concursos de programación, becas, publicaciones).
-
-### 8. Últimos artículos
-
-Los 3 artículos más recientes del idioma actual. Enlace a `/blog` y al RSS.
-
-### 9. Contacto
-
-Una frase ("¿Tienes una vacante o quieres hablar de un proyecto técnico?"), formulario (nombre, email, mensaje), email visible y enlaces a redes.
+### Pie
+Marca y frase, enlaces de navegación, recursos (CV, RSS, colofón, uses) y redes. Datos: `site.footer`.
 
 ## Plantilla de caso de estudio
 
-Cada proyecto es un archivo MDX en `src/content/projects/{es,en}/<slug>.mdx`.
+Cada proyecto es una carpeta en `content/projects/<slug>/` con `meta.json`, `es.mdx`, `en.mdx` e imágenes ([07 · Datos](07-datos.md#proyecto-contentprojectsslugmetajson)). El cuerpo sigue siempre estas secciones:
 
-**Metadatos (frontmatter):** `title`, `summary` (una línea de impacto), `role`, `period` (inicio–fin), `team` (solo o tamaño del equipo), `stack` (lista), `type` (web, móvil, API, datos, herramienta, académico…), `links` (demo, repo, artículo), `cover` (imagen), `featured`, `order`, `draft`.
-
-**Cuerpo (secciones fijas):**
-
-1. **Contexto y problema.** Para quién y qué dolor resolvía.
+1. **Contexto y problema.** Para quién y qué problema resolvía.
 2. **Mi rol.** Qué hiciste tú exactamente, sobre todo si fue en equipo.
 3. **Solución.** Qué hace, con capturas o un video corto.
 4. **Arquitectura.** Diagrama (componentes, datos, servicios externos) y explicación.
@@ -95,74 +97,34 @@ Cada proyecto es un archivo MDX en `src/content/projects/{es,en}/<slug>.mdx`.
 7. **Resultados.** Métricas (usuarios, rendimiento, tiempo ahorrado, nota, premio) o resultados cualitativos.
 8. **Qué haría distinto.** Lo aprendido y lo que mejorarías hoy.
 
-## Plantilla de artículo
+## Artículos para el lanzamiento (3–4)
 
-`src/content/blog/{es,en}/<slug>.mdx` con `title`, `description`, `date`, `updated?`, `tags`, `cover?`, `draft`. Código con resaltado, imágenes optimizadas, tiempo de lectura calculado y tabla de contenidos automática.
+1. «Cómo hice un robot 3D en Blender y lo llevé a la web»: modelado por scripts, rig, exportación con Draco y animación con Three.js. Ya existe todo el material.
+2. Un análisis a fondo de uno de los proyectos destacados. `[pendiente: cuál]`
+3. Un tema técnico que domines (diseño de APIs, autenticación, optimización de consultas…). `[pendiente]`
+4. Opcional: «Cómo construí este portafolio con Next.js» (i18n, contenido en JSON/MDX, CV en PDF desde los mismos datos).
 
-**Artículos para el lanzamiento** (3–4):
+## Datos pendientes
 
-1. "Cómo hice un robot 3D en Blender y lo llevé a la web": modelado por scripts, rig, exportación con Draco y animación con Three.js. Ya existe todo el material.
-2. Un análisis a fondo de uno de los proyectos destacados. `[PENDIENTE: cuál]`
-3. Un tema técnico que domines (por ejemplo, autenticación, diseño de APIs, optimización de consultas). `[PENDIENTE]`
-4. Opcional: "Cómo construí este portafolio con Next.js" (i18n, MDX, CV en PDF desde los mismos datos).
-
-## Inventario de datos (por rellenar)
-
-### Perfil — `src/data/profile.ts`
-
-| Campo | Valor |
+| Dato | Archivo |
 |---|---|
-| Nombre completo | `[PENDIENTE]` |
-| Rol / titular (ES/EN) | Full Stack Developer · Estudiante de Ing. de Sistemas |
-| Frase de valor (ES/EN) | `[PENDIENTE]` |
-| Ubicación y zona horaria | `[PENDIENTE]` |
-| Disponibilidad | `[PENDIENTE]` (prácticas / tiempo completo / remoto / híbrido) |
-| Idiomas y nivel | `[PENDIENTE]` |
-| Email de contacto | `[PENDIENTE]` |
-| GitHub, LinkedIn, otras redes | `[PENDIENTE]` |
-| Foto | `[PENDIENTE]` (opcional) |
-| Dominio | `[PENDIENTE]` (p. ej. `nombre.dev`) |
-
-### Proyectos — `src/content/projects/`
-
-| # | Proyecto | Tipo | Stack | Demo / Repo | ¿Destacado? |
-|---|---|---|---|---|---|
-| 1 | `[PENDIENTE]` | | | | |
-| 2 | `[PENDIENTE]` | | | | |
-| 3 | `[PENDIENTE]` | | | | |
-| 4 | `[PENDIENTE]` | | | | |
-| — | Dietrim (freelance) | Web | `[PENDIENTE]` | `[PENDIENTE]` | `[PENDIENTE]` |
-| — | Este portafolio + robot 3D | Web / 3D | Next.js, Three.js, Blender | repo | Sí |
-
-### Experiencia — `src/content/experience/*.yaml`
-
-| Rol | Organización | Inicio – Fin | Logros |
-|---|---|---|---|
-| Desarrollador freelance | Dietrim | `[PENDIENTE]` | `[PENDIENTE]` |
-| `[PENDIENTE]` | | | |
-
-### Formación — `src/data/education.ts`
-
-| Campo | Valor |
-|---|---|
-| Universidad | `[PENDIENTE]` |
-| Carrera | Ingeniería de Sistemas |
-| Ciclo actual / egreso estimado | `[PENDIENTE]` |
-| Cursos relevantes | `[PENDIENTE]` |
-| Certificaciones | `[PENDIENTE]` |
-| Logros (hackatones, concursos, becas) | `[PENDIENTE]` |
-
-### Habilidades — `src/data/skills.ts`
-
-Lista por área con nivel (`daily` · `experienced` · `learning`). `[PENDIENTE]`
-
-### Uses — `src/data/uses.ts`
-
-Equipo, sistema operativo, editor y extensiones, terminal, herramientas. `[PENDIENTE]`
+| Apellidos, email, ciudad, país, zona horaria | `profile.json` |
+| Usuarios de GitHub y LinkedIn (y otras redes) | `profile.json` |
+| Frase de valor definitiva (ES/EN) | `profile.json → tagline` |
+| Dominio | `site.json` |
+| 3–4 proyectos reales: descripción, stack, enlaces, capturas, caso de estudio | `content/projects/` |
+| Dietrim: fechas, logros, stack, enlace | `experience.json` (y quizá un caso de estudio) |
+| Otras experiencias (prácticas, voluntariado, docencia) | `experience.json` |
+| Universidad, ciclo actual y total, cursos | `education.json` |
+| Certificaciones y logros | `education.json` |
+| Habilidades reales y su nivel | `skills.json` |
+| Textos de «Sobre mí» (corto y página completa) | `home.json → about`, `content/pages/sobre-mi` |
+| Equipo y herramientas | `content/pages/uses` |
+| Foto (opcional) | `content/pages/sobre-mi/` |
 
 ## Estilo de redacción
 
-- Primera persona, frases cortas, verbos de acción ("diseñé", "reduje", "migré").
+- Primera persona, frases cortas, verbos de acción («diseñé», «reduje», «migré»).
 - Métricas concretas cuando existan; si no, resultados cualitativos sin inflarlos.
 - La versión en inglés no es una traducción literal: se adapta para que suene natural.
-- Nada de relleno ("apasionado por la tecnología"): mostrar con ejemplos.
+- Nada de relleno («apasionado por la tecnología»): mostrar con ejemplos.

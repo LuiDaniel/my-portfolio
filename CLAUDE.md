@@ -1,60 +1,65 @@
-# Portafolio personal con robot 3D
+# Portafolio de Luis Daniel
 
-El usuario habla español: responde siempre en español.
+El usuario habla español: **responde siempre en español**.
 
-## Objetivo
-Portafolio web personal con una intro 3D de un robot, controlada por scroll.
+Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería de Sistemas**, para postular a empleos (no para conseguir clientes; eso lo hace su otra web, Dietrim). Bilingüe ES/EN. Empieza con una intro 3D de un robot hecho en Blender y sigue con un Home de estilo Apple + bento.
 
-### Coreografía de la intro
-1. **Despertar**: pantalla negra → se encienden dos ojos de puntitos LED azul → violeta (parpadeo). Funciona también como pantalla de carga mientras baja el modelo.
-2. **Revelación**: la cámara se aleja de los ojos a la silueta del robot (cintura para arriba; nunca se ven las piernas).
-3. **Portada**: el robot atrapa gemas de luz que arman los componentes del Hero y los barre hacia la izquierda, donde se quedan; él se aparta a la derecha y se ilumina.
-4. **Desaparece**: al hacer scroll, la portada y el robot se desvanecen y empieza el portafolio (el robot solo existe en la intro).
+## Reglas de trabajo (obligatorias)
 
-Extras: la cabeza y los ojos siguen el cursor (en móvil, el giroscopio); animación de reposo/aburrimiento; los ojos cambian según la sección; reacciona al clic. Respetar `prefers-reduced-motion`.
+1. **No implementar sin permiso.** Ante una idea o petición nueva: proponer un plan o preguntas y **esperar el «empieza»** del usuario. Se programa **por fases** ([`docs/roadmap.md`](docs/roadmap.md)), una a la vez, siguiendo «Cómo trabajar cada fase».
+2. **Leer antes de tocar:** este archivo, el documento de `docs/` que corresponda y, si hay interfaz, [`design/home.html`](design/home.html).
+3. **El diseño es la maqueta.** `design/home.html` es la fuente de verdad visual del Home (aprobada). Reprodúcela fielmente y compárala en el navegador a 1440, 1024 y 390 px. Las páginas sin maqueta se diseñan primero (maqueta en `design/` + aprobación) y se programan después.
+4. **Los datos van en `content/`** (JSON + MDX), nunca escritos en los componentes ([`docs/07-datos.md`](docs/07-datos.md)). Lo que falta va como `[pendiente]` o borrador: **no inventes datos personales**.
+5. **Las animaciones del robot se hacen en Blender** (scripts de `blender/`), no se generan en la web.
+6. **Verificar siempre:** `npm run check` en verde y, si hay interfaz, revisión en el navegador (`.claude/launch.json`). Informar con honestidad de lo que no se pudo verificar.
+7. **Documentar los cambios:** si cambia una decisión, actualizar `docs/` y, si es de arquitectura, escribir un ADR nuevo en `docs/adr/`.
+8. Commits en español con estilo convencional (`feat:`, `fix:`, `docs:`…), uno por paso verificado, en una rama por fase. **Sin la línea `Co-Authored-By: Claude`** ni otra atribución a Claude, en commits y PRs: deben aparecer solo a nombre del usuario (Luis Daniel), que es el autor configurado en git.
 
-### Documentación (fuente de verdad del portafolio completo)
-Portafolio para postular a empleos (full stack + estudiante de Ing. de Sistemas), no para clientes (eso es Dietrim). Antes de implementar, leer `docs/`:
-`01-vision`, `02-contenido` (mapa del sitio, plantillas, inventario `[PENDIENTE]`), `03-arquitectura`, `04-diseno`, `05-robot-3d` (pipeline + integración de la intro en Next.js), `06-calidad`, `roadmap.md` y `adr/`. Decisiones nuevas → ADR nuevo.
+## Fuentes de verdad
 
-### Stack
-- **Objetivo** (en migración, ver `docs/roadmap.md`): Next.js App Router + React + TypeScript, Tailwind v4, next-intl (ES por defecto en `/`, EN en `/en`, rutas traducidas), MDX/YAML con Velite, blog desde el lanzamiento, Resend + Upstash, Vercel. El 3D sigue en Three.js puro (`src/three/`) montado en `RobotStage` (cliente, `ssr: false`).
-- **Prototipo actual**: Vite + Three.js + GSAP ScrollTrigger (se retira al alcanzar paridad).
-- Modelo `.glb` comprimido con Draco, idealmente < 3 MB, con animaciones.
-- Intro en el sitio final: las gemas traen `links` (GitHub/LinkedIn/CV), `name` y `role`; tras `Intro_Sweep` las piezas se quedan como Hero en la columna izquierda (plano `heroAside`, robot a la derecha); "Saltar intro" + intro solo en la 1.ª visita de la sesión.
-- **Decisiones del usuario (2026-10-28)**: el robot **solo existe en la intro** y se ve **de la cintura para arriba** (no le gustan las piernas: ocultas + degradado que funde la cintura con el fondo). Al hacer scroll, la portada y el robot se desvanecen (ya no hay recorrido torso → cuerpo entero). Paleta **azul + violeta en degradados**, sobria y profesional (nada de verde/cian ni efecto neón fuerte).
+| Tema | Dónde |
+|---|---|
+| Objetivo, público, criterios de éxito | [`docs/01-vision.md`](docs/01-vision.md) |
+| Mapa del sitio, secciones, datos pendientes | [`docs/02-contenido.md`](docs/02-contenido.md) |
+| Stack, carpetas, rutas, backend, scripts | [`docs/03-arquitectura.md`](docs/03-arquitectura.md) |
+| Tokens, componentes, movimiento | [`docs/04-diseno.md`](docs/04-diseno.md) + [`design/home.html`](design/home.html) |
+| Robot: Blender → glTF → web, intro | [`docs/05-robot-3d.md`](docs/05-robot-3d.md) |
+| Rendimiento, accesibilidad, SEO, pruebas | [`docs/06-calidad.md`](docs/06-calidad.md) |
+| Contenido editable (JSON + MDX) | [`docs/07-datos.md`](docs/07-datos.md) |
+| Fases y tareas | [`docs/roadmap.md`](docs/roadmap.md) |
+| Decisiones | [`docs/adr/`](docs/adr/) |
 
-## Diseño del robot (original, inspirado en `referencias/5.jpg`; no copiar exacto un robot comercial)
-- **Cabeza**: casco alargado tipo huevo, visor frontal negro espejo; detrás, **ojos de matriz de puntos LED cian** (ref `1.png`), animables (parpadear, entrecerrar).
-- **Cuello**: delgado, con cables visibles.
-- **Torso**: forma de escudo, hombros anchos que se estrechan a una cintura delgada, negro mate, línea curva en el pecho.
-- **Cintura**: columna delgada con cables.
-- **Brazos**: por segmentos (hombro, brazo, codo, antebrazo robusto con detalle mecánico).
-- **Manos**: dedos articulados simplificados (refs `2.png`, `3.png`).
-- **Piernas**: simples pero completas (ref `4.png`), para mostrar el cuerpo entero.
-- **Materiales**: cuerpo negro mate; visor negro espejo; articulaciones gris metálico oscuro.
-- **Neón cian/turquesa**: anillos que brillan en cuello, hombros, codos, muñecas y cintura + cables que brillan como "venas" (material emisivo). En la web se recolorean de azul (cabeza) a violeta (cintura).
-- Construir por **piezas separadas y con nombre** (Head, Visor, Eye_L, Eye_R, Torso, UpperArm_L…), con esqueleto, para poder animarlas en la web.
-- Optimizado para web (pocos polígonos, materiales PBR simples compatibles con glTF).
+## Estado actual (2026-10-28)
 
-## Plan
-1. ✅ Conexión: `uv` instalado; servidor MCP `blender` registrado en `~/.claude.json`; add-on en `Descargas/blender-mcp-addon.py`.
-2. Modelado por piezas en Blender vía MCP → capturas desde varios ángulos → ajustes con el usuario.
-   - Cada pieza se genera con un script reproducible en `blender/` (orden: `build_head.py`, `build_torso.py`, `build_waist.py`, `build_arms.py`, `build_legs.py`, `build_details.py`; `build_all.py` los ejecuta todos y guarda `blender/robot.blend`). Utilidades y cotas compartidas (`ARM`, `LEG`) en `robot_utils.py`. Brazos y piernas se modelan del lado _L y se espejan a _R.
-   - `build_details.py` añade placas, costuras, tornillos, pistones hidráulicos, mangueras y tapas de articulación; sus objetos llevan la propiedad `detail` y cuelgan de su pieza. Pistones: camisa (`*Sleeve`) en la pieza superior y vástago (`*Rod`) en la inferior → en la web conviene reorientarlos con `lookAt` al doblar la articulación.
-   - ✅ Cabeza (estilo ref 5), cuello, torso, cintura/pelvis, brazos, manos y piernas (estilo refs 2/3/4, por indicación del usuario). Robot completo ~1,81 m en pose A.
-3. ✅ Esqueleto + animaciones (`build_rig.py`): armature `Robot_Rig` con huesos `B_*`; piezas rígidas colgadas de su hueso (sin pesos). Acciones a 30 fps: `WakeUp`, `Idle` (cíclica), `LookAround`, `Wave`, `Stretch`, `Blink` (solo ojos, para combinar). Parpadeo/entrecerrar = escala vertical de `B_Eye_L/R`; seguimiento del cursor en la web = rotar `B_Head`/`B_Neck`.
-4. ✅ Exportar `.glb` (Draco) a `public/models/robot.glb` con `blender/export_glb.py` (Blender en segundo plano: `blender -b blender/robot.blend -P blender/export_glb.py`). Une las piezas por (hueso, material) → mallas `<Hueso>`, `<Hueso>_Neon`, `_Metal`, `_Plate`, `_Steel`, `_Cable`, `_Visor`; deja aparte `Eye_L/R` y los pistones (`*PistonSleeve_L/R`, `*PistonRod_L/R`). ~0,8 MB.
-   - Intro de la portada (`build_intro.py`, lo ejecuta `build_rig.py`): acciones `Intro` (6,8 s: despierta y atrapa en el aire 3 gemas invisibles, mano der → iconos, izq → título, der → URL, y las suelta delante del pecho) e `Intro_Sweep` (2,1 s: barre todo hacia la izquierda de la pantalla con el brazo izq). Brazos por IK analítica hacia `B_Grip_L/R` (punto entre pulgar e índice en pinza; pinza = `PINCH_ANGLES`/`PINCH_THUMB` en `build_rig.py`). Canales `Curves` con interpolación cúbica monótona (claves independientes por canal: sin tirones). Los momentos clave (`grab_*`, `release_*`, `sweep`…) se guardan en la propiedad `events` de la acción y se exportan como `extras` del glTF. `Cam_Intro` = encuadre de la web.
-5. Web — prototipo (Vite + Three.js + GSAP ScrollTrigger; `npm run dev`). Lo que sigue describe el prototipo; la versión Next.js está en `docs/` (fases en `docs/roadmap.md`). ✅ Intro de la portada hecha (por tiempo, no scroll); al bajar, robot y portada se desvanecen y queda un marcador de posición. Pendiente: la página principal (contenido y secciones).
-   - Intro: pantalla negra → ojos (parpadeo) → la cámara se aleja al plano `hero` (torso para arriba, fov 25, silueta: solo luces de contorno azul/violeta + halo) → clip `Intro`; en cada `grab_*` se enciende una gema (izq. azul, der. violeta) en `B_Grip_*` y en `release_*` la gema vuela el último tramo hasta su componente HTML, estalla y este se materializa (los componentes van en un bloque compacto `.hero-stack`, centrado delante del pecho) → 2,4 s para leer → `Intro_Sweep`: en el evento `sweep` los componentes salen despedidos y frenan en la columna izquierda (`.is-settled`, FLIP; en pantallas estrechas, abajo) mientras la cámara pasa a `heroAside` (robot en el tercio derecho) y se encienden luces y líneas → se activa el scroll. Scroll bloqueado durante la intro. Al bajar (`#intro`, 100vh), `#hero` y `#stage` suben y se desvanecen; con el escenario transparente no se renderiza.
-   - Cintura para arriba: `robot.js` oculta las mallas de `B_Thigh/Shin/Foot`; `.stage-fade` (dentro de `#stage`) es un degradado al color de fondo cuyo inicio/fin (`WAIST_FADE` en `main.js`, alturas en m) se proyecta a la pantalla cada frame.
-   - Colores: tokens en `src/style.css` (`--blue`, `--indigo`, `--violet`); líneas de luz del robot de azul (cabeza) a violeta (cintura) por altura del hueso (`NEON_TOP/BOTTOM` en `robot.js`); ojos LED con degradado por filas (`eyes.js`).
-   - `src/intro.js`: clase `Intro` (gemas de luz con `PointLight`, bloque de `#hero` anclado a `ANCHOR`, vuelo de la gema a su componente, animaciones de aparición y barrido).
-   - `src/main.js`: escena, luces (contorno aparte: `state.rim`), halo, bloom, pantalla de carga, orquestación de la intro (planos `eyes → hero → heroAside`; `state.neon` enciende las líneas por regiones), desvanecido con scroll sobre `#intro`, clic en el robot = `Wave`.
-   - `src/robot.js`: clase `Robot` (carga Draco, mixer, `play`/`enqueue` de gestos con `events` del clip, `gripPosition`, mirada al cursor sobre `B_Neck`/`B_Head`, parpadeo, expresiones, neón por regiones, pistones que se reorientan cada frame).
-   - `src/eyes.js`: patrones 10×6 de los ojos LED (`normal`, `happy`, `focus`, `surprised`, `love`, `bored`, `off`) dibujados en un `CanvasTexture`.
-   - Ojo: algunos clips no traen pista de todos los huesos → los huesos que se giran a mano se reinician a su pose base cada frame. `prefers-reduced-motion`: sin animaciones, la portada ya acomodada a la izquierda y el robot iluminado a la derecha; al bajar solo se desvanecen (sin desplazarse).
-   - En modo dev, `window.__intro` expone `robot`, `camera`, `state`, `scene` para depurar.
+- **Fase 0 terminada:** documentación completa y Home diseñado y aprobado (`design/home.html`).
+- **Siguiente:** fase 1 (base Next.js), cuando el usuario diga «empieza».
+- **Código actual:** solo el **prototipo de la intro** en Vite + Three.js (`index.html`, `vite.config.js`, `src/*.js`; `npm run dev` → http://localhost:5173). En la fase 1 se mueve a `prototype/` y la raíz pasa a ser la app Next.js.
+- Rama de trabajo actual: `rediseno-intro` (aún sin fusionar con `main`).
 
-Entorno: Windows 11, Blender 5.1 (`C:\Program Files\Blender Foundation\Blender 5.1`).
+## Decisiones del usuario que no hay que olvidar
+
+- **Stack:** Next.js + React + TypeScript, Tailwind v4, next-intl (ES en `/`, EN en `/en`), JSON + MDX con Velite, Resend + Upstash, Vercel. Blog desde el lanzamiento.
+- **Sitio híbrido:** Home largo con todas las secciones + páginas propias para proyectos, casos de estudio, blog, sobre mí y CV. Contacto es una sección, no una página.
+- **Diseño:** Apple Design + bento (UI/UX Pro Max). **Índigo/violeta dominante** sobre casi negro, con algunos acentos de color con significado (verde GitHub, ámbar, coral, cian); cada tarjeta con personalidad propia. Profesional y minimalista, sin efecto neón.
+- **Hero:** nombre grande, «Desarrollador Full Stack» debajo, frase de valor, «Ver proyectos» / «Descargar CV», iconos redondos pequeños (GitHub, LinkedIn, email) con animación al pasar el cursor. La condición de estudiante va en el bento, no en el título.
+- **Intro del robot:** solo en la primera visita de la sesión, con «Saltar intro». El robot se ve **de la cintura para arriba** (no le gustan las piernas: ocultas + degradado). Arma la tarjeta «Bienvenido a mi Portafolio Web», la barre a la izquierda, ~1 s de pausa y **se despide sola con una caída** (sin deslizar). En la misma pantalla entra el Home animado. **El robot solo existe en la intro.**
+- **El Home nunca es estático:** animaciones de entrada, ambiente y microinteracciones.
+- **Datos editables sin tocar código:** `content/*.json` y MDX. Agregar un proyecto = copiar una carpeta.
+
+## Robot 3D (Blender)
+
+Diseño original (inspirado en `referencias/5.jpg`, sin copiar ningún robot comercial): casco ovalado con visor negro espejo y **ojos de matriz LED** (10×6); cuello delgado con cables; torso en forma de escudo; cintura delgada; brazos por segmentos con pistones; manos con dedos articulados; piernas completas (ocultas en la web). Cuerpo negro mate, articulaciones gris metálico y líneas de luz emisivas (cian en Blender; la web las recolorea de azul a violeta).
+
+- **Scripts reproducibles** en `blender/`: `build_head.py`, `build_torso.py`, `build_waist.py`, `build_arms.py`, `build_legs.py`, `build_details.py` (`build_all.py` los ejecuta y guarda `blender/robot.blend`). Cotas compartidas (`ARM`, `LEG`) en `robot_utils.py`. Brazos y piernas se modelan del lado `_L` y se espejan a `_R`. Los detalles llevan la propiedad `detail`; los pistones tienen camisa (`*Sleeve`, pieza superior) y vástago (`*Rod`, pieza inferior), que la web reorienta con `lookAt`.
+- **Rig** (`build_rig.py`): armature `Robot_Rig` con huesos `B_*`; piezas rígidas colgadas de su hueso. Clips a 30 fps: `WakeUp`, `Discover`, `Idle` (cíclico), `LookAround`, `Wave`, `Stretch`, `Blink` (solo ojos), `Intro` (6,8 s) e `Intro_Sweep` (2,1 s), estos dos creados por `build_intro.py`. En `Intro`/`Intro_Sweep` los brazos van por IK analítica hacia `B_Grip_L/R` (pinza = `PINCH_ANGLES`/`PINCH_THUMB`), con curvas de interpolación cúbica monótona. Los momentos clave (`grab_*`, `release_*`, `sweep`) se guardan en la propiedad `events` de la acción y se exportan como `extras` del glTF. `Cam_Intro` es el encuadre de la web.
+- **Exportar:** `blender -b blender/robot.blend -P blender/export_glb.py` → `public/models/robot.glb` (Draco, ~0,8 MB). Une las piezas por (hueso, material) en mallas `<Hueso>`, `_Neon`, `_Metal`, `_Plate`, `_Steel`, `_Cable` y `_Visor`; deja aparte `Eye_L/R` y los pistones.
+- **Prototipo web** (`src/` hasta la fase 1, luego `prototype/src/`):
+  - `robot.js`: carga Draco, mixer, `play`/`enqueue` con eventos del clip, mirada al cursor sobre `B_Neck`/`B_Head`, parpadeo, expresiones, líneas de luz por regiones (azul → violeta según la altura del hueso), pistones y piernas ocultas (`B_Thigh/Shin/Foot`). Los huesos que se giran a mano se reinician cada frame a su pose base. La mirada ignora proyecciones NaN (lienzo a 0 px).
+  - `eyes.js`: patrones LED (`normal`, `happy`, `focus`, `surprised`, `love`, `bored`, `off`) en un `CanvasTexture`, con degradado por filas.
+  - `intro.js`: gemas de luz (izquierda azul, derecha violeta), tarjeta anclada a `ANCHOR`, vuelo de cada gema a su pieza y barrido FLIP a la columna izquierda (`.is-settled`).
+  - `main.js`: escena, luces (contorno azul/violeta), halo, bloom, degradado de la cintura (`WAIST_FADE`, `.stage-fade`), planos `eyes → hero → heroAside` y salida con scroll (provisional: en Next.js será la despedida automática). En desarrollo, `window.__intro` expone `robot`, `camera`, `state`, `scene` e `intro`.
+- `prefers-reduced-motion`: sin intro.
+
+## Entorno
+
+Windows 11. Blender 5.1 (`C:\Program Files\Blender Foundation\Blender 5.1`). Servidor MCP `blender` disponible para trabajar en Blender en vivo. Skill `apple-design` instalada (guía de movimiento e interacción).

@@ -38,12 +38,10 @@ blender -b blender/robot.blend -P blender/export_glb.py
 | Clip | Uso en la web |
 |---|---|
 | `Intro` (6,8 s) | Despierta, atrapa 3 gemas y las suelta delante del pecho |
-| `Intro_Sweep` (2,1 s) | Barre el bloque del Hero hacia la izquierda con el brazo izquierdo |
+| `Intro_Sweep` (2,1 s) | Barre la tarjeta de bienvenida hacia la izquierda con el brazo izquierdo |
 | `Discover` | Sin uso por ahora (mostraba el cuerpo entero; las piernas ya no se ven) |
-| `Idle` (cíclico) | Reposo |
-| `LookAround` | Aburrimiento (inactividad) |
-| `Wave` | Clic en el robot |
-| `Stretch` | Gesto ocasional en reposo |
+| `Idle` (cíclico) | Reposo durante la pausa (paso 7) |
+| `LookAround`, `Wave`, `Stretch` | Sin uso por ahora (el robot ya no se queda en la página) |
 | `WakeUp` | Despertar alternativo (sin gemas) |
 | `Blink` | Solo ojos, se combina con cualquier clip |
 
@@ -61,87 +59,102 @@ blender -b blender/robot.blend -P blender/export_glb.py
 |---|---|
 | `robot.ts` | Carga (Draco), mixer, `play`/`enqueue` de gestos con eventos, `pose`, `startIdle`, `gripPosition`, mirada al cursor sobre `B_Neck`/`B_Head`, parpadeo, expresiones, neón por regiones, pistones, `hitTest`. Los huesos que se giran a mano se reinician a su pose base cada frame, porque algunos clips no traen pista de todos los huesos. |
 | `eyes.ts` | Patrones LED 10×6 (`normal`, `happy`, `focus`, `surprised`, `love`, `bored`, `off`) dibujados en un `CanvasTexture` |
-| `intro.ts` | Gemas de luz (`PointLight` + sprites), anclaje del bloque del Hero a `ANCHOR`, vuelo de la gema hasta su componente, estallido, aparición y barrido |
-| `stage.ts` | Renderer, entorno, luces (contorno aparte), halo, suelo, bloom, planos de cámara (`SHOTS`), estado animable (`state`), bucle de render, redimensionado |
-| `introSequence.ts` | Orquestación: `runIntro`, `sweepIntro`, `finishIntro`, `skipIntro` |
-| `scrollFade.ts` | Timeline de ScrollTrigger que desvanece el Hero y el robot al bajar |
+| `intro.ts` | Gemas de luz (`PointLight` + sprites), anclaje de la tarjeta de bienvenida a `ANCHOR`, vuelo de la gema hasta su pieza, estallido, aparición, barrido y caída |
+| `stage.ts` | Renderer, entorno, luces (contorno aparte), halo, degradado de la cintura, bloom, planos de cámara (`SHOTS`), estado animable (`state`), bucle de render, redimensionado |
+| `introSequence.ts` | Orquestación: `runIntro`, `sweepIntro`, `pause`, `farewell` (despedida), `skipIntro`; avisa con `onDone` para que entre el Home |
 
-Se migran desde el prototipo (`src/robot.js`, `src/eyes.js`, `src/intro.js`, `src/main.js`) **sin cambiar la lógica**. Primero en JS (`allowJs`) y después se tipan.
+Se migran desde el prototipo (`prototype/src/robot.js`, `eyes.js`, `intro.js` y `main.js`; antes de la fase 1 estaban en `src/`) **sin cambiar la lógica**. Primero se copian en JS (`allowJs`) y se comprueba que la intro es idéntica; después se tipan. Lo nuevo (pausa, despedida, entrada del Home) se escribe directamente en TypeScript.
 
 ## Integración de la intro
+
+La intro es una **pantalla de bienvenida temporal**: el robot arma la tarjeta "Bienvenido a mi Portafolio Web", se queda un momento y luego **todo se despide solo, sin necesidad de deslizar**. En ese mismo lugar aparece el **Home** ([`design/home.html`](../design/home.html)), con animaciones de entrada y vida propia. El robot no vuelve a aparecer.
+
+> Decisión del usuario (2026-10-28). Estilo de salida elegido: **caída** (ver [Salida: opciones](#salida-opciones)).
 
 ### Componentes de React
 
 ```
+app/[locale]/layout.tsx     <NavBar /> (oculto mientras corre la intro), <Footer />
 app/[locale]/page.tsx (servidor)
-├─ <RobotLoader />          HTML/CSS: pantalla negra + ojos LED + % de carga
-├─ <RobotStage />           cliente, next/dynamic con ssr:false: <canvas> fijo + escena
-├─ <SkipIntro />            cliente: botón "Saltar intro"
-├─ <Hero />                 servidor: enlaces, nombre y rol (traducidos) en el HTML
-├─ <section id="intro" />   espacio de scroll en el que se desvanecen Hero y robot (100vh)
-└─ <About /> <FeaturedProjects /> … <Contact />
+├─ <Hero />                 el hero de design/home.html, con datos de content/
+├─ <About /> <FeaturedProjects /> … <Contact />   en el orden de home.json
+└─ <IntroOverlay />         cliente, solo en la primera visita (y si site.json → intro.enabled): capa fija por encima de todo
+   ├─ <RobotLoader />       HTML/CSS: pantalla negra + ojos LED + % de carga
+   ├─ <RobotStage />        next/dynamic con ssr:false: <canvas> + escena
+   ├─ <WelcomeCard />       iconos, "Bienvenido a mi Portafolio Web" y dominio (decorativo)
+   └─ <SkipIntro />         botón "Saltar intro"
 ```
 
-`RobotStage` crea la escena en un `useEffect` y devuelve una función que la libera: mata los tweens y ScrollTriggers (con `gsap.context`), detiene el bucle, quita listeners y llama a `dispose()` de geometrías, materiales, texturas y renderer. Así no hay fugas al navegar a otra página ni con el doble montaje de React en desarrollo.
+- El **Home es HTML del servidor** desde el primer byte: SEO, lectores de pantalla y LCP no dependen de la intro. Mientras la intro corre, el Home está oculto (`visibility: hidden`) y el scroll bloqueado.
+- La intro es decorativa (`aria-hidden`, salvo el botón "Saltar intro"): el contenido real (nombre, rol, enlaces) está en el Home.
+- Al terminar la salida, `IntroOverlay` se desmonta: `RobotStage` libera la escena (mata tweens, detiene el bucle, quita listeners y llama a `dispose()` de geometrías, materiales, texturas y renderer). Three.js deja de consumir GPU y memoria.
+- Las demás páginas no cargan Three.js. La 404 usa los ojos LED en 2D (`surprised`).
 
-El robot **solo vive en la portada**. Las demás páginas no cargan Three.js. La 404 usa los ojos LED en 2D (`surprised`), sin cargar el modelo.
+**Sin parpadeo inicial:** un script mínimo en `<head>` (antes del primer pintado) decide si se reproduce la intro y pone `data-intro="play"` en `<html>`. Solo con ese atributo se monta la capa de la intro y se oculta el Home. Sin JS, con `prefers-reduced-motion`, sin WebGL o en visitas repetidas, el Home se ve desde el primer pintado.
 
-### El Hero en el HTML
+### La tarjeta de bienvenida
 
-El bloque del Hero tiene tres piezas (`data-part`), en el orden en que llegan las gemas:
+Tres piezas (`data-part`) en el orden en que llegan las gemas. Los nombres de los eventos del clip (`grab_icons`, `grab_title`, `grab_url`…) no cambian, así que no hay que reexportar desde Blender.
+
+Los textos salen de `site.json → intro` ([07 · Datos](07-datos.md#sitejson)).
 
 | `data-part` | Gema | Contenido |
 |---|---|---|
-| `links` | 1 · mano der. (`grab_icons`) | GitHub, LinkedIn, CV: `<a>` reales con `aria-label` |
-| `name` | 2 · mano izq. (`grab_title`) | Kicker "Hola, soy" / "Hi, I'm" + nombre completo (`<h1>`) |
-| `role` | 3 · mano der. (`grab_url`) | "Full Stack Developer · Estudiante de Ing. de Sistemas" |
-
-Los nombres de los eventos del clip se mantienen. `introSequence.ts` traduce `icons → links`, `title → name` y `url → role`, así que no hace falta reexportar desde Blender.
-
-**Sin parpadeo inicial ni contenido perdido:** un script mínimo en `<head>` (antes del primer pintado) decide si se reproduce la intro y pone `data-intro="play"` en `<html>`. Solo con ese atributo el CSS oculta las piezas del Hero. Sin JS, con `prefers-reduced-motion`, sin WebGL o en visitas repetidas, el Hero se ve desde el primer pintado.
+| `icons` | 1 · mano der., violeta | Iconos decorativos: código, perfil, GitHub |
+| `title` | 2 · mano izq., azul | "Bienvenido a mi" + **Portafolio Web** (degradado blanco → azul → violeta) |
+| `url` | 3 · mano der., violeta | Dominio del portafolio (`site.json → intro.url`) |
 
 ### Coreografía
 
-| # | Momento | Qué pasa |
-|---|---|---|
-| 1 | **Carga** | Pantalla negra con los ojos LED y el %. El scroll está bloqueado (`lenis.stop()` + `overflow: hidden`). "Saltar intro" ya está disponible. |
-| 2 | **Despertar** | Plano `eyes`: los ojos se encienden con un parpadeo de arranque y empieza `Intro`, que se pausa justo antes de estirar el brazo. |
-| 3 | **Silueta** | La cámara se aleja al plano `hero` (fov 25): solo luz de contorno + halo. |
-| 4 | **Gemas** | Sigue `Intro`. En cada `grab_*` se enciende una gema en `B_Grip_*`, y en cada `release_*` vuela hasta su pieza, estalla y la pieza se materializa. El bloque está centrado delante del pecho (`ANCHOR`). |
-| 5 | **Lectura** | 2,4 s quieto con el Hero completo. |
-| 6 | **Barrido → Hero** | `Intro_Sweep`. En el evento `sweep`, las piezas **no salen de pantalla**: se deslizan (técnica FLIP, con la inclinación y el desenfoque actuales, pero acotados) hasta su sitio definitivo en la **columna izquierda** del Hero. A la vez, la cámara pasa al plano `heroAside` (robot en el tercio derecho). |
-| 7 | **Se ilumina** | Suben luz y líneas (`light: 0.4`, `neon: 1`), la mirada sigue al cursor, aparecen la frase de valor, el estado y el aviso "desliza". Se desbloquea el scroll. |
+| # | Momento | Duración | Qué pasa |
+|---|---|---|---|
+| 1 | **Carga** | lo que tarde | Pantalla negra con los ojos LED (azul → violeta) y el %. Scroll bloqueado. "Saltar intro" ya disponible. |
+| 2 | **Despertar** | ~0,9 s | Plano `eyes`: los ojos se encienden con un parpadeo de arranque y empieza `Intro`, pausado justo antes de estirar el brazo. |
+| 3 | **Silueta** | 1,5 s | La cámara se aleja al plano `hero` (fov 25): luz de contorno azul/violeta + halo. Robot de la cintura para arriba. |
+| 4 | **Gemas** | ~6 s | En cada `grab_*` se enciende una gema en `B_Grip_*`; en cada `release_*` vuela a su pieza, estalla y la pieza se materializa delante del pecho (`ANCHOR`). |
+| 5 | **Lectura** | 1,5 s | Tarjeta completa, quieta. |
+| 6 | **Barrido** | ~2 s | `Intro_Sweep`: en el evento `sweep` las piezas salen despedidas y frenan en la columna izquierda (FLIP); la cámara pasa a `heroAside` (robot en el tercio derecho) y se encienden luces y líneas. |
+| 7 | **Pausa** | ~1 s | El estado de la captura de referencia: tarjeta a la izquierda, robot iluminado a la derecha que sigue el cursor con la mirada. **Sin aviso "desliza"**: no hace falta hacer nada. |
+| 8 | **Despedida** | ~1,2 s | Salida automática con **caída** (opción A, elegida): la tarjeta cae y se desvanece y el robot se apaga y se hunde en el fondo. |
+| 9 | **Home** | ~1,4 s (empieza a mitad del paso 8) | En la misma pantalla entra el Home con su coreografía ([02 · Contenido](02-contenido.md#1-hero), [04 · Diseño](04-diseno.md#transición-intro--home)). Al terminar se desbloquea el scroll y aparece el aviso "desliza" hacia las secciones. |
 
-Duración total: ≈ 10 s.
+Primera visita: el Home queda visible a los **≈ 12 s** (o al instante con "Saltar intro").
 
-**Detalle del paso 6:** el bloque de la intro está posicionado en absoluto (anclado al pecho). La columna izquierda del Hero tiene huecos reservados con el mismo tamaño que cada pieza, así que el layout final no salta. Al barrer, se mide el hueco de cada pieza (`getBoundingClientRect`), se anima la pieza hasta él y, al terminar, se devuelve al flujo normal (`position: static`) y se limpian los `transform`.
+### Salida: opciones
+
+**A · Caída — ELEGIDA.** Sobria, no caricaturesca:
+- **Tarjeta:** cada pieza cae 40–60 px con gravedad (`power2.in`, 0,6 s), con un giro mínimo (≤ 3°), algo de desenfoque y fundido; escalonadas 80 ms, primero la de abajo (dominio), luego título e iconos.
+- **Robot:** "se apaga": los ojos parpadean a `off`, las líneas de luz se apagan de la cintura hacia la cabeza (el encendido al revés), bajan luces y halo, y el escenario baja ~4vh mientras se desvanece (0,8 s).
+
+**B · Disolución** (descartada). Todo sube un poco y se difumina (blur + fundido, 0,7 s) mientras el robot se apaga igual que en A.
+
+**C · Rápida.** Fundido simple de todo en 0,5 s. Para `prefers-reduced-motion` se usa siempre esta.
 
 ### Saltar intro y visitas repetidas
 
-- **"Saltar intro"** (y la tecla `Esc`) mata la timeline. El robot queda en `Idle` y la cámara en `heroAside`, las piezas en su sitio, las luces encendidas y el scroll desbloqueado. Si el modelo aún no ha cargado, la portada se muestra armada y el robot aparece con un fundido al cargar.
-- **Primera visita de la sesión**: intro completa. Después se guarda `sessionStorage['intro-seen']` (con `try/catch`), y en las siguientes visitas de la sesión la portada aparece armada, igual que al saltar.
-- **`prefers-reduced-motion`**: sin intro; al bajar, Hero y robot solo se desvanecen (sin desplazarse). Portada armada, robot en `Idle` estático sin seguimiento del cursor ni gestos automáticos.
+- **"Saltar intro"** (y la tecla `Esc`): mata la timeline, hace la despedida corta (C) y entra el Home.
+- **Primera visita de la sesión**: intro completa. Se guarda `sessionStorage['intro-seen']` (con `try/catch`). En las siguientes visitas de la sesión no hay intro: el Home aparece directamente **con su animación de entrada** (nunca estático).
+- **`prefers-reduced-motion`**: sin intro; el Home aparece con un fundido corto, sin desplazamientos ni movimiento ambiental.
 
 ### Solo de la cintura para arriba
 
 Las piernas no se muestran nunca: `robot.ts` oculta las mallas de `B_Thigh/Shin/Foot`, y un degradado al color de fondo (`.stage-fade`, dentro del escenario) funde al robot desde la cintura (`WAIST_FADE`, alturas en metros proyectadas a la pantalla cada frame).
 
-### Salida con scroll (el robot solo vive en la intro)
+### Interacción durante la intro
 
-Timeline de ScrollTrigger con `scrub` sobre `#intro` (100vh): el Hero sube un poco y se desvanece; justo después, el escenario 3D (robot + degradado) hace lo mismo. Con el escenario transparente se deja de renderizar. Después empieza "Sobre mí".
+- **Mirada**: desde el barrido hasta la despedida, cabeza y cuello siguen el cursor; en móvil, el giroscopio (`deviceorientation`, pidiendo permiso en iOS al primer toque).
+- El resto del tiempo el robot sigue el clip; no hay clic ni gestos de inactividad (el robot ya no se queda en la página).
 
-### Interacción
+### Estado del prototipo
 
-- **Mirada**: cabeza y cuello siguen el cursor; en móvil, el giroscopio (`deviceorientation`, pidiendo permiso en iOS al primer toque).
-- **Clic** en el robot (raycast con `hitTest`): `Wave` + ojos `happy`. Se ignora durante la intro o si el clic cae en un enlace o botón.
-- **Inactividad** de más de 20 s: ojos `bored` + `LookAround`.
+El prototipo de Vite (`npm run prototype`; antes de la fase 1, `npm run dev`) llega hasta el paso 7 y todavía usa la **salida con scroll** anterior: al bajar, la tarjeta y el robot se desvanecen. La pausa, la despedida automática y la entrada del Home se programan directamente en Next.js (fase 5 del [roadmap](roadmap.md)); el prototipo no se actualiza.
 
 ## Rendimiento y respaldos
 
 - Pixel ratio máximo de 2 (1,5 en móvil) y bloom a media resolución en móvil.
-- El bucle de render se pausa con la pestaña oculta y cuando el canvas no aporta (por ejemplo, con el robot fuera del encuadre).
+- El bucle de render se pausa con la pestaña oculta y se detiene del todo (con `dispose`) al terminar la intro.
 - `renderer.compile` antes de empezar, para evitar tirones en el primer frame.
-- **Sin WebGL o si falla la carga del modelo**: imagen fija del robot (`public/images/robot-poster.avif`, renderizada desde Blender) y la portada armada. Los errores se registran, pero nunca bloquean el contenido.
+- **Sin WebGL o si falla la carga del modelo**: sin intro: el Home aparece directamente con su animación de entrada. Los errores se registran, pero nunca bloquean el contenido.
 - El `.glb` se precarga con `<link rel="preload" as="fetch" crossorigin>` solo en la portada.
 
 ## Depuración

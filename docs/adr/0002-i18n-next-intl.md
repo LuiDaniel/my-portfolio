@@ -12,7 +12,7 @@ El portafolio se usará para postular tanto en el mercado hispanohablante como a
 - **next-intl** con dos idiomas: `es` (por defecto) y `en`.
 - Prefijo solo cuando hace falta (`as-needed`): español en `/…`, inglés en `/en/…`.
 - Rutas traducidas (`/proyectos` ↔ `/en/projects`, `/sobre-mi` ↔ `/en/about`).
-- Textos de interfaz en `src/i18n/messages/{es,en}.json`. El contenido largo va en archivos MDX separados por idioma.
+- Textos de interfaz en `src/i18n/messages/{es,en}.json`. El contenido va en `content/`: los JSON con campos `{ "es", "en" }` y el contenido largo en MDX separado por idioma (`es.mdx`, `en.mdx`). Ver [07 · Datos](../07-datos.md).
 - El idioma del navegador se detecta solo en la primera visita. Después manda la elección del usuario.
 
 ## Alternativas consideradas

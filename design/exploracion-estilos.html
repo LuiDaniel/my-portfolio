@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estilos para el Home</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Geist:wght@400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Página de comparación: cabecera, pestañas por skill, un Home de ejemplo por pestaña y su ficha. */
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --fg: #151821;
+  --muted: #5a6172;
+  --line: #dde1ea;
+  --accent: #4352e8;
+  --accent-soft: #e6e8fc;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0d11; --surface: #14161c; --fg: #e8eaf0; --muted: #959cad; --line: #252935;
+    --accent: #8f97ff; --accent-soft: #1f2340; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0d11; --surface: #14161c; --fg: #e8eaf0; --muted: #959cad; --line: #252935;
+  --accent: #8f97ff; --accent-soft: #1f2340; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font: 16px/1.6 var(--sans);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 28px; }
+header h1 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 10px; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); max-width: 68ch; }
+.label { font: 500 12px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab {
+  font: 500 14px/1 var(--sans); color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 999px; padding: 10px 16px; cursor: pointer;
+  transition: background .15s ease-out, border-color .15s ease-out, transform .1s ease-out;
+}
+.tab:hover { border-color: var(--accent); }
+.tab:active { transform: scale(0.97); }
+.tab[aria-selected="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.tab:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.stage { display: grid; gap: 18px; }
+.frame { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); box-shadow: 0 1px 2px rgb(0 0 0 / .04), 0 12px 40px rgb(0 0 0 / .08); }
+.bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.dots { display: flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.url { flex: 1; min-width: 0; font: 12px/1 var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.replay { font: 500 13px/1 var(--sans); color: var(--accent); background: var(--accent-soft); border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+.replay:active { transform: scale(0.97); }
+
+/* Cada maqueta escala con su contenedor (cqi), como una captura en vivo */
+.mock { position: relative; aspect-ratio: 16 / 10; max-width: 100%; overflow: hidden; container-type: inline-size; isolation: isolate; }
+.mock[hidden] { display: none !important; }
+
+.info { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+.info h2 { margin: 6px 0 8px; font-size: 24px; letter-spacing: -0.01em; }
+.info p { margin: 0 0 12px; }
+.info ul { margin: 0; padding-left: 18px; }
+.info li { margin-bottom: 6px; }
+.meta { display: grid; gap: 14px; align-content: start; }
+.meta dl { margin: 0; display: grid; gap: 12px; }
+.meta dt { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.meta dd { margin: 0; }
+.cmd { display: flex; gap: 8px; align-items: stretch; }
+.cmd code { flex: 1; min-width: 0; font: 13px/1.4 var(--mono); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; overflow-x: auto; white-space: nowrap; }
+.copy { font: 500 13px/1 var(--sans); border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 8px; padding: 0 12px; cursor: pointer; }
+.copy:active { transform: scale(0.97); }
+.note { font-size: 14px; color: var(--muted); }
+
+.compare { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; gap: 16px; }
+.compare h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font: 500 12px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.reco { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; }
+.reco p { margin: 0 0 8px; }
+.sources { font-size: 13px; color: var(--muted); }
+.sources a { color: var(--accent); }
+
+@media (max-width: 760px) { .info { grid-template-columns: 1fr; } }
+
+/* ======================================================= animación de entrada común */
+.in { animation: rise var(--d, .7s) var(--ease, cubic-bezier(.22,1,.36,1)) both; animation-delay: calc(var(--i, 0) * var(--step, 70ms) + var(--base, 0ms)); }
+@keyframes rise { from { opacity: 0; transform: translateY(var(--y, 2.4cqi)); filter: blur(var(--b, 0px)); } }
+
+/* ======================================================= 1 · APPLE DESIGN */
+.ap { background: #05060b; color: #f5f6fb; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'IBM Plex Sans', system-ui, sans-serif; }
+.ap .blob { position: absolute; border-radius: 50%; filter: blur(7cqi); opacity: .75; z-index: -1; animation: drift 26s ease-in-out infinite alternate; }
+.ap .b1 { width: 46cqi; height: 46cqi; background: #2f55ff; left: 46cqi; top: -10cqi; }
+.ap .b2 { width: 38cqi; height: 38cqi; background: #8b3dff; left: 62cqi; top: 14cqi; animation-duration: 32s; animation-direction: alternate-reverse; }
+@keyframes drift { to { transform: translate(-8cqi, 6cqi) scale(1.12); } }
+.ap .nav { position: absolute; top: 2.2cqi; left: 50%; translate: -50% 0; display: flex; align-items: center; gap: 2.4cqi; padding: 1cqi 1.2cqi 1cqi 2cqi; border-radius: 999px; font-size: 1.25cqi; color: rgb(255 255 255 / .82);
+  background: rgb(255 255 255 / .08); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgb(255 255 255 / .14); }
+.ap .nav b { color: #fff; font-weight: 600; }
+.ap .nav .pill { background: #fff; color: #05060b; border-radius: 999px; padding: .7cqi 1.4cqi; font-weight: 600; }
+.ap .hero { position: absolute; left: 7cqi; top: 15cqi; width: 50cqi; }
+.ap .eyebrow { font-size: 1.45cqi; font-weight: 600; letter-spacing: .01em; background: linear-gradient(90deg, #7ea2ff, #b48cff); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 0 0 1cqi; }
+.ap .name { font-size: 7.6cqi; line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 2cqi; }
+.ap .lede { font-size: 1.75cqi; line-height: 1.45; color: rgb(235 238 248 / .74); margin: 0 0 3cqi; max-width: 42cqi; }
+.ap .ctas { display: flex; gap: 1.2cqi; }
+.ap .btn { font: inherit; font-size: 1.4cqi; font-weight: 600; border-radius: 999px; padding: 1.2cqi 2.2cqi; border: 0; cursor: pointer; transition: transform .1s ease-out; }
+.ap .btn:active { transform: scale(.97); }
+.ap .btn.primary { background: #fff; color: #05060b; }
+.ap .btn.glass { color: #fff; background: rgb(255 255 255 / .1); border: 1px solid rgb(255 255 255 / .18); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.ap .tiles { position: absolute; right: 6cqi; bottom: 6cqi; display: grid; grid-template-columns: repeat(3, 12cqi); gap: 1.2cqi; }
+.ap .tile { aspect-ratio: 1; border-radius: 2.2cqi; padding: 1.4cqi; display: grid; align-content: space-between; font-size: 1.2cqi; color: rgb(255 255 255 / .85);
+  background: rgb(255 255 255 / .07); border: 1px solid rgb(255 255 255 / .13); backdrop-filter: blur(24px) saturate(160%); -webkit-backdrop-filter: blur(24px) saturate(160%);
+  transition: transform .35s cubic-bezier(.22,1,.36,1), background .2s; cursor: pointer; }
+.ap .tile:hover { transform: translateY(-.6cqi); background: rgb(255 255 255 / .11); }
+.ap .tile:active { transform: scale(.96); }
+.ap .tile svg { width: 2.6cqi; height: 2.6cqi; }
+.ap .in { --y: 3cqi; --b: 10px; --d: .9s; }
+
+/* ======================================================= 2 · EMIL KOWALSKI */
+.em { background: #0a0a0a; color: #ededed; font-family: 'Geist', 'IBM Plex Sans', system-ui, sans-serif; }
+.em .top { position: absolute; inset: 3cqi 6cqi auto; display: flex; justify-content: space-between; font-size: 1.3cqi; color: #a1a1a1; }
+.em .top b { color: #ededed; font-weight: 600; }
+.em .top nav { display: flex; gap: 2.4cqi; }
+.em .top a { color: inherit; text-decoration: none; position: relative; }
+.em .top a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.4cqi; height: 1px; background: #ededed; transform: scaleX(0); transform-origin: left; transition: transform .2s ease-out; }
+.em .top a:hover { color: #ededed; } .em .top a:hover::after { transform: scaleX(1); }
+.em .hero { position: absolute; left: 6cqi; top: 15cqi; width: 46cqi; }
+.em .badge { display: inline-flex; align-items: center; gap: .8cqi; font-size: 1.15cqi; color: #a1a1a1; border: 1px solid #262626; border-radius: 999px; padding: .6cqi 1.2cqi; margin-bottom: 2.4cqi; }
+.em .badge i { width: .8cqi; height: .8cqi; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 0 0 rgb(61 220 132 / .5); animation: ping 2s ease-out infinite; }
+@keyframes ping { 70%, 100% { box-shadow: 0 0 0 .9cqi rgb(61 220 132 / 0); } }
+.em .name { font-size: 5.6cqi; line-height: 1.05; letter-spacing: -0.04em; font-weight: 600; margin: 0 0 1.6cqi; }
+.em .lede { font-size: 1.65cqi; line-height: 1.55; color: #a1a1a1; margin: 0 0 3cqi; max-width: 40cqi; }
+.em .ctas { display: flex; gap: 1cqi; }
+.em .btn { font: inherit; font-size: 1.35cqi; font-weight: 500; border-radius: .9cqi; padding: 1.1cqi 1.8cqi; cursor: pointer; transition: transform .16s ease-out, background .16s ease-out; }
+.em .btn:active { transform: scale(.97); }
+.em .btn.primary { background: #ededed; color: #0a0a0a; border: 0; }
+.em .btn.primary:hover { background: #fff; }
+.em .btn.ghost { background: transparent; color: #ededed; border: 1px solid #2e2e2e; }
+.em .btn.ghost:hover { background: #171717; }
+.em .list { position: absolute; right: 6cqi; top: 15cqi; width: 34cqi; display: grid; gap: .4cqi; }
+.em .list .label { color: #737373; font-family: 'IBM Plex Mono', monospace; font-size: 1cqi; margin-bottom: 1cqi; }
+.em .row { display: flex; justify-content: space-between; align-items: baseline; padding: 1.3cqi 1.4cqi; border-radius: 1cqi; font-size: 1.35cqi; transition: background .15s ease-out; cursor: pointer; }
+.em .row:hover { background: #161616; }
+.em .row span { color: #737373; font-size: 1.1cqi; }
+.em .toasts { position: absolute; right: 3cqi; bottom: 3cqi; width: 30cqi; height: 8cqi; }
+.em .toast { position: absolute; right: 0; bottom: 0; width: 100%; padding: 1.4cqi 1.6cqi; border-radius: 1.2cqi; font-size: 1.3cqi; background: #171717; border: 1px solid #262626; color: #ededed;
+  box-shadow: 0 .4cqi 2cqi rgb(0 0 0 / .5); transition: transform .4s cubic-bezier(.21,1.02,.73,1), opacity .4s; }
+.em .toast small { display: block; color: #a1a1a1; font-size: 1.1cqi; }
+.em .in { --y: 1.2cqi; --b: 4px; --d: .5s; --step: 60ms; --ease: cubic-bezier(.23,1,.32,1); }
+
+/* ======================================================= 3 · FRONTEND DESIGN (Anthropic) */
+.fd { background: #e9ecf4; color: #0d1330; font-family: 'IBM Plex Sans', sans-serif; }
+.fd::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5;
+  background-image: radial-gradient(rgb(13 19 48 / .14) .08cqi, transparent .12cqi); background-size: .9cqi .9cqi; }
+.fd .top { position: absolute; inset: 3cqi 5cqi auto; display: flex; justify-content: space-between; font: 500 1.1cqi/1 'IBM Plex Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+.fd .big { position: absolute; left: 4cqi; top: 10cqi; font-family: 'Instrument Serif', Georgia, serif; font-size: 17cqi; line-height: .86; letter-spacing: -0.03em; margin: 0; }
+.fd .big .line { display: block; overflow: hidden; }
+.fd .big .line > span { display: inline-block; animation: up 1s cubic-bezier(.22,1,.36,1) both; }
+.fd .big .line:nth-child(2) > span { animation-delay: .12s; }
+@keyframes up { from { transform: translateY(105%); } }
+.fd .big em { color: #5b3df5; }
+.fd .tag { position: absolute; left: 47cqi; top: 33.5cqi; transform: rotate(-4deg); background: #0d1330; color: #e9ecf4; font: 500 1.6cqi/1 'IBM Plex Mono', monospace; padding: 1cqi 1.6cqi; letter-spacing: .04em; }
+.fd .lede { position: absolute; left: 5cqi; top: 43cqi; width: 36cqi; font-size: 1.6cqi; line-height: 1.5; margin: 0; }
+.fd .ctas { position: absolute; left: 5cqi; top: 52cqi; display: flex; gap: 1.6cqi; font-size: 1.45cqi; }
+.fd .ctas a { color: #0d1330; text-decoration: none; border-bottom: .2cqi solid #5b3df5; padding-bottom: .3cqi; font-weight: 600; }
+.fd .seal { position: absolute; right: 7cqi; top: 22cqi; width: 18cqi; height: 18cqi; animation: spin 24s linear infinite; }
+.fd .seal text { font: 500 1.35px 'IBM Plex Mono', monospace; letter-spacing: .32px; fill: #0d1330; }
+.fd .seal circle { fill: #5b3df5; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.fd .marquee { position: absolute; left: 0; right: 0; bottom: 0; border-top: 1px solid #0d1330; padding: 1.6cqi 0; overflow: hidden; white-space: nowrap; font-family: 'Instrument Serif', serif; font-size: 3.2cqi; }
+.fd .marquee div { display: inline-block; animation: slide 30s linear infinite; }
+.fd .marquee i { color: #5b3df5; font-style: normal; margin: 0 1.6cqi; }
+@keyframes slide { to { transform: translateX(-50%); } }
+.fd .in { --y: 2cqi; }
+
+/* ======================================================= 4 · TASTE (rejilla suiza) */
+.ts { background: #f7f7f5; color: #0b0b0c; font-family: 'Archivo', 'IBM Plex Sans', sans-serif; }
+.ts .grid { position: absolute; inset: 0 4cqi; display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.6cqi; z-index: -1; }
+.ts .grid i { border-inline: 1px solid rgb(0 0 0 / .05); transform-origin: top; animation: draw .9s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i) * 40ms); }
+@keyframes draw { from { transform: scaleY(0); } }
+.ts .top { position: absolute; inset: 3cqi 4cqi auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.6cqi; font-size: 1.15cqi; font-weight: 500; border-bottom: 2px solid #0b0b0c; padding-bottom: 1.2cqi; }
+.ts .top span:nth-child(1) { grid-column: span 3; font-weight: 800; }
+.ts .top span:nth-child(n+2) { grid-column: span 2; }
+.ts .name { position: absolute; left: 4cqi; right: 4cqi; top: 10cqi; margin: 0; font-size: 13.5cqi; line-height: .9; font-weight: 800; font-stretch: 78%; letter-spacing: -0.035em; text-transform: uppercase; }
+.ts .name span { display: inline-block; clip-path: inset(0 100% 0 0); animation: wipe .9s cubic-bezier(.77,0,.18,1) both .25s; }
+@keyframes wipe { to { clip-path: inset(0 0 0 0); } }
+.ts .name .blue { color: #1f4bff; }
+.ts .facts { position: absolute; left: 4cqi; top: 39cqi; width: 30cqi; display: grid; grid-template-columns: auto 1fr; gap: 1cqi 2cqi; font-size: 1.3cqi; margin: 0; }
+.ts .facts dt { color: #6b6b6b; } .ts .facts dd { margin: 0; font-weight: 600; }
+.ts .statement { position: absolute; left: 41cqi; right: 4cqi; top: 39cqi; font-size: 3.1cqi; line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+.ts .statement mark { background: #1f4bff; color: #fff; padding: 0 .4cqi; }
+.ts .links { position: absolute; left: 41cqi; bottom: 5cqi; display: flex; gap: 3cqi; font-size: 1.4cqi; font-weight: 700; }
+.ts .links a { color: #0b0b0c; text-decoration: none; }
+.ts .links a::before { content: "↗ "; color: #1f4bff; }
+.ts .in { --y: 1.4cqi; --base: 500ms; }
+
+/* ======================================================= 5 · UI/UX PRO MAX (bento) */
+.pm { background: #0b0c14; color: #eceefa; font-family: 'Geist', 'IBM Plex Sans', sans-serif; padding: 3cqi; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto repeat(3, 1fr); gap: 1.4cqi; }
+.pm .nav { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 1.25cqi; color: #a3a8c3; }
+.pm .nav b { color: #eceefa; }
+.pm .card { position: relative; border-radius: 1.8cqi; padding: 2cqi; background: #121424; border: 1px solid #22253a; overflow: hidden; min-width: 0;
+  animation: pop .7s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i) * 80ms); transition: transform .3s cubic-bezier(.22,1,.36,1), border-color .2s; }
+.pm .card:hover { transform: translateY(-.4cqi); border-color: #5e63ff; }
+@keyframes pop { from { opacity: 0; transform: scale(.94); } }
+.pm .main { grid-column: span 2; grid-row: span 3; display: grid; align-content: end; gap: 1.4cqi;
+  background: radial-gradient(120% 80% at 100% 0%, rgb(84 99 255 / .35), transparent 60%), radial-gradient(90% 70% at 0% 100%, rgb(150 80 255 / .28), transparent 60%), #121424; }
+.pm .main h3 { margin: 0; font-size: 5cqi; line-height: 1; letter-spacing: -0.035em; }
+.pm .main p { margin: 0; font-size: 1.5cqi; color: #b8bdd8; max-width: 34cqi; }
+.pm .main .ctas { display: flex; gap: 1cqi; }
+.pm .btn { font: inherit; font-size: 1.3cqi; font-weight: 600; border-radius: 999px; padding: 1cqi 1.8cqi; border: 0; cursor: pointer; }
+.pm .btn.primary { background: linear-gradient(90deg, #4f6bff, #9a5bff); color: #fff; }
+.pm .btn.ghost { background: #1d2036; color: #eceefa; }
+.pm .k { font: 500 1cqi/1 'IBM Plex Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: #8a90b3; margin-bottom: 1.2cqi; }
+.pm .chips { display: flex; flex-wrap: wrap; gap: .6cqi; }
+.pm .chips span { font-size: 1.1cqi; padding: .5cqi 1cqi; border-radius: 999px; background: #1d2036; color: #cdd1ee; }
+.pm .big { font-size: 3.4cqi; font-weight: 700; letter-spacing: -0.03em; }
+.pm .heat { display: grid; grid-template-columns: repeat(14, 1fr); gap: .35cqi; }
+.pm .heat i { aspect-ratio: 1; border-radius: .25cqi; background: #1d2036; }
+.pm .socials { display: flex; gap: 1cqi; }
+.pm .socials span { flex: 1; text-align: center; font-size: 1.15cqi; padding: 1cqi 0; border-radius: 1cqi; background: #1d2036; }
+.pm .ex { position: absolute; top: 1.4cqi; right: 1.6cqi; font-size: .95cqi; color: #6d7396; }
+
+/* ======================================================= 6 · IMPECCABLE (anti-plantilla) */
+.im { background: #e6e9ee; color: #111723; font-family: 'Bricolage Grotesque', 'IBM Plex Sans', sans-serif; }
+.im .top { position: absolute; inset: 3.2cqi 6cqi auto; display: flex; justify-content: space-between; font-size: 1.35cqi; font-weight: 500; }
+.im .top nav { display: flex; gap: 2.6cqi; color: #4a5263; }
+.im .say { position: absolute; left: 6cqi; top: 14cqi; width: 70cqi; margin: 0; font-size: 6cqi; line-height: 1.04; letter-spacing: -0.035em; font-weight: 700; font-variation-settings: 'opsz' 96; }
+.im .say .w { display: inline-block; animation: rise .6s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i) * 45ms); --y: 1.4cqi; }
+.im .say .u { background: linear-gradient(#2346d6, #2346d6) 0 92% / 0% .55cqi no-repeat; animation: rise .6s cubic-bezier(.22,1,.36,1) both, underline .8s cubic-bezier(.22,1,.36,1) forwards 1s; }
+@keyframes underline { to { background-size: 100% .55cqi; } }
+.im .say .muted { color: #6a7283; }
+.im .row { position: absolute; left: 6cqi; right: 6cqi; bottom: 6cqi; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 4cqi; border-top: 1px solid #c3c9d4; padding-top: 2cqi; }
+.im .status { font-size: 1.45cqi; line-height: 1.5; color: #333b4a; margin: 0; max-width: 46cqi; }
+.im .links { display: flex; gap: 2.4cqi; font-size: 1.5cqi; font-weight: 600; }
+.im .links a { color: #2346d6; text-decoration: underline; text-underline-offset: .35cqi; text-decoration-thickness: .12cqi; }
+.im .in { --y: 1.2cqi; --base: 900ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mock *, .mock *::before, .mock *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
+  .fd .seal, .fd .marquee div, .ap .blob { animation: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="label">Portafolio · diseño del Home</p>
+    <h1>Seis skills de diseño, seis Homes de ejemplo</h1>
+    <p>Cada pestaña muestra cómo quedaría el Home del portafolio siguiendo la filosofía de una skill. Los textos son de relleno y los datos de los ejemplos no son reales. Pulsa «Repetir entrada» para ver otra vez la animación, y pasa el cursor o haz clic en botones y tarjetas para ver las microinteracciones.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Skills">
+    <button class="tab" role="tab" id="tab-apple" aria-controls="m-apple" aria-selected="true">Apple Design</button>
+    <button class="tab" role="tab" id="tab-emil" aria-controls="m-emil" aria-selected="false">Emil Kowalski</button>
+    <button class="tab" role="tab" id="tab-frontend" aria-controls="m-frontend" aria-selected="false">Frontend Design</button>
+    <button class="tab" role="tab" id="tab-taste" aria-controls="m-taste" aria-selected="false">Taste</button>
+    <button class="tab" role="tab" id="tab-promax" aria-controls="m-promax" aria-selected="false">UI/UX Pro Max</button>
+    <button class="tab" role="tab" id="tab-impeccable" aria-controls="m-impeccable" aria-selected="false">Impeccable</button>
+  </div>
+
+  <section class="stage">
+    <div class="frame">
+      <div class="bar">
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="url">luisdaniel.dev</div>
+        <button class="replay" id="replay" type="button">Repetir entrada</button>
+      </div>
+
+      <!-- 1 · Apple Design -->
+      <div class="mock ap" id="m-apple" role="tabpanel" aria-labelledby="tab-apple">
+        <div class="blob b1"></div><div class="blob b2"></div>
+        <div class="nav in" style="--i:0"><b>LD</b><span>Proyectos</span><span>Blog</span><span>Sobre mí</span><span class="pill">Contacto</span></div>
+        <div class="hero">
+          <p class="eyebrow in" style="--i:1">Desarrollador Full Stack</p>
+          <h3 class="name in" style="--i:2">Luis Daniel.</h3>
+          <p class="lede in" style="--i:3">Construyo aplicaciones web completas, del modelo de datos a la interfaz. Estudiante de Ingeniería de Sistemas.</p>
+          <div class="ctas in" style="--i:4"><button class="btn primary" type="button">Ver proyectos</button><button class="btn glass" type="button">Descargar CV</button></div>
+        </div>
+        <div class="tiles">
+          <div class="tile in" style="--i:5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>GitHub</div>
+          <div class="tile in" style="--i:6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/></svg>LinkedIn</div>
+          <div class="tile in" style="--i:7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>Email</div>
+        </div>
+      </div>
+
+      <!-- 2 · Emil Kowalski -->
+      <div class="mock em" id="m-emil" role="tabpanel" aria-labelledby="tab-emil" hidden>
+        <div class="top in" style="--i:0"><b>Luis Daniel</b><nav><a href="#emil">Proyectos</a><a href="#emil">Blog</a><a href="#emil">Sobre mí</a><a href="#emil">Contacto</a></nav></div>
+        <div class="hero">
+          <div class="badge in" style="--i:1"><i></i>Abierto a oportunidades</div>
+          <h3 class="name in" style="--i:2">Luis Daniel</h3>
+          <p class="lede in" style="--i:3">Desarrollador full stack. Estudio Ingeniería de Sistemas y construyo productos web de principio a fin, con atención al detalle.</p>
+          <div class="ctas in" style="--i:4"><button class="btn primary" type="button">Ver proyectos →</button><button class="btn ghost" type="button" id="emil-cv">Descargar CV</button></div>
+        </div>
+        <div class="list">
+          <div class="label in" style="--i:4">Proyectos recientes (ejemplo)</div>
+          <div class="row in" style="--i:5">Plataforma de reservas <span>Next.js · Postgres</span></div>
+          <div class="row in" style="--i:6">API de pagos <span>Node · Stripe</span></div>
+          <div class="row in" style="--i:7">Dashboard académico <span>React · Python</span></div>
+          <div class="row in" style="--i:8">Este portafolio <span>Three.js · Blender</span></div>
+        </div>
+        <div class="toasts" id="toasts" aria-live="polite"></div>
+      </div>
+
+      <!-- 3 · Frontend Design -->
+      <div class="mock fd" id="m-frontend" role="tabpanel" aria-labelledby="tab-frontend" hidden>
+        <div class="top in" style="--i:0"><span>Portafolio · 2026</span><span>Proyectos · Blog · CV · Contacto</span></div>
+        <h3 class="big"><span class="line"><span>Luis</span></span><span class="line"><span>Daniel<em>.</em></span></span></h3>
+        <div class="tag in" style="--i:6">full stack developer</div>
+        <p class="lede in" style="--i:7">Estudiante de Ingeniería de Sistemas. Diseño y programo productos web completos: base de datos, API e interfaz.</p>
+        <div class="ctas in" style="--i:8"><a href="#frontend">Ver proyectos</a><a href="#frontend">Descargar CV</a></div>
+        <svg class="seal in" style="--i:9" viewBox="0 0 20 20" aria-hidden="true">
+          <defs><path id="circ" d="M10 10 m-7 0 a7 7 0 1 1 14 0 a7 7 0 1 1 -14 0"/></defs>
+          <text><textPath href="#circ">ABIERTO A OPORTUNIDADES · ABIERTO A OPORTUNIDADES ·</textPath></text>
+          <circle cx="10" cy="10" r="2.4"/>
+        </svg>
+        <div class="marquee" aria-hidden="true"><div>TypeScript<i>✦</i>React<i>✦</i>Next.js<i>✦</i>Node<i>✦</i>PostgreSQL<i>✦</i>Docker<i>✦</i>Three.js<i>✦</i>TypeScript<i>✦</i>React<i>✦</i>Next.js<i>✦</i>Node<i>✦</i>PostgreSQL<i>✦</i>Docker<i>✦</i>Three.js<i>✦</i></div></div>
+      </div>
+
+      <!-- 4 · Taste -->
+      <div class="mock ts" id="m-taste" role="tabpanel" aria-labelledby="tab-taste" hidden>
+        <div class="grid" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i></div>
+        <div class="top in" style="--i:0"><span>Luis Daniel</span><span>Proyectos</span><span>Blog</span><span>Sobre mí</span><span>CV</span><span>Contacto</span></div>
+        <h3 class="name"><span>Luis Daniel</span><br><span class="blue" style="animation-delay:.45s">Full Stack</span></h3>
+        <dl class="facts">
+          <dt class="in" style="--i:1">Rol</dt><dd class="in" style="--i:1">Desarrollador full stack</dd>
+          <dt class="in" style="--i:2">Estudios</dt><dd class="in" style="--i:2">Ingeniería de Sistemas</dd>
+          <dt class="in" style="--i:3">Estado</dt><dd class="in" style="--i:3">Abierto a oportunidades</dd>
+          <dt class="in" style="--i:4">Modalidad</dt><dd class="in" style="--i:4">Remoto / híbrido</dd>
+        </dl>
+        <p class="statement in" style="--i:2">Construyo aplicaciones web <mark>de punta a punta</mark>: modelo de datos, API, interfaz y despliegue.</p>
+        <div class="links in" style="--i:5"><a href="#taste">GitHub</a><a href="#taste">LinkedIn</a><a href="#taste">CV (PDF)</a><a href="#taste">Email</a></div>
+      </div>
+
+      <!-- 5 · UI/UX Pro Max -->
+      <div class="mock pm" id="m-promax" role="tabpanel" aria-labelledby="tab-promax" hidden>
+        <div class="nav"><b>Luis Daniel</b><span>Proyectos · Blog · Sobre mí · CV · Contacto</span></div>
+        <div class="card main" style="--i:0">
+          <div class="k">Desarrollador Full Stack</div>
+          <h3>Hola, soy<br>Luis Daniel</h3>
+          <p>Estudiante de Ingeniería de Sistemas. Construyo aplicaciones web completas, del modelo de datos a la interfaz.</p>
+          <div class="ctas"><button class="btn primary" type="button">Ver proyectos</button><button class="btn ghost" type="button">Descargar CV</button></div>
+        </div>
+        <div class="card" style="--i:1"><div class="k">Stack</div><div class="chips"><span>TypeScript</span><span>React</span><span>Next.js</span><span>Node</span><span>Postgres</span></div></div>
+        <div class="card" style="--i:2"><div class="k">Estudios</div><div class="big">Ing. Sistemas</div></div>
+        <div class="card" style="--i:3; grid-column: span 2"><span class="ex">ejemplo</span><div class="k">Actividad en GitHub</div><div class="heat" id="heat"></div></div>
+        <div class="card" style="--i:4"><div class="k">Estado</div><div class="big" style="font-size:2.2cqi">Abierto a oportunidades</div></div>
+        <div class="card" style="--i:5"><div class="k">Redes</div><div class="socials"><span>GitHub</span><span>LinkedIn</span></div></div>
+      </div>
+
+      <!-- 6 · Impeccable -->
+      <div class="mock im" id="m-impeccable" role="tabpanel" aria-labelledby="tab-impeccable" hidden>
+        <div class="top in" style="--i:0"><span>luisdaniel.dev</span><nav><span>Proyectos</span><span>Escritos</span><span>Sobre mí</span><span>CV</span></nav></div>
+        <h3 class="say" id="say">Hola, soy <span class="u">Luis Daniel</span>. Construyo software web de punta a punta <span class="muted">y estudio Ingeniería de Sistemas.</span></h3>
+        <div class="row">
+          <p class="status in" style="--i:0">Ahora: buscando un primer puesto como desarrollador full stack. Abierto a remoto.</p>
+          <div class="links in" style="--i:1"><a href="#impeccable">Proyectos</a><a href="#impeccable">GitHub</a><a href="#impeccable">LinkedIn</a><a href="#impeccable">CV</a></div>
+        </div>
+      </div>
+    </div>
+
+    <article class="info" id="info" aria-live="polite"></article>
+  </section>
+
+  <section class="compare">
+    <h2>Comparación rápida</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Skill</th><th>Qué aporta</th><th>Aspecto</th><th>Movimiento</th><th>Encaja con tu idea</th></tr></thead>
+        <tbody>
+          <tr><td><b>Apple Design</b><br><span class="note">ya instalada</span></td><td>Principios: respuesta inmediata, interrupción, springs, materiales, tipografía</td><td>Oscuro, cristal translúcido, tipografía grande</td><td>Fluido y físico</td><td>Muy bien: es tu referencia</td></tr>
+          <tr><td><b>Emil Kowalski</b></td><td>Animación de interfaces: curvas, duraciones, revisión y rendimiento. Incluye su propia versión de Apple Design</td><td>Sobrio, tipo Vercel/Linear</td><td>Lo más pulido del grupo</td><td>Muy bien: complementa a Apple</td></tr>
+          <tr><td><b>Frontend Design</b><br><span class="note">Anthropic</span></td><td>Dirección visual distintiva; evita el aspecto «hecho por IA»</td><td>Editorial y atrevido</td><td>Un gran momento orquestado</td><td>Si quieres un sello propio fuerte</td></tr>
+          <tr><td><b>Taste</b></td><td>20 direcciones de arte y reglas medibles de layout, con revisión en navegador</td><td>Según la dirección elegida (aquí, suiza)</td><td>Medido</td><td>Bien para decidir una dirección</td></tr>
+          <tr><td><b>UI/UX Pro Max</b></td><td>Catálogo enorme: estilos, paletas y combinaciones tipográficas</td><td>El que elijas del catálogo (aquí, bento)</td><td>Variable</td><td>Útil para explorar, menos coherente</td></tr>
+          <tr><td><b>Impeccable</b></td><td>Comandos para pulir (critique, polish, typeset, animate…) y 62 reglas contra el diseño genérico</td><td>Tipografía con carácter, color sin degradados</td><td>Contenido</td><td>Ojo: marca el degradado azul→violeta como tópico</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="reco">
+      <p><b>Mi recomendación:</b> combina <b>Apple Design + Emil Kowalski</b> para <i>cómo se mueve y responde</i> el Home (son complementarias, y Emil incluye su propia versión de Apple Design), y elige <b>una</b> skill de dirección visual (<b>Frontend Design</b> o <b>Taste</b>) para <i>cómo se ve</i>. Al final, pasa <b>Impeccable</b> o las <i>Web Interface Guidelines</i> de Vercel como revisión.</p>
+      <p class="note">Ten en cuenta que Impeccable y la guía de Anthropic consideran el degradado azul→violeta un recurso muy visto en diseños hechos con IA. Se puede mantener tu paleta y darle carácter con la tipografía y la composición.</p>
+    </div>
+    <p class="sources">Fuentes: <a href="https://github.com/emilkowalski/skills" target="_blank" rel="noopener">emilkowalski/skills</a> · <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">anthropics/skills (frontend-design)</a> · <a href="https://github.com/Leonxlnx/taste-skill" target="_blank" rel="noopener">Leonxlnx/taste-skill</a> · <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max-skill</a> · <a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener">pbakaus/impeccable</a> · <a href="https://github.com/vercel-labs/agent-skills" target="_blank" rel="noopener">vercel-labs/agent-skills</a></p>
+  </section>
+</div>
+
+<script>
+const INFO = {
+  apple: {
+    author: 'Ya instalada en tu Claude Code (charlas WWDC adaptadas a la web)',
+    name: 'Apple Design',
+    what: 'Cómo hace Apple que una interfaz se sienta física: respuesta inmediata al pulsar, animaciones que se pueden interrumpir, springs en vez de duraciones fijas, materiales translúcidos que marcan jerarquía y tipografía ajustada al tamaño.',
+    look: ['Menú de cristal flotante (backdrop-filter) con el contenido por debajo', 'Nombre enorme con tracking negativo e interlineado apretado', 'Botones que se hunden al pulsar (escala 0,97)', 'Manchas de color difuminadas que se mueven muy despacio'],
+    when: 'Base de movimiento e interacción de todo el sitio.',
+    combo: 'Emil Kowalski (pulido de animación) + una skill de dirección visual.',
+    cmd: 'Ya está instalada: /apple-design'
+  },
+  emil: {
+    author: 'Emil Kowalski, autor de Sonner y Vaul (16 skills, MIT)',
+    name: 'Emil Kowalski · design engineering',
+    what: 'Skills centradas en animación de interfaces: elegir curva, duración y propiedades, revisar y mejorar animaciones existentes, encontrar dónde sí (y dónde no) animar, y arreglar animaciones que pierden fotogramas.',
+    look: ['Estética sobria tipo Vercel/Linear: casi negro, una sola tipografía, sin adornos', 'Entradas escalonadas con desenfoque y ease-out (nunca ease-in al entrar)', 'Subrayados y filas con hover sutil; sombras semitransparentes en vez de bordes', 'Prueba «Descargar CV»: aparece un toast como los de Sonner'],
+    when: 'Para que cada transición del Home (y la salida de la intro) esté afinada.',
+    combo: 'Apple Design. Tiene además las skills animation-performance y review-animations.',
+    cmd: 'npx skills@latest add emilkowalski/skills'
+  },
+  frontend: {
+    author: 'Anthropic (skill oficial, la más instalada)',
+    name: 'Frontend Design',
+    what: 'Pide una dirección estética clara y atrevida antes de programar: tipografía con personalidad, composición asimétrica, un momento de animación orquestado y detalles que eviten el aspecto genérico.',
+    look: ['Nombre en serif gigante que entra por máscara', 'Etiqueta girada, sello circular que gira y cinta con tu stack', 'Fondo claro con textura de puntos y un solo acento violeta', 'Enlaces subrayados en vez de botones'],
+    when: 'Si quieres que el Home tenga un sello visual propio y memorable.',
+    combo: 'Apple o Emil para el movimiento.',
+    cmd: '/plugin install frontend-design (directorio de plugins de Anthropic)'
+  },
+  taste: {
+    author: 'Leonxlnx (design-taste-frontend)',
+    name: 'Taste',
+    what: 'Asigna una de 20 direcciones de arte investigadas, ata la página a algo propio del cliente y se revisa en un navegador real a tres anchos, corrigiendo los tres peores problemas en cada ronda.',
+    look: ['Dirección suiza: rejilla de 12 columnas visible que se dibuja al entrar', 'Nombre condensado en mayúsculas que se revela de izquierda a derecha', 'Ficha de datos (rol, estudios, estado) alineada a la rejilla', 'Un único acento azul cobalto'],
+    when: 'Si prefieres que la skill proponga la dirección de arte y la verifique.',
+    combo: 'Apple o Emil para el movimiento.',
+    cmd: 'npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-frontend"'
+  },
+  promax: {
+    author: 'nextlevelbuilder (catálogo de estilos)',
+    name: 'UI/UX Pro Max',
+    what: 'Una base de datos de diseño: decenas de estilos, paletas, combinaciones tipográficas y pautas por stack. Útil para explorar opciones rápido.',
+    look: ['Estilo bento: el Home como una cuadrícula de tarjetas', 'Tarjeta principal con nombre y botones, y otras con stack, estado y actividad', 'Bordes que se iluminan al pasar el cursor', 'Entrada escalonada de tarjetas'],
+    when: 'Para explorar muchas variantes antes de decidir.',
+    combo: 'Impeccable para quitarle lo genérico.',
+    cmd: 'npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max'
+  },
+  impeccable: {
+    author: 'Paul Bakaus (1 skill + 24 comandos)',
+    name: 'Impeccable',
+    what: 'Comandos para revisar y pulir: critique, audit, polish, typeset, layout, animate, bolder, quieter… y 62 reglas que detectan los tópicos del diseño hecho por IA.',
+    look: ['El Home como una frase: tu nombre dentro del mensaje, subrayado al entrar', 'Tipografía con carácter (no Inter) y neutros teñidos', 'Un solo color de acento, sin degradados', 'Enlaces de texto en lugar de botones e iconos'],
+    when: 'Como revisión final de cualquiera de las otras direcciones.',
+    combo: 'Cualquiera; sirve para auditar.',
+    cmd: 'npx impeccable install   (luego /impeccable init)'
+  }
+};
+const ORDER = ['apple', 'emil', 'frontend', 'taste', 'promax', 'impeccable'];
+const info = document.getElementById('info');
+const tabs = [...document.querySelectorAll('.tab')];
+
+function renderInfo(key) {
+  const d = INFO[key];
+  info.innerHTML = `
+    <div>
+      <p class="label">${d.author}</p>
+      <h2>${d.name}</h2>
+      <p>${d.what}</p>
+      <p class="label" style="margin-top:16px">En este ejemplo</p>
+      <ul>${d.look.map((l) => `<li>${l}</li>`).join('')}</ul>
+    </div>
+    <div class="meta">
+      <dl>
+        <div><dt>Cuándo usarla</dt><dd>${d.when}</dd></div>
+        <div><dt>Combina con</dt><dd>${d.combo}</dd></div>
+        <div><dt>Instalar</dt><dd><div class="cmd"><code id="cmd">${d.cmd}</code><button class="copy" type="button" id="copy">Copiar</button></div></dd></div>
+      </dl>
+    </div>`;
+  document.getElementById('copy').addEventListener('click', async (e) => {
+    const code = document.getElementById('cmd');
+    try { await navigator.clipboard.writeText(code.textContent); e.target.textContent = 'Copiado'; }
+    catch { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); e.target.textContent = 'Selecciona y copia'; }
+    setTimeout(() => (e.target.textContent = 'Copiar'), 1600);
+  });
+}
+
+function replay(panel) {
+  // reinicia todas las animaciones CSS de la maqueta
+  panel.querySelectorAll('*').forEach((el) => {
+    if (!el.getAnimations) return;
+    el.getAnimations().forEach((a) => { a.cancel(); a.play(); });
+  });
+  if (panel.getAnimations) panel.getAnimations().forEach((a) => { a.cancel(); a.play(); });
+  if (panel.id === 'm-impeccable') splitWords();
+}
+
+function select(key, focus) {
+  tabs.forEach((t) => {
+    const on = t.id === `tab-${key}`;
+    t.setAttribute('aria-selected', on);
+    t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    if (on && focus) t.focus();
+  });
+  renderInfo(key);
+  replay(document.getElementById(`m-${key}`));
+  try { history.replaceState(null, '', `#${key}`); } catch {}
+}
+
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => select(ORDER[i]));
+  t.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const n = (i + (e.key === 'ArrowRight' ? 1 : ORDER.length - 1)) % ORDER.length;
+    select(ORDER[n], true);
+  });
+});
+document.getElementById('replay').addEventListener('click', () => {
+  const t = tabs.find((x) => x.getAttribute('aria-selected') === 'true');
+  replay(document.getElementById(t.getAttribute('aria-controls')));
+});
+
+// Impeccable: la frase entra palabra a palabra
+let split = false;
+function splitWords() {
+  if (split) return;
+  split = true;
+  const say = document.getElementById('say');
+  let i = 0;
+  const walk = (node) => {
+    [...node.childNodes].forEach((c) => {
+      if (c.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.append(part); return; }
+          const s = document.createElement('span');
+          s.className = 'w'; s.style.setProperty('--i', i++); s.textContent = part;
+          frag.append(s);
+        });
+        c.replaceWith(frag);
+      } else if (c.classList && c.classList.contains('u')) {
+        c.style.setProperty('--i', i++);
+        c.style.animationDelay = `calc(${i} * 45ms), 1s`;
+      } else walk(c);
+    });
+  };
+  walk(say);
+}
+splitWords();
+
+// Pro Max: mapa de actividad de ejemplo (aleatorio)
+const heat = document.getElementById('heat');
+const shades = ['#1d2036', '#2b3170', '#3f4bc4', '#6b5cff', '#a07bff'];
+for (let k = 0; k < 42; k++) {
+  const c = document.createElement('i');
+  c.style.background = shades[Math.floor(Math.random() ** 1.6 * shades.length)];
+  heat.append(c);
+}
+
+// Emil: toast al descargar CV (como Sonner)
+let toastN = 0;
+document.getElementById('emil-cv').addEventListener('click', () => {
+  const box = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `CV preparado<small>cv-luis-daniel.pdf · ejemplo ${++toastN}</small>`;
+  t.style.transform = 'translateY(120%)'; t.style.opacity = '0';
+  box.append(t);
+  const all = [...box.children];
+  requestAnimationFrame(() => {
+    all.forEach((el, idx) => {
+      const depth = all.length - 1 - idx;
+      el.style.opacity = depth > 2 ? '0' : '1';
+      el.style.transform = `translateY(${-depth * 18}%) scale(${1 - depth * 0.05})`;
+    });
+  });
+  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(120%)'; setTimeout(() => t.remove(), 400); }, 3200);
+});
+
+const start = ORDER.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'apple';
+select(start);
+</script>
+</body>
+</html>

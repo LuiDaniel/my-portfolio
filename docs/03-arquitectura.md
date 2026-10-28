@@ -4,152 +4,137 @@
 
 | Capa | Tecnología | Motivo / ADR |
 |---|---|---|
-| Framework | **Next.js (App Router)** + React + TypeScript (estricto) | [ADR 0001](adr/0001-nextjs-app-router.md) |
-| Estilos | **Tailwind CSS v4** + tokens CSS (`src/styles/tokens.css`) | Sistema de diseño en [04 · Diseño](04-diseno.md) |
+| Framework | **Next.js (App Router)**, última versión estable, + React + TypeScript estricto | [ADR 0001](adr/0001-nextjs-app-router.md) |
+| Estilos | **Tailwind CSS v4** con tokens en `@theme` (`src/styles/tokens.css`) + `src/styles/effects.css` para cristal, borde iluminado y animaciones | [04 · Diseño](04-diseno.md), [ADR 0007](adr/0007-diseno-apple-bento.md) |
+| Iconos | **lucide-react** + SVG propios para marcas (GitHub, LinkedIn) | |
+| Fuentes | `next/font/google`: **Inter** (variable) y **JetBrains Mono** | |
 | i18n | **next-intl**, rutas traducidas, ES por defecto | [ADR 0002](adr/0002-i18n-next-intl.md) |
-| Contenido | **MDX + YAML** en el repo, compilado y validado con **Velite** (esquemas Zod) | [ADR 0003](adr/0003-contenido-mdx-velite.md) |
-| Código en artículos | Shiki (resaltado en build) | |
-| 3D | **Three.js** puro (clases actuales), montado en un componente cliente | [ADR 0004](adr/0004-threejs-en-componente-cliente.md) |
-| Movimiento | **GSAP** + ScrollTrigger, **Lenis** (scroll suave) | |
-| Backend | Server Actions / Route Handlers de Next.js | [ADR 0005](adr/0005-vercel-y-servicios.md) |
+| Contenido | **JSON + MDX** en `content/`, validado y compilado con **Velite** (esquemas Zod) | [ADR 0006](adr/0006-datos-json-mdx.md), [07 · Datos](07-datos.md) |
+| Código en artículos | Shiki (resaltado en build, vía rehype) | |
+| 3D (solo intro) | **Three.js** puro (clases del prototipo) en un componente cliente | [ADR 0004](adr/0004-threejs-en-componente-cliente.md) |
+| Movimiento | **CSS** para toda la interfaz (transiciones, `@keyframes`, `animation-timeline: view()`); **GSAP** solo para la coreografía de la intro | |
+| Scroll suave | Nativo (`scroll-behavior: smooth`); sin librería | |
+| Backend | Server Actions y Route Handlers de Next.js | [ADR 0005](adr/0005-vercel-y-servicios.md) |
 | Email | **Resend** | |
 | Anti-spam | Honeypot + límite de envíos (Upstash Redis) | |
-| Datos externos | API de GitHub (repos y actividad), con caché | |
-| Analítica | Vercel Web Analytics + Speed Insights (sin cookies, sin banner) | |
+| Datos externos | API GraphQL de GitHub (calendario de contribuciones), con caché de 24 h | |
+| Analítica | Vercel Web Analytics + Speed Insights (sin cookies) | |
 | Calidad | ESLint, Prettier, TypeScript, Vitest, Playwright + axe, Lighthouse CI | [06 · Calidad](06-calidad.md) |
 | CI/CD | GitHub Actions → Vercel (*preview* por PR, producción desde `main`) | |
 
-## Estructura de carpetas
+## Estructura de carpetas (objetivo)
 
 ```
 portafolio/
-├─ .github/workflows/          # ci.yml (lint, tipos, tests, build), lighthouse.yml
-├─ blender/                    # scripts de modelado, rig y exportación del robot (ver 05)
-├─ docs/                       # esta documentación + adr/
-├─ referencias/                # imágenes de referencia del robot
+├─ .claude/launch.json         # servidores de vista previa: "next" (3000) y "prototype" (5173)
+├─ .github/workflows/          # ci.yml, lighthouse.yml
+├─ blender/                    # scripts del robot (modelado, rig, animaciones, exportación) → ver 05
+├─ content/                    # ★ CONTENIDO EDITABLE (JSON + MDX) → ver 07
+│  ├─ site.json, profile.json, home.json, skills.json, experience.json, education.json
+│  ├─ projects/<slug>/{meta.json, es.mdx, en.mdx, imágenes}
+│  ├─ blog/<slug>/{es.mdx, en.mdx, imágenes}
+│  └─ pages/{sobre-mi,colofon,uses}/{es,en}.mdx
+├─ design/                     # ★ maquetas aprobadas (home.html = fuente de verdad visual)
+├─ docs/                       # documentación + adr/
+├─ prototype/                  # prototipo Vite de la intro (referencia; se borra en la fase 9)
 ├─ public/
-│  ├─ models/robot.glb         # modelo exportado (Draco)
-│  ├─ draco/                   # decodificadores (copiados en postinstall, ignorados por git)
-│  ├─ cv/                      # cv-es.pdf, cv-en.pdf (generados)
-│  └─ favicon.svg, …
+│  ├─ models/robot.glb         # modelo del robot (Draco, ~0,8 MB)
+│  ├─ draco/                   # decodificadores (postinstall; ignorados por git)
+│  ├─ cv/                      # cv-es.pdf, cv-en.pdf (generados con npm run cv)
+│  └─ favicon.svg, apple-touch-icon.png
+├─ referencias/                # imágenes de referencia del robot
 ├─ scripts/
-│  ├─ copy-draco.mjs           # copia los decodificadores Draco de three a public/
-│  └─ build-cv.ts              # genera los PDF del CV con Playwright desde /cv y /en/cv
+│  ├─ copy-draco.mjs           # copia los decodificadores de three a public/draco
+│  └─ build-cv.ts              # imprime /cv y /en/cv a PDF con Playwright
 ├─ src/
 │  ├─ app/
 │  │  ├─ [locale]/
-│  │  │  ├─ layout.tsx         # <html lang>, fuentes, header, footer, proveedores
-│  │  │  ├─ page.tsx           # portada: Hero (intro) + secciones
-│  │  │  ├─ proyectos/page.tsx
-│  │  │  ├─ proyectos/[slug]/page.tsx
-│  │  │  ├─ blog/page.tsx
-│  │  │  ├─ blog/[slug]/page.tsx
-│  │  │  ├─ cv/page.tsx
-│  │  │  ├─ sobre-mi/page.tsx
-│  │  │  ├─ uses/page.tsx
-│  │  │  ├─ colofon/page.tsx
+│  │  │  ├─ layout.tsx         # <html lang>, fuentes, Ambient, NavBar, Footer, proveedores
+│  │  │  ├─ page.tsx           # Home: IntroOverlay (1.ª visita) + Hero + secciones según home.json
+│  │  │  ├─ proyectos/page.tsx, proyectos/[slug]/page.tsx
+│  │  │  ├─ blog/page.tsx, blog/[slug]/page.tsx
+│  │  │  ├─ sobre-mi/page.tsx, cv/page.tsx, uses/page.tsx, colofon/page.tsx
 │  │  │  ├─ opengraph-image.tsx
+│  │  │  ├─ rss.xml/route.ts
 │  │  │  └─ not-found.tsx
-│  │  ├─ [locale]/rss.xml/route.ts
-│  │  ├─ sitemap.ts
-│  │  ├─ robots.ts
-│  │  └─ actions/contact.ts    # Server Action del formulario
+│  │  ├─ actions/contact.ts    # Server Action del formulario
+│  │  ├─ sitemap.ts, robots.ts
+│  │  └─ globals.css           # importa tokens.css y effects.css
 │  ├─ components/
-│  │  ├─ ui/                   # Button, Link, Tag, Card, Badge, Section, Container…
-│  │  ├─ layout/               # Header, Footer, LocaleSwitcher, MobileMenu
-│  │  ├─ sections/             # Hero, About, FeaturedProjects, Experience, Skills,
-│  │  │                        # Education, LatestPosts, Contact
-│  │  ├─ mdx/                  # componentes usables dentro del MDX (Callout, Figure, Diagram…)
-│  │  ├─ robot/
-│  │  │  ├─ RobotStage.tsx     # componente cliente: canvas + ciclo de vida de la escena
-│  │  │  ├─ RobotLoader.tsx    # pantalla negra con los ojos LED (HTML/CSS)
-│  │  │  └─ SkipIntro.tsx
-│  │  └─ seo/                  # JsonLd (Person, Article, BreadcrumbList)
-│  ├─ three/                   # código 3D independiente de React
-│  │  ├─ robot.ts              # clase Robot (carga, mixer, gestos, mirada, neón, pistones)
-│  │  ├─ eyes.ts               # patrones LED de los ojos
-│  │  ├─ intro.ts              # gemas y animación de los componentes del Hero
-│  │  ├─ stage.ts              # renderer, luces, halo, bloom, planos de cámara
-│  │  ├─ introSequence.ts      # runIntro / sweep / finish / skip
-│  │  └─ scrollFade.ts         # al bajar, el Hero y el robot se desvanecen
-│  ├─ content/                 # fuente de verdad del contenido (ver abajo)
-│  │  ├─ projects/{es,en}/*.mdx
-│  │  ├─ blog/{es,en}/*.mdx
-│  │  ├─ experience/*.yaml
-│  │  └─ pages/{es,en}/*.mdx   # sobre-mí, colofón
-│  ├─ data/                    # profile.ts, education.ts, skills.ts, socials.ts, uses.ts
-│  ├─ i18n/
-│  │  ├─ routing.ts            # idiomas, prefijos y rutas traducidas
-│  │  ├─ request.ts            # carga de mensajes por petición
-│  │  └─ messages/{es,en}.json # textos de interfaz
-│  ├─ lib/                     # github.ts, rate-limit.ts, mail.ts, utils (fechas, slug, lectura)
-│  ├─ styles/                  # tokens.css, globals.css, print.css (CV)
-│  └─ proxy.ts                 # detección de idioma (next-intl); `middleware.ts` en Next < 16
+│  │  ├─ layout/               # Ambient, NavBar, MobileMenu, LocaleSwitch, Footer
+│  │  ├─ sections/             # Hero, hero/Bento*, About, FeaturedProjects, Experience,
+│  │  │                        # Skills, Education, LatestPosts, Contact, ContactForm
+│  │  ├─ ui/                   # Card, Button, SocialIcon, StatusPill, SectionHead, Chip, Tag,
+│  │  │                        # ProjectCard, PostCard, TimelineItem, Icon, RichText
+│  │  ├─ intro/                # IntroOverlay, RobotStage, RobotLoader, WelcomeCard, SkipIntro
+│  │  ├─ mdx/                  # Figure, Callout, Diagram, Video (usables en MDX)
+│  │  └─ seo/                  # JsonLd
+│  ├─ hooks/                   # usePointerGlow, useScrollSpy, useCopy, useReducedMotion
+│  ├─ i18n/                    # routing.ts, request.ts, navigation.ts, messages/{es,en}.json
+│  ├─ lib/                     # content.ts (★ única puerta a los datos), github.ts, mail.ts,
+│  │                           # rate-limit.ts, format.ts, rich-text.ts
+│  ├─ styles/                  # tokens.css, effects.css, print.css
+│  ├─ three/                   # robot.ts, eyes.ts, intro.ts, stage.ts, introSequence.ts
+│  └─ proxy.ts                 # next-intl (en Next < 16 se llama middleware.ts)
 ├─ tests/
-│  ├─ unit/                    # Vitest: esquemas, utilidades, i18n completo
-│  └─ e2e/                     # Playwright: navegación, intro, formulario, accesibilidad (axe)
-├─ velite.config.ts            # colecciones y esquemas de contenido
-├─ next.config.ts
-├─ tsconfig.json, eslint.config.mjs, .prettierrc, vitest.config.ts, playwright.config.ts
+│  ├─ unit/                    # Vitest: contenido, utilidades, i18n
+│  └─ e2e/                     # Playwright: navegación, intro, Home, formulario, axe
+├─ velite.config.ts            # colecciones y esquemas de content/
+├─ next.config.ts, tsconfig.json, eslint.config.mjs, .prettierrc, vitest.config.ts, playwright.config.ts
 ├─ .env.example
-├─ CLAUDE.md, README.md
-└─ package.json
+└─ CLAUDE.md, README.md, package.json
 ```
 
-## Rutas e idiomas
+`.velite/` (salida generada), `.next/`, `public/draco/` y `node_modules/` van en `.gitignore`.
 
-- Idiomas: `es` (por defecto) y `en`. Prefijo **solo cuando hace falta** (`localePrefix: 'as-needed'`): español en `/…`, inglés en `/en/…`.
-- Rutas traducidas con `pathnames` de next-intl: `/proyectos` ↔ `/en/projects`, `/sobre-mi` ↔ `/en/about`, `/colofon` ↔ `/en/colophon`. Las carpetas de `app/` usan el nombre en español.
-- El proxy (middleware) de next-intl detecta el idioma del navegador **solo en la primera visita** a `/`. Después manda la elección del usuario (cookie de next-intl).
-- Cada página declara `alternates.languages` (hreflang) y `canonical`.
-- Los artículos pueden existir en un solo idioma: el selector lleva a la lista del blog del otro idioma si falta la traducción.
+## Rutas, idiomas y anclas
 
-## Modelo de datos
+- Idiomas `es` (por defecto) y `en`, con `localePrefix: 'as-needed'`: español en `/…`, inglés en `/en/…`.
+- Rutas traducidas (`pathnames` de next-intl): `/proyectos` ↔ `/en/projects`, `/sobre-mi` ↔ `/en/about`, `/colofon` ↔ `/en/colophon`; `/blog`, `/cv` y `/uses` son iguales. Las carpetas de `app/` usan el nombre en español.
+- **Anclas del Home** (iguales en ambos idiomas): `#about`, `#projects`, `#experience`, `#skills`, `#education`, `#blog`, `#contact`. Son los `id` de `home.json → sections`.
+- El proxy de next-intl detecta el idioma del navegador **solo en la primera visita**; después manda la elección del usuario (cookie).
+- Cada página declara `canonical` y `alternates.languages` (hreflang).
+- Un artículo puede existir en un solo idioma: el selector de idioma lleva entonces a la lista del blog del otro idioma.
 
-Una sola fuente de verdad: los mismos datos alimentan la portada, las páginas, `/cv`, los PDF, el JSON-LD y las imágenes OG.
+## Datos
 
-```ts
-// velite.config.ts (resumen)
-projects   → { slug, locale, title, summary, role, period: { start, end? }, team, stack[], type,
-               links: { demo?, repo?, post? }, cover, featured, order, draft, body (MDX) }
-posts      → { slug, locale, title, description, date, updated?, tags[], cover?, draft,
-               readingTime, toc, body (MDX) }
-experience → { id, role: { es, en }, org, url?, kind: 'job'|'freelance'|'internship'|'volunteer',
-               start, end?, location, highlights: { es[], en[] }, stack[] }
-pages      → { slug, locale, title, body (MDX) }        // sobre-mí, colofón
+Todo el contenido vive en `content/` y se lee **solo** a través de `src/lib/content.ts`. Esquemas, archivos y recetas en [07 · Datos](07-datos.md).
+
+```
+content/ ──Velite (Zod + MDX + imágenes)──► .velite/ ──► src/lib/content.ts ──► Server Components
 ```
 
-Datos que no son contenido largo van en `src/data/*.ts`, tipados y con textos `{ es, en }`.
-
-**Reglas:**
-- Velite valida en build: un campo que falta o una fecha inválida rompe el build, no la página en producción.
-- `draft: true` se ve en desarrollo y se excluye en producción.
-- Un test comprueba que cada proyecto destacado existe en ambos idiomas.
+- **Velite** se integra con Next.js como indica su guía oficial: se arranca desde `next.config.ts` (modo *watch* en desarrollo, *clean* en build).
+- `content.ts` devuelve los datos ya resueltos al idioma (`string`, no `{ es, en }`), ordenados y sin borradores en producción.
+- **Texto enriquecido:** los campos marcados como tal admiten solo `**negrita**`, que convierte `lib/rich-text.ts`. Sin HTML arbitrario, para que no haya inyección de código.
 
 ## Renderizado
 
 | Página | Estrategia |
 |---|---|
-| Portada, proyectos, blog, CV, sobre mí, uses, colofón | **Estática** (SSG) con `generateStaticParams` por idioma y slug |
-| Actividad de GitHub (en portada o proyectos) | Estática con **revalidación** cada 24 h |
-| Formulario de contacto | Server Action (función serverless) |
-| Imágenes OG | Generadas con `next/og` en build |
+| Home, proyectos, blog, sobre mí, CV, uses, colofón | **Estática** (SSG) con `generateStaticParams` por idioma y slug |
+| Tarjeta de GitHub | Datos obtenidos en el servidor con revalidación de 24 h |
+| Reloj del bento | El servidor pinta la esfera sin agujas; el cliente las coloca (evita diferencias de hidratación) |
+| Formulario de contacto | Server Action |
+| Imágenes OG | `next/og` |
 
-El 3D **no** se renderiza en el servidor: `RobotStage` se carga con `next/dynamic` y `ssr: false`. Todo el texto del Hero sí viene en el HTML del servidor (SEO, lectores de pantalla, sin saltos de layout). La integración está en [05 · Robot 3D](05-robot-3d.md#integración-de-la-intro).
+- **Componentes de servidor por defecto.** Llevan `'use client'` solo: `Ambient`, `NavBar` (resaltado y *scrollspy*), `MobileMenu`, `LocaleSwitch`, `SocialIcon` (copiar email), `BentoClock`, `ContactForm`, todo `intro/` y lo que use `usePointerGlow`.
+- **Borde iluminado de tarjetas:** un único listener (`usePointerGlow` en el layout) actualiza `--mx` y `--my` de la tarjeta bajo el cursor. No hay un listener por tarjeta.
+- **Intro:** `RobotStage` se carga con `next/dynamic` y `ssr: false`. El Home es HTML del servidor; la intro es una capa encima que se desmonta al terminar ([05 · Robot 3D](05-robot-3d.md#integración-de-la-intro)).
 
 ## Backend
 
 ### Formulario de contacto (`src/app/actions/contact.ts`)
 
-1. Valida con Zod (nombre 2–80, email válido, mensaje 10–2000 caracteres).
+1. Valida con Zod: nombre 2–80, email válido, mensaje 10–2000 caracteres.
 2. Honeypot: un campo oculto que, si viene relleno, se descarta en silencio.
-3. Límite: 3 envíos por IP cada 10 min (Upstash Ratelimit).
-4. Envía con Resend a `CONTACT_TO_EMAIL`, con `reply-to` del visitante.
-5. Devuelve un estado tipado (`ok` / `invalid` con errores por campo / `rate_limited` / `error`) que el formulario muestra con `useActionState`. Funciona sin JS (mejora progresiva).
+3. Límite: 3 envíos por IP cada 10 min (Upstash Ratelimit). Sin variables de Upstash (desarrollo) no hay límite.
+4. Envía con Resend a `CONTACT_TO_EMAIL`, con `reply-to` del visitante. Sin `RESEND_API_KEY` (desarrollo), el mensaje se escribe en consola.
+5. Devuelve un estado tipado (`ok`, `invalid` con errores por campo, `rate_limited`, `error`) que el formulario muestra con `useActionState`. Funciona sin JS (mejora progresiva).
 
-### GitHub (`src/lib/github.ts`)
+### GitHub
 
-API REST con `GITHUB_TOKEN` (solo lectura): repos fijados, estrellas y lenguaje de los repos de cada proyecto. Se cachea con `revalidate: 86400`. Si la API falla, se muestran los datos del último build y nunca se rompe la página.
+`src/lib/github.ts` consulta la API GraphQL (`user.contributionsCollection.contributionCalendar`) con `GITHUB_TOKEN` (permiso de solo lectura), con `revalidate: 86400`. Devuelve el total y las semanas con su nivel (0–4), que se dibujan con la escala de verdes de GitHub. Si no hay token o la API falla, la tarjeta se oculta: nunca rompe la página.
 
 ### Variables de entorno (`.env.example`)
 
@@ -163,29 +148,30 @@ UPSTASH_REDIS_REST_TOKEN=
 GITHUB_TOKEN=
 ```
 
-Sin `RESEND_API_KEY` en desarrollo, el formulario escribe el mensaje en consola en vez de enviarlo.
-
 ## CV en PDF
 
-`/cv` es una página HTML pensada para imprimir (`print.css`, una página A4). `npm run cv` arranca el build local y usa Playwright para imprimir `/cv` y `/en/cv` en `public/cv/cv-es.pdf` y `public/cv/cv-en.pdf`. Los PDF se suben al repo, y hay que regenerarlos cuando cambian perfil, experiencia, formación o habilidades.
+`/cv` es una página HTML pensada para imprimir (`print.css`, A4, tema claro). `npm run cv` compila, arranca el servidor y usa Playwright para imprimir `/cv` y `/en/cv` en `public/cv/cv-es.pdf` y `cv-en.pdf`. Los PDF se suben al repo y se regeneran cuando cambian perfil, experiencia, formación o habilidades.
 
 ## Scripts de `package.json`
 
 | Script | Qué hace |
 |---|---|
-| `dev` | Next.js en desarrollo (+ Velite en modo watch) |
+| `dev` | Next.js en desarrollo (Velite en modo *watch*) → http://localhost:3000 |
 | `build` / `start` | Build de producción / servirlo |
 | `lint` / `format` | ESLint / Prettier |
 | `typecheck` | `tsc --noEmit` |
-| `test` | Vitest |
-| `test:e2e` | Playwright (incluye axe) |
+| `test` | Vitest (incluye pruebas de contenido) |
+| `test:e2e` | Playwright + axe |
+| `check` | `lint` + `typecheck` + `test` + `build` (lo mismo que CI) |
 | `cv` | Genera los PDF del CV |
+| `prototype` | Prototipo Vite de la intro → http://localhost:5173 (hasta la fase 9) |
 | `postinstall` | Copia los decodificadores Draco |
 
 ## Convenciones
 
-- TypeScript estricto. Componentes de servidor por defecto y `'use client'` solo donde haga falta (robot, menú móvil, formulario, selector de idioma).
-- Nombres de archivo: componentes en `PascalCase.tsx`, el resto en `camelCase.ts`; slugs en `kebab-case`.
-- Ningún texto de interfaz escrito a mano en los componentes: todo pasa por `messages/{es,en}.json`.
-- Commits en español, con estilo convencional (`feat:`, `fix:`, `docs:`…). Una rama y un PR por tarea, y `main` siempre desplegable.
-- Las decisiones de arquitectura nuevas se registran como ADR en `docs/adr/`.
+- TypeScript estricto (`strict`, `noUncheckedIndexedAccess`). Sin `any` salvo justificado con un comentario.
+- Nombres: componentes en `PascalCase.tsx`, el resto en `camelCase.ts`, slugs en `kebab-case`.
+- Ningún texto escrito a mano en los componentes: el contenido sale de `content/` y la interfaz de `messages/{es,en}.json`.
+- Ningún color o tamaño suelto en los componentes: se usan los tokens.
+- Commits en español con estilo convencional (`feat:`, `fix:`, `docs:`, `chore:`, `test:`). Un commit por paso verificado y una rama por fase; `main` siempre desplegable.
+- Las decisiones nuevas de arquitectura se registran como ADR en `docs/adr/`.

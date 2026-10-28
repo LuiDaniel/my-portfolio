@@ -5,13 +5,13 @@
 
 ## Contexto
 
-La intro del robot ya funciona en el prototipo con clases de Three.js puras (`Robot`, `Intro`, ojos) orquestadas con GSAP: unas 1 000 líneas probadas, con sincronización fina entre los eventos de los clips de Blender, la cámara y el DOM del Hero. Al pasar a Next.js hay que decidir cómo encajar ese código en React.
+La intro del robot ya funciona en el prototipo con clases de Three.js puras (`Robot`, `Intro`, ojos) orquestadas con GSAP: unas 1 000 líneas probadas, con sincronización fina entre los eventos de los clips de Blender, la cámara y el DOM de la tarjeta de bienvenida. Al pasar a Next.js hay que decidir cómo encajar ese código en React.
 
 ## Decisión
 
 - Mantener el código 3D como **Three.js puro** en `src/three/`, independiente de React.
 - Montarlo desde un único componente cliente, `RobotStage`, cargado con `next/dynamic` y `ssr: false`. El componente crea la escena al montarse y la libera por completo al desmontarse.
-- El texto del Hero lo renderiza el servidor. El código 3D solo lo anima (lo encuentra por `data-part`).
+- El contenido real (Home) lo renderiza el servidor. La intro es una capa encima que se desmonta al terminar; el código 3D solo anima la tarjeta de bienvenida (la encuentra por `data-part`).
 
 ## Alternativas consideradas
 

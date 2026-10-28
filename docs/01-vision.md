@@ -14,7 +14,7 @@ El portafolio debe responder en pocos segundos a las tres preguntas de quien lo 
 
 | Público | Qué busca | Cuánto tiempo dedica | Qué le damos |
 |---|---|---|---|
-| Reclutador no técnico | Nombre, rol, ubicación, idiomas, disponibilidad, CV | 10–30 s | Hero claro, botón de CV, estado "Abierto a oportunidades" |
+| Reclutador no técnico | Nombre, rol, ubicación, idiomas, disponibilidad, CV | 10–30 s | Home claro, botón de CV, estado "Abierto a oportunidades" |
 | Ingeniero / líder técnico que entrevista | Criterio técnico, calidad del código, profundidad | 3–10 min | Casos de estudio con arquitectura y *trade-offs*, repos, blog, el código del propio portafolio |
 | Comunidad / pares | Ideas, artículos, proyectos abiertos | Variable | Blog con RSS, open source |
 
@@ -45,7 +45,7 @@ Español (por defecto) e inglés, con contenido equivalente en ambos. El inglés
 
 ## Criterios de éxito
 
-- En la portada, el nombre, el rol y los enlaces son visibles y clicables en **≤ 10 s** en la primera visita, y al instante en las siguientes o con "Saltar intro".
+- En la portada, el nombre, el rol y los enlaces (Home) son visibles y clicables en **≈ 12 s** en la primera visita (la intro de bienvenida va antes), y al instante en las siguientes o con "Saltar intro", que está visible durante toda la intro.
 - Lighthouse ≥ 95 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO en las páginas de contenido. Ver [06 · Calidad](06-calidad.md).
 - 3–4 casos de estudio completos y 3–4 artículos publicados en el lanzamiento, en ambos idiomas.
 - CV en PDF (ES/EN) generado con los mismos datos que el sitio, sin duplicar información.
@@ -54,5 +54,5 @@ Español (por defecto) e inglés, con contenido equivalente en ambos. El inglés
 ## Fuera de alcance
 
 - Venta de servicios, precios o formularios de presupuesto.
-- Panel de administración o CMS: el contenido vive en el repositorio (MDX/YAML).
+- Panel de administración o CMS: el contenido vive en el repositorio (`content/`: JSON + MDX).
 - Comentarios en el blog (se puede reconsiderar más adelante).

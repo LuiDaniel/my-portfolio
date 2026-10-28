@@ -1,6 +1,6 @@
 # 0003 · Contenido en MDX/YAML dentro del repo, validado con Velite
 
-- **Estado:** Aceptado
+- **Estado:** Reemplazado por [0006](0006-datos-json-mdx.md) (2026-10-28): los datos estructurados pasan de YAML/TS a JSON y todo el contenido se mueve a `content/`.
 - **Fecha:** 2026-10-16
 
 ## Contexto
