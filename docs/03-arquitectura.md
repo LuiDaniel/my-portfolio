@@ -93,6 +93,7 @@ portafolio/
 │  │                           # rate-limit.ts, format.ts, rich-text.ts
 │  ├─ styles/                  # tokens.css, effects.css, print.css
 │  ├─ three/                   # robot.ts, eyes.ts, intro.ts, stage.ts, introSequence.ts
+│  ├─ global-not-found.tsx     # 404 de las peticiones sin idioma (experimental.globalNotFound)
 │  └─ proxy.ts                 # next-intl (en Next < 16 se llama middleware.ts)
 ├─ tests/
 │  ├─ unit/                    # Vitest: contenido, utilidades, i18n
@@ -107,6 +108,8 @@ portafolio/
 `.velite/` (salida generada), `.next/`, `next-env.d.ts`, `public/draco/`, `node_modules/`, los informes de pruebas y todos los `.env*` salvo `.env.example` van en `.gitignore`.
 
 ## Rutas, idiomas y anclas
+
+**Cómo se resuelve el idioma (fase 2):** el layout raíz vive en `app/[locale]/` con `generateStaticParams` (`es`, `en`) y `dynamicParams = false`. `src/i18n/request.ts` lee el idioma con `next/root-params`, la vía que recomienda next-intl desde Next 16.3, sin `setRequestLocale`. Las Server Actions y los Route Handlers deben pasarlo explícitamente, porque allí no hay root params. Las rutas desconocidas dentro de un idioma caen en `[locale]/[...rest]` → `notFound()` → `[locale]/not-found.tsx` (traducido); lo que no pasa por el proxy (rutas con extensión) va a `app/global-not-found.tsx`. Limitación conocida: el 404 traducido llega con el HTML vacío y se dibuja en el cliente (el estado 404 y el `noindex` sí son correctos).
 
 - Idiomas `es` (por defecto) y `en`, con `localePrefix: 'as-needed'`: español en `/…`, inglés en `/en/…`.
 - Rutas traducidas (`pathnames` de next-intl): `/proyectos` ↔ `/en/projects`, `/sobre-mi` ↔ `/en/about`, `/colofon` ↔ `/en/colophon`; `/blog`, `/cv` y `/uses` son iguales. Las carpetas de `app/` usan el nombre en español.

@@ -43,15 +43,17 @@ Versiones y notas de Next.js 16.4 en [03 · Arquitectura](03-arquitectura.md#ver
 
 **Hecho cuando:** `npm run check` pasa · `npm run dev` muestra una página con fondo `--bg` y las dos fuentes · `npm run prototype` reproduce la intro como antes.
 
-## Fase 2 · Idiomas y estructura
+## Fase 2 · Idiomas y estructura ✅
 
 **Objetivo:** el esqueleto navegable en ES/EN con el menú y el pie del diseño.
 
-- [ ] next-intl: `routing.ts` (`es` por defecto, `as-needed`, `pathnames` traducidos), `request.ts`, `navigation.ts`, `proxy.ts` y `messages/{es,en}.json` con los textos de interfaz.
-- [ ] `app/[locale]/layout.tsx` con `<html lang>`, fuentes, `Ambient` (manchas, grano, luz del cursor), `NavBar` y `Footer` (aún con datos fijos de prueba).
-- [ ] `NavBar` como en la maqueta: cristal, logo, resaltado deslizante, ES/EN funcional, botón «Contacto», botón de menú y `MobileMenu` en < 980 px.
-- [ ] Páginas vacías de todas las rutas (con su título) y `not-found`.
-- [ ] Prueba de paridad de claves `es`/`en` y E2E: cambiar de idioma conserva la página.
+- [x] next-intl: `routing.ts` (`es` por defecto, `as-needed`, `pathnames` traducidos), `request.ts`, `navigation.ts`, `proxy.ts` y `messages/{es,en}.json` con los textos de interfaz.
+- [x] `app/[locale]/layout.tsx` con `<html lang>`, fuentes, `Ambient` (manchas, grano, luz del cursor), `NavBar` y `Footer` (aún con datos fijos de prueba).
+- [x] `NavBar` como en la maqueta: cristal, logo, resaltado deslizante, ES/EN funcional, botón «Contacto», botón de menú y `MobileMenu` en < 980 px.
+- [x] Páginas vacías de todas las rutas (con su título) y `not-found`.
+- [x] Prueba de paridad de claves `es`/`en` y E2E: cambiar de idioma conserva la página.
+
+Notas: el idioma se lee con `next/root-params` (sin `setRequestLocale`); las rutas sin idioma (p. ej. `/archivo.txt`) van a `app/global-not-found.tsx`; menú y pie usan datos provisionales de `src/lib/site-fixture.ts` hasta la fase 3.
 
 **Hecho cuando:** se navega por todas las rutas en los dos idiomas · el menú se ve y se comporta como en la maqueta (comparado a 1440, 1024 y 390 px) · `npm run check` pasa.
 

@@ -81,7 +81,8 @@ Ancho de lectura máximo: **46ch** en el hero, **58ch** en «Sobre mí» y **68c
 
 ## Espaciado, rejilla y forma
 
-- Contenedor de **1240 px** como máximo. Márgenes laterales `max(24px, safe-area)`.
+- Puntos de corte (los de la maqueta) como variantes de Tailwind: `max-sm` (< 620 px), `max-md` (< 980 px) y `max-lg` (< 1080 px).
+- Contenedor de **1240 px** como máximo (utilidad `wrap`). Márgenes laterales `max(24px, safe-area)`.
 - Separación entre secciones: `clamp(80px, 11vw, 140px)`.
 - **Hero:** dos columnas (`1.05fr / 1fr`), texto a la izquierda y bento a la derecha. Altura mínima `max(100vh, 720px)`. Por debajo de 980 px, una columna con el bento debajo.
 - Radios: chips y botones `999px`; tarjetas **24 px**; cajas grandes (contacto) **32 px**; miniaturas internas 14–18 px; iconos cuadrados 11–14 px.
@@ -93,6 +94,7 @@ Ancho de lectura máximo: **46ch** en el hero, **58ch** en «Sobre mí» y **68c
 - **Cristal:** `background: var(--glass)`, `border: 1px solid var(--edge)`, `backdrop-filter: blur(26px) saturate(160%)` y un brillo superior interior (`inset 0 1px 0 rgb(255 255 255 / .06)`). El menú usa más blur (22 px), fondo `rgb(16 18 30 / .58)` y sombra `0 10px 40px rgb(0 0 0 / .35)`.
 - **Borde iluminado:** en hover, la tarjeta pinta un borde de 1 px con un degradado radial de 260 px centrado en el cursor (variables `--mx` y `--my`), del color de su acento (`--glow`).
 - Con `prefers-reduced-transparency: reduce`: superficies sólidas `#10121c` sin blur.
+- Utilidades: `glass` (tarjetas), `glass-nav` (menú), `glass-bar` (pie). En CSS se escribe solo `backdrop-filter` (sin `-webkit-`): Tailwind añade el prefijo, y si se escriben las dos Lightning CSS descarta la estándar y el desenfoque desaparece en Chrome.
 
 ## Componentes
 
@@ -167,6 +169,7 @@ Tras la pausa de ~1 s, la intro se despide sola con la **caída** ([05 · Robot 
 
 - Foco visible: anillo de 2 px `--blue` con separación de 3 px.
 - Áreas táctiles de 44 × 44 px como mínimo.
+- Si un enlace o botón lleva `aria-label`, este **empieza por el texto visible** (p. ej. «LD · Inicio», «EN · English»): axe lo exige (*label in name*).
 - Los niveles de habilidad tienen leyenda en texto, no solo estilo.
 - Enlaces dentro de párrafos, subrayados.
 
