@@ -6,7 +6,7 @@ La implementación va **por fases**. Cada fase termina en algo que se puede ver 
 
 1. **Leer antes de tocar:** `CLAUDE.md`, el documento de la fase, [`design/home.html`](../design/home.html) si hay interfaz y [07 · Datos](07-datos.md) si hay contenido.
 2. **Proponer** el plan de la fase (archivos y pasos) y **esperar el «empieza»**.
-3. **Rama** `fase-N-nombre` desde `main` (o desde la rama de la fase anterior si aún no está fusionada).
+3. **Trabajar en `main`** (sin ramas): por eso cada paso tiene que dejar el proyecto funcionando.
 4. **Pasos pequeños:** cada paso compila y se verifica antes del siguiente. Un commit por paso.
 5. **Verificar** con los «Hecho cuando» de la fase. Si hay interfaz: navegador a 1440, 1024 y 390 px y comparación con la maqueta.
 6. **Actualizar la documentación** si algo cambió (y un ADR si es una decisión de arquitectura).

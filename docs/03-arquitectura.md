@@ -20,7 +20,7 @@
 | Datos externos | API GraphQL de GitHub (calendario de contribuciones), con caché de 24 h | |
 | Analítica | Vercel Web Analytics + Speed Insights (sin cookies) | |
 | Calidad | ESLint, Prettier, TypeScript, Vitest, Playwright + axe, Lighthouse CI | [06 · Calidad](06-calidad.md) |
-| CI/CD | GitHub Actions → Vercel (*preview* por PR, producción desde `main`) | |
+| CI/CD | GitHub Actions en cada push a `main` → Vercel (producción desde `main`) | |
 
 ## Estructura de carpetas (objetivo)
 
@@ -173,5 +173,5 @@ GITHUB_TOKEN=
 - Nombres: componentes en `PascalCase.tsx`, el resto en `camelCase.ts`, slugs en `kebab-case`.
 - Ningún texto escrito a mano en los componentes: el contenido sale de `content/` y la interfaz de `messages/{es,en}.json`.
 - Ningún color o tamaño suelto en los componentes: se usan los tokens.
-- Commits en español con estilo convencional (`feat:`, `fix:`, `docs:`, `chore:`, `test:`). Un commit por paso verificado y una rama por fase; `main` siempre desplegable.
+- Commits en español con estilo convencional (`feat:`, `fix:`, `docs:`, `chore:`, `test:`). Un commit por paso verificado, directamente en `main` (sin ramas); por eso cada commit debe dejar `npm run check` en verde.
 - Las decisiones nuevas de arquitectura se registran como ADR en `docs/adr/`.

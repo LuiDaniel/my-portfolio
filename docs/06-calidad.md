@@ -64,13 +64,12 @@ La intro se prueba de forma determinista: en E2E se fuerza un modo rápido (`?in
 ## CI/CD
 
 ```
-PR ──► GitHub Actions: install → lint → typecheck → test → build → e2e (+ axe)   (en local: npm run check)
-   └─► Vercel: deploy de preview ──► Lighthouse CI sobre el preview (comenta en el PR)
-main ──► Vercel: producción
+push a main ──► GitHub Actions: install → lint → typecheck → test → build → e2e (+ axe)   (en local antes de cada commit: npm run check)
+             └─► Vercel: despliegue a producción ──► Lighthouse CI sobre el despliegue
 ```
 
-- `main` protegida: se exige CI en verde para hacer merge.
-- Cada PR describe el cambio y, si es visual, incluye una captura.
+- Si CI falla en `main`, lo primero es arreglarlo (la web publicada sale de `main`).
+- Se trabaja directamente en `main`: cada commit deja `npm run check` en verde y, si es visual, se revisa en el navegador antes de hacer el commit.
 
 ## Lista de comprobación antes de publicar
 

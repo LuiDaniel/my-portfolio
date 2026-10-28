@@ -13,7 +13,7 @@ Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería
 5. **Las animaciones del robot se hacen en Blender** (scripts de `blender/`), no se generan en la web.
 6. **Verificar siempre:** `npm run check` en verde y, si hay interfaz, revisión en el navegador (`.claude/launch.json`). Informar con honestidad de lo que no se pudo verificar.
 7. **Documentar los cambios:** si cambia una decisión, actualizar `docs/` y, si es de arquitectura, escribir un ADR nuevo en `docs/adr/`.
-8. Commits en español con estilo convencional (`feat:`, `fix:`, `docs:`…), uno por paso verificado, en una rama por fase. **Sin la línea `Co-Authored-By: Claude`** ni otra atribución a Claude, en commits y PRs: deben aparecer solo a nombre del usuario (Luis Daniel), que es el autor configurado en git.
+8. Commits en español con estilo convencional (`feat:`, `fix:`, `docs:`…), uno por paso verificado. **Se trabaja solo en `main`** (decisión del usuario): sin ramas nuevas ni PRs, salvo que él lo pida. Hacer push solo cuando él lo pida. **Sin la línea `Co-Authored-By: Claude`** ni otra atribución a Claude, en commits y PRs: deben aparecer solo a nombre del usuario (Luis Daniel), que es el autor configurado en git.
 
 ## Fuentes de verdad
 
@@ -34,7 +34,7 @@ Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería
 - **Fase 0 terminada:** documentación completa y Home diseñado y aprobado (`design/home.html`).
 - **Siguiente:** fase 1 (base Next.js), cuando el usuario diga «empieza».
 - **Código actual:** solo el **prototipo de la intro** en Vite + Three.js (`index.html`, `vite.config.js`, `src/*.js`; `npm run dev` → http://localhost:5173). En la fase 1 se mueve a `prototype/` y la raíz pasa a ser la app Next.js.
-- Rama de trabajo actual: `rediseno-intro` (aún sin fusionar con `main`).
+- Todo el trabajo está en `main` (en GitHub: `LuiDaniel/my-portfolio`).
 
 ## Decisiones del usuario que no hay que olvidar
 
