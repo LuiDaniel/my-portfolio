@@ -26,12 +26,14 @@ export async function CvSheet({ locale }: { locale: Locale }) {
   const edu = getEducation(locale);
   const { areas } = getSkills(locale);
 
-  const contact = [
-    profile.email,
-    [profile.location.city, profile.location.country].join(', '),
-    ...profile.socials.map((s) => s.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')),
-    site.url.replace(/^https?:\/\//, ''),
-  ].filter(known);
+  // Las redes se muestran con su handle, no con la URL (que puede llevar el nombre completo); el
+  // enlace se conserva, también en el PDF.
+  const contact: { text: string; href?: string }[] = [
+    { text: profile.email, href: `mailto:${profile.email}` },
+    { text: [profile.location.city, profile.location.country].join(', ') },
+    ...profile.socials.map((s) => ({ text: `${s.label} ${s.handle}`, href: s.url })),
+    { text: site.url.replace(/^https?:\/\//, ''), href: site.url },
+  ].filter((c) => known(c.text) && (!c.href || known(c.href)));
   const certifications = edu.certifications.filter((c) => known(c.title));
   const achievements = edu.achievements.filter((a) => known(a.title));
 
@@ -43,9 +45,15 @@ export async function CvSheet({ locale }: { locale: Locale }) {
         </h2>
         <p className="mt-0.5 text-[16px] font-semibold text-ink-accent">{profile.role}</p>
         <p className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[12.5px] text-ink-muted">
-          {contact.map((c) => (
-            <span key={c}>{c}</span>
-          ))}
+          {contact.map((c) =>
+            c.href ? (
+              <a key={c.text} href={c.href} className="hover:text-ink">
+                {c.text}
+              </a>
+            ) : (
+              <span key={c.text}>{c.text}</span>
+            ),
+          )}
         </p>
       </header>
 

@@ -1,6 +1,6 @@
 {
   "name": "Luis Daniel",
-  "fullName": "Luis Daniel Quecara Machaca",
+  "fullName": "Luis Daniel",
   "initials": "LD",
   "role": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
   "tagline": {
@@ -27,7 +27,7 @@
       "id": "linkedin",
       "label": "LinkedIn",
       "url": "https://www.linkedin.com/in/luis-daniel-quecara-machaca-b8b8bb447/",
-      "handle": "/in/luis-daniel-quecara-machaca"
+      "handle": "Luis Daniel"
     }
   ],
   "languages": [
