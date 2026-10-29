@@ -70,16 +70,21 @@ Notas: el idioma se lee con `next/root-params` (sin `setRequestLocale`); las rut
 
 **Hecho cuando:** cambiar un texto en `content/*.json` cambia la web sin tocar código · un error a propósito en un JSON rompe `npm run dev` con un mensaje que dice archivo y campo · `npm run check` pasa.
 
-## Fase 4 · Home
+## Fase 4 · Home ✅
 
 **Objetivo:** el Home idéntico a `design/home.html`, alimentado por `content/`. Por pasos, comparando cada uno con la maqueta:
 
-- [ ] 4.1 Componentes base: `Card` (cristal + borde iluminado con `usePointerGlow`), `Button`, `SocialIcon`, `StatusPill`, `SectionHead`, `Chip`, `Tag`, `Icon`, `RichText`.
-- [ ] 4.2 Hero: texto, botones, redes (copiar email con `useCopy`) y animación de entrada.
-- [ ] 4.3 Bento: `BentoFeatured`, `BentoStack`, `BentoGithub` (+ `lib/github.ts`; sin token se oculta), `BentoEducation` y `BentoClock` (zona horaria de `profile.json`).
-- [ ] 4.4 Secciones: Sobre mí, Proyectos destacados, Experiencia, Habilidades, Formación y logros, Blog y Contacto (formulario solo en interfaz, con validación en cliente). Orden y visibilidad desde `home.json`.
-- [ ] 4.5 *Scrollspy* del menú, aparición con scroll (`animation-timeline`), `prefers-reduced-motion` y `prefers-reduced-transparency`.
-- [ ] 4.6 E2E: el Home se ve en ES/EN, ocultar una sección en `home.json` la quita, axe sin errores serios.
+- [x] 4.1 Componentes base: `Card` (cristal + borde iluminado con `usePointerGlow`), `Button`, `SocialIcon`, `StatusPill`, `SectionHead`, `Chip`, `Tag`, `Icon`, `RichText`.
+- [x] 4.2 Hero: texto, botones, redes (copiar email con `useCopy`) y animación de entrada.
+- [x] 4.3 Bento: `BentoFeatured`, `BentoStack`, `BentoGithub` (+ `lib/github.ts`; sin token se oculta), `BentoEducation` y `BentoClock` (zona horaria de `profile.json`).
+- [x] 4.4 Secciones: Sobre mí, Proyectos destacados, Experiencia, Habilidades, Formación y logros, Blog y Contacto (formulario con validación en cliente y una Server Action básica: Zod + honeypot; Resend y Upstash en la fase 7). Orden y visibilidad desde `home.json`.
+- [x] 4.5 *Scrollspy* del menú, aparición con scroll (`animation-timeline`), `prefers-reduced-motion` y `prefers-reduced-transparency`.
+- [x] 4.6 E2E: el Home se ve en ES/EN, ocultar una sección en `home.json` la quita, axe sin errores serios.
+
+Notas:
+- Sin `GITHUB_TOKEN` la tarjeta de GitHub se oculta y la última tarjeta pequeña del bento ocupa el ancho. El mapa dibuja las últimas 17 semanas de lunes a viernes (las 5 filas de la maqueta).
+- El reloj usa `profile.location.timezone`; mientras esté `[pendiente]`, la hora de quien visita.
+- Comparado con la maqueta a 1440, 1024 y 390 px: sin diferencias salvo los datos (`[pendiente]`) y la tarjeta de GitHub. Lighthouse se mide en la fase 8 (Lighthouse CI).
 
 **Hecho cuando:** comparación lado a lado con la maqueta a 1440, 1024 y 390 px sin diferencias visibles (salvo datos reales) · todas las interacciones de la maqueta funcionan · Lighthouse en el Home ≥ 90 en rendimiento y 100 en accesibilidad · `npm run check` pasa.
 

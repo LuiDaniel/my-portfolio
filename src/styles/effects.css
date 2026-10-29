@@ -53,10 +53,9 @@
       var(--glow, rgb(150 140 255 / 0.8)),
       transparent 60%
     );
-    -webkit-mask:
+    mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
   &:hover::after {
