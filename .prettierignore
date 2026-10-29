@@ -7,12 +7,11 @@ playwright-report/
 package-lock.json
 next-env.d.ts
 
-# Fuera de la app o escritos a mano (documentación, maquetas, Blender, prototipo)
+# Fuera de la app o escritos a mano (documentación, maquetas, Blender)
 *.md
 docs/
 design/
 blender/
-prototype/
 public/
 referencias/
 renders/

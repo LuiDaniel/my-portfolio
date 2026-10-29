@@ -24,8 +24,6 @@
     "test:e2e": "playwright test",
     "cv": "npm run build && node scripts/build-cv.mjs",
     "check": "npm run lint && npm run format:check && npm run typecheck && npm run test && npm run build",
-    "prototype": "vite --config prototype/vite.config.js",
-    "prototype:build": "vite build --config prototype/vite.config.js",
     "design": "vite design --port 5175 --strictPort",
     "postinstall": "node scripts/copy-draco.mjs"
   },

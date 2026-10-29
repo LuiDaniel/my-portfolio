@@ -8,12 +8,6 @@
       "port": 3000
     },
     {
-      "name": "prototype",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "prototype", "--", "--port", "5173", "--strictPort"],
-      "port": 5173
-    },
-    {
       "name": "design",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "design"],

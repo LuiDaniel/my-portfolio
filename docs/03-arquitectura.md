@@ -44,7 +44,7 @@
 
 ```
 portafolio/
-├─ .claude/launch.json         # servidores de vista previa: "next" (3000), "prototype" (5173) y "design" (5175)
+├─ .claude/launch.json         # servidores de vista previa: "next" (3000) y "design" (5175)
 ├─ .github/workflows/          # ci.yml, lighthouse.yml
 ├─ blender/                    # scripts del robot (modelado, rig, animaciones, exportación) → ver 05
 ├─ content/                    # ★ CONTENIDO EDITABLE (JSON + MDX) → ver 07
@@ -54,7 +54,6 @@ portafolio/
 │  └─ pages/{sobre-mi,colofon,uses}/{es,en}.mdx
 ├─ design/                     # ★ maquetas aprobadas (home.html = fuente de verdad visual)
 ├─ docs/                       # documentación + adr/
-├─ prototype/                  # prototipo Vite de la intro (referencia; se borra en la fase 9)
 ├─ public/
 │  ├─ models/robot.glb         # modelo del robot (Draco, ~0,8 MB)
 │  ├─ draco/                   # decodificadores (postinstall; ignorados por git)
@@ -188,7 +187,6 @@ GITHUB_TOKEN=
 | `test:e2e` | Playwright + axe (Chromium y WebKit móvil; arranca `next dev` si no está en marcha) |
 | `check` | `lint` + `format:check` + `typecheck` + `test` + `build` (lo mismo que CI) |
 | `cv` | `npm run build` + `scripts/build-cv.mjs`: imprime `/cv` y `/en/cv` con Playwright en `public/cv/` |
-| `prototype` / `prototype:build` | Prototipo Vite de la intro → http://localhost:5173 (hasta la fase 9) |
 | `design` | Sirve las maquetas de `design/` → http://localhost:5175/home.html |
 | `postinstall` | Copia los decodificadores Draco |
 

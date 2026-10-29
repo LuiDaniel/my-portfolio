@@ -26,6 +26,6 @@ También están publicadas como artefactos privados de claude.ai (requieren inic
 
 ## Qué no está en la maqueta
 
-- La **intro del robot** (va antes del Home, solo en la primera visita): ver [`docs/05-robot-3d.md`](../docs/05-robot-3d.md) y el prototipo en `prototype/`.
+- La **intro del robot** (va antes del Home, solo en la primera visita): ver [`docs/05-robot-3d.md`](../docs/05-robot-3d.md) y el código en `src/three/`.
 - Las **páginas interiores** (`/proyectos`, caso de estudio, `/blog`, artículo, `/sobre-mi`, `/cv`, 404): se diseñarán con el mismo lenguaje visual cuando lleguen sus fases.
 - El **menú móvil desplegable**: en la maqueta solo está el botón.

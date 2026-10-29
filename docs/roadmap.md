@@ -165,7 +165,7 @@ Notas:
 
 - [ ] Rellenar todos los `[pendiente]` ([02](02-contenido.md#datos-pendientes)), 3–4 casos de estudio y 3–4 artículos en ES/EN.
 - [ ] Quitar `draft` del contenido real y borrar el de ejemplo.
-- [ ] Borrar `prototype/` y quitar Vite de las dependencias.
+- [x] Borrar `prototype/`. Vite se queda: lo usa `npm run design` para servir las maquetas.
 - [ ] Vercel: proyecto, variables de entorno, dominio, analítica. Dependabot.
 - [ ] Lista de comprobación de [06 · Calidad](06-calidad.md#lista-de-comprobación-antes-de-publicar).
 

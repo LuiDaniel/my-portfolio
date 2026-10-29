@@ -21,8 +21,7 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
-    // Fuera de la app: prototipo Vite (se borra en la fase 9), Blender, maquetas y generados.
-    'prototype/**',
+    // Fuera de la app: Blender, maquetas y generados.
     'blender/**',
     'design/**',
     'public/**',

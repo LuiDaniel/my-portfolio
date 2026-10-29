@@ -1,5 +1,5 @@
 // Coreografía de la intro (docs/05-robot-3d.md#coreografía). Los pasos 1–6 son los de
-// prototype/src/main.js sin cambios; lo nuevo es la pausa, la despedida con caída (opción A),
+// main.js del prototipo original sin cambios; lo nuevo es la pausa, la despedida con caída (opción A),
 // «Saltar intro» y la entrada del Home en la misma pantalla.
 import * as THREE from 'three';
 import { gsap } from 'gsap';

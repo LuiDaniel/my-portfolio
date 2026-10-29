@@ -2,7 +2,7 @@
 
 Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería de Sistemas**, en español e inglés. Empieza con una intro 3D: un robot hecho en Blender despierta, arma la tarjeta de bienvenida con gemas de luz, la aparta y se despide. En su lugar aparece el Home: cristal translúcido, tipografía grande y tarjetas tipo bento, en índigo y violeta.
 
-> **Estado:** fase 1 terminada (base de Next.js con tokens, fuentes, pruebas y CI). El **prototipo de la intro** en Vite + Three.js está en `prototype/`. El resto se construye por fases según el [roadmap](docs/roadmap.md).
+> **Estado:** fases 1–8 terminadas y fase 9 (contenido real y lanzamiento) en curso, según el [roadmap](docs/roadmap.md).
 
 ## Empezar por aquí
 
@@ -34,7 +34,6 @@ Requisitos: Node.js 20.9 o superior (se usa el 24, ver `.nvmrc`). `npm install` 
 | Comando | Qué hace |
 |---|---|
 | `npm run dev` | Web en Next.js → http://localhost:3000 |
-| `npm run prototype` | Prototipo de la intro (Vite) → http://localhost:5173 |
 | `npm run design` | Maquetas de `design/` → http://localhost:5175/home.html |
 | `npm run check` | Lint + formato + tipos + pruebas + build (lo mismo que CI) |
 | `npm run test:e2e` | Pruebas E2E con Playwright (la primera vez: `npx playwright install chromium webkit`) |

@@ -152,9 +152,9 @@ Las piernas no se muestran nunca: `robot.ts` oculta las mallas de `B_Thigh/Shin/
 - Pausa de 1 s tras el barrido, despedida con caída (0,6 s la tarjeta, 0,8 s el escenario) y el Home empieza a los 0,6 s de la despedida. «Saltar intro» o `Esc`: fundido de 0,5 s.
 - Al terminar se llama a `dispose()` (bucle, listeners, geometrías, materiales, texturas, composer y contexto WebGL).
 
-### Estado del prototipo
+### El prototipo
 
-El prototipo de Vite (`npm run prototype`; antes de la fase 1, `npm run dev`) llega hasta el paso 7 y todavía usa la **salida con scroll** anterior: al bajar, la tarjeta y el robot se desvanecen. La pausa, la despedida automática y la entrada del Home se programan directamente en Next.js (fase 5 del [roadmap](roadmap.md)); el prototipo no se actualiza.
+El prototipo de Vite (`prototype/`) llegaba hasta el paso 7 con una salida con scroll. Se borró en la fase 9, cuando la intro de Next.js ya lo había superado; sigue en el historial de git.
 
 ## Rendimiento y respaldos
 

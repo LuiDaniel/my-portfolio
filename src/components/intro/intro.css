@@ -1,4 +1,4 @@
-/* Intro del robot (de prototype/src/style.css, limitado a #intro-overlay). Solo se ve con
+/* Intro del robot (del estilo del prototipo original, limitado a #intro-overlay). Solo se ve con
    <html data-intro="play">, que decide el script de <head> antes del primer pintado. */
 
 #intro-overlay {

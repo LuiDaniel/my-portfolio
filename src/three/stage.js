@@ -1,4 +1,4 @@
-// Escenario 3D de la intro (sacado de prototype/src/main.js sin cambiar la lógica): renderer,
+// Escenario 3D de la intro (sacado del main.js del prototipo original sin cambiar la lógica): renderer,
 // entorno, luces (contorno azul/violeta), halo, bloom, planos de cámara, degradado de la cintura y
 // bucle de render. Nuevo: todo vive en una clase con dispose() para liberar la GPU al terminar.
 import * as THREE from 'three';
