@@ -4,10 +4,19 @@ import { ProjectsGrid } from '@/components/sections/ProjectsGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
 import type { Locale } from '@/i18n/routing';
 import { getProjects } from '@/lib/content';
+import { pageMetadata } from '@/lib/seo';
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<'/[locale]/proyectos'>): Promise<Metadata> {
+  const locale = (await params).locale as Locale;
   const t = await getTranslations();
-  return { title: t('Pages.projects.title'), description: t('Projects.lede') };
+  return pageMetadata({
+    locale,
+    href: '/proyectos',
+    title: t('Pages.projects.title'),
+    description: t('Projects.lede'),
+  });
 }
 
 export default async function ProjectsPage({ params }: PageProps<'/[locale]/proyectos'>) {
@@ -17,7 +26,7 @@ export default async function ProjectsPage({ params }: PageProps<'/[locale]/proy
   const projects = getProjects(locale).map(({ body: _body, toc: _toc, ...rest }) => rest);
 
   return (
-    <main className="wrap">
+    <main id="main" className="wrap">
       <PageHeader title={t('Pages.projects.title')} lede={t('Projects.lede')} />
       <ProjectsGrid projects={projects} />
     </main>

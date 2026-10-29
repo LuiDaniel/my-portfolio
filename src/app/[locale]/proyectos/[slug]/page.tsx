@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { MDXContent } from '@/components/mdx/MDXContent';
+import { breadcrumbs, JsonLd } from '@/components/seo/JsonLd';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Mock, PAIRS } from '@/components/ui/ProjectCard';
 import { Tags } from '@/components/ui/Tag';
@@ -12,6 +13,7 @@ import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { getProject, getProjects, isPending } from '@/lib/content';
 import { formatPeriod } from '@/lib/format';
+import { localizedPath, pageMetadata, siteUrl } from '@/lib/seo';
 import { accent, vars } from '@/lib/ui';
 import styles from '@/components/ui/ProjectCard.module.css';
 
@@ -29,8 +31,14 @@ async function load(params: Props['params']) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { project } = await load(params);
-  return { title: project.title, description: project.summary };
+  const { locale, project } = await load(params);
+  return pageMetadata({
+    locale,
+    href: { pathname: '/proyectos/[slug]', params: { slug: project.slug } },
+    title: project.title,
+    description: project.summary,
+    type: 'article',
+  });
 }
 
 /** Caso de estudio: cabecera con rol, periodo, stack y enlaces; portada; MDX con índice al lado. */
@@ -47,8 +55,30 @@ export default async function ProjectPage({ params }: Props) {
     { href: project.links.repo, label: t('Project.repo') },
   ].filter((l): l is { href: string; label: string } => !!l.href && !isPending(l.href));
 
+  const url = (href: Parameters<typeof localizedPath>[0]) =>
+    siteUrl() + localizedPath(href, locale);
+  const self = url({ pathname: '/proyectos/[slug]', params: { slug: project.slug } });
+
   return (
-    <main className="wrap" style={vars({ '--c1': accent(c1), '--c2': accent(c2) })}>
+    <main id="main" className="wrap" style={vars({ '--c1': accent(c1), '--c2': accent(c2) })}>
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: project.title,
+          description: project.summary,
+          url: self,
+          keywords: project.stack.join(', '),
+          inLanguage: locale,
+        }}
+      />
+      <JsonLd
+        data={breadcrumbs([
+          { name: t('Pages.home.title'), url: url('/') },
+          { name: t('Pages.projects.title'), url: url('/proyectos') },
+          { name: project.title, url: self },
+        ])}
+      />
       <PageHeader eyebrow={project.kind} title={project.title} lede={project.summary} color={c1}>
         <dl className="grid max-w-3xl gap-x-10 gap-y-4 text-[15px] sm:grid-cols-[auto_auto_1fr]">
           {project.role && (

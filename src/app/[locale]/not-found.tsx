@@ -6,7 +6,10 @@ import { LedEyes } from '@/components/ui/LedEyes';
 export default async function NotFound() {
   const t = await getTranslations();
   return (
-    <main className="wrap grid min-h-[80dvh] content-center justify-items-center gap-5 pt-32 text-center">
+    <main
+      id="main"
+      className="wrap grid min-h-[80dvh] content-center justify-items-center gap-5 pt-32 text-center"
+    >
       <LedEyes expression="surprised" />
       <p className="mt-6 font-mono text-sm tracking-[0.3em] text-faint">404</p>
       <h1 className="text-[clamp(34px,4.6vw,56px)] leading-[1.02] font-bold tracking-[-0.04em]">

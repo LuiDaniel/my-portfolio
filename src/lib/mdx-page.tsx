@@ -5,7 +5,9 @@ import { MDXContent } from '@/components/mdx/MDXContent';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Toc } from '@/components/ui/Toc';
 import type { Locale } from '@/i18n/routing';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { getPage } from '@/lib/content';
+import { pageMetadata, personJsonLd } from '@/lib/seo';
 
 type Slug = 'sobre-mi' | 'uses' | 'colofon';
 
@@ -23,14 +25,21 @@ export function mdxPage(slug: Slug) {
     params: Promise<{ locale: string }>;
   }): Promise<Metadata> {
     const page = await load(params);
-    return { title: page.title, description: page.description };
+    const locale = (await params).locale as Locale;
+    return pageMetadata({
+      locale,
+      href: `/${slug}`,
+      title: page.title,
+      description: page.description,
+    });
   }
 
   async function Page({ params }: { params: Promise<{ locale: string }> }) {
     const page = await load(params);
     const t = await getTranslations('Project');
     return (
-      <main className="wrap">
+      <main id="main" className="wrap">
+        {slug === 'sobre-mi' && <JsonLd data={personJsonLd((await params).locale as Locale)} />}
         <PageHeader title={page.title} lede={page.description} />
         <div className="grid grid-cols-[minmax(0,1fr)_220px] gap-16 max-lg:grid-cols-1">
           <MDXContent code={page.body} />

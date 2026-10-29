@@ -1,4 +1,6 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { IntroOverlay } from '@/components/intro/IntroOverlay';
 import { About } from '@/components/sections/About';
 import { Contact } from '@/components/sections/Contact';
@@ -10,6 +12,7 @@ import { LatestPosts } from '@/components/sections/LatestPosts';
 import { Skills } from '@/components/sections/Skills';
 import type { Locale } from '@/i18n/routing';
 import { getHome, getSite, type SectionId } from '@/lib/content';
+import { pageMetadata, personJsonLd } from '@/lib/seo';
 
 const SECTIONS: Record<SectionId, (props: { locale: Locale }) => React.ReactNode> = {
   about: About,
@@ -20,6 +23,16 @@ const SECTIONS: Record<SectionId, (props: { locale: Locale }) => React.ReactNode
   blog: LatestPosts,
   contact: Contact,
 };
+
+export async function generateMetadata({ params }: PageProps<'/[locale]'>): Promise<Metadata> {
+  const locale = (await params).locale as Locale;
+  return pageMetadata({
+    locale,
+    href: '/',
+    description: getSite(locale).seo.description,
+    type: 'profile',
+  });
+}
 
 /** Home: el hero siempre primero y después las secciones en el orden de home.json. */
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
@@ -38,7 +51,8 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
           skipLabel={t('skip')}
         />
       )}
-      <main>
+      <JsonLd data={personJsonLd(locale)} />
+      <main id="main">
         <Hero locale={locale} />
         {sections.map((id) => {
           const Section = SECTIONS[id];

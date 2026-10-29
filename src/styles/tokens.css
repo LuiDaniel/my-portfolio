@@ -39,6 +39,7 @@
   --color-ink: #1b1d2a;
   --color-ink-muted: #4a4f63;
   --color-ink-faint: #8b90a8;
+  --color-ink-accent: #3f3ab8; /* índigo oscuro: contraste AA sobre el papel blanco */
 
   /* manchas del fondo (Ambient) */
   --color-blob-blue: #2546d8;

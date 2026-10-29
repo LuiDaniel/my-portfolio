@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { MDXContent } from '@/components/mdx/MDXContent';
+import { breadcrumbs, JsonLd } from '@/components/seo/JsonLd';
 import { Icon } from '@/components/ui/Icon';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { COVERS } from '@/components/ui/PostCard';
@@ -12,6 +13,8 @@ import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { getPost, getPosts } from '@/lib/content';
 import { formatDate } from '@/lib/format';
+import { localizedPath, pageMetadata, siteUrl } from '@/lib/seo';
+import { getProfile } from '@/lib/content';
 
 type Props = PageProps<'/[locale]/blog/[slug]'>;
 
@@ -27,8 +30,14 @@ async function load(params: Props['params']) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { post } = await load(params);
-  return { title: post.title, description: post.description };
+  const { locale, post } = await load(params);
+  return pageMetadata({
+    locale,
+    href: { pathname: '/blog/[slug]', params: { slug: post.slug } },
+    title: post.title,
+    description: post.description,
+    type: 'article',
+  });
 }
 
 /** Artículo: fecha, tiempo de lectura y etiquetas; portada en degradado; MDX con índice. */
@@ -36,8 +45,32 @@ export default async function PostPage({ params }: Props) {
   const { locale, post } = await load(params);
   const t = await getTranslations();
 
+  const url = (href: Parameters<typeof localizedPath>[0]) =>
+    siteUrl() + localizedPath(href, locale);
+  const self = url({ pathname: '/blog/[slug]', params: { slug: post.slug } });
+
   return (
-    <main className="wrap">
+    <main id="main" className="wrap">
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: post.title,
+          description: post.description,
+          datePublished: post.date,
+          inLanguage: locale,
+          keywords: post.tags.join(', '),
+          url: self,
+          author: { '@type': 'Person', name: getProfile(locale).name, url: siteUrl() },
+        }}
+      />
+      <JsonLd
+        data={breadcrumbs([
+          { name: t('Pages.home.title'), url: url('/') },
+          { name: t('Pages.blog.title'), url: url('/blog') },
+          { name: post.title, url: self },
+        ])}
+      />
       <Link
         href="/blog"
         className="group absolute top-[clamp(96px,11vw,128px)] inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"

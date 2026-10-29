@@ -4,7 +4,8 @@
     "home": "Home",
     "language": "Language",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "skip": "Skip to content"
   },
   "Locale": {
     "es": "Español",

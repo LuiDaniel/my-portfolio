@@ -41,7 +41,7 @@ export async function CvSheet({ locale }: { locale: Locale }) {
         <h2 className="text-[30px] leading-tight font-bold tracking-[-0.03em] print:text-[24px]">
           {profile.fullName}
         </h2>
-        <p className="mt-0.5 text-[16px] font-semibold text-indigo">{profile.role}</p>
+        <p className="mt-0.5 text-[16px] font-semibold text-ink-accent">{profile.role}</p>
         <p className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[12.5px] text-ink-muted">
           {contact.map((c) => (
             <span key={c}>{c}</span>
@@ -126,7 +126,7 @@ export async function CvSheet({ locale }: { locale: Locale }) {
 function CvSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mt-5 grid gap-2.5">
-      <h3 className="font-mono text-[11px] font-medium tracking-[0.14em] text-blue uppercase">
+      <h3 className="font-mono text-[11px] font-medium tracking-[0.14em] text-ink-accent uppercase">
         {title}
       </h3>
       {children}

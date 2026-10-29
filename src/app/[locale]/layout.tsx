@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Ambient } from '@/components/layout/Ambient';
 import { Footer } from '@/components/layout/Footer';
 import { NavBar } from '@/components/layout/NavBar';
@@ -7,6 +8,7 @@ import { routing, type Locale } from '@/i18n/routing';
 import { fontVariables } from '@/lib/fonts';
 import { getProfile, getSite } from '@/lib/content';
 import { introScript } from '@/lib/intro-script';
+import { siteUrl } from '@/lib/seo';
 import '../globals.css';
 
 // Solo existen los idiomas de routing: cualquier otro primer segmento (p. ej. /archivo.txt, que el
@@ -22,8 +24,11 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
   const site = getSite(locale as Locale);
   const { name } = getProfile(locale as Locale);
   return {
+    metadataBase: new URL(siteUrl()),
     title: { template: `%s · ${name}`, default: site.seo.title },
     description: site.seo.description,
+    openGraph: { siteName: name },
+    twitter: { card: 'summary_large_image' },
   };
 }
 
@@ -31,6 +36,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   const { locale } = await params;
   const site = getSite(locale as Locale);
   const profile = getProfile(locale as Locale);
+  const t = await getTranslations('Nav');
 
   return (
     // suppressHydrationWarning: el script de <head> añade data-intro a <html> antes de hidratar.
@@ -42,6 +48,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
       </head>
       <body>
         <NextIntlClientProvider>
+          {/* Primer elemento enfocable: salta el menú y va al contenido. */}
+          <a
+            href="#main"
+            className="sr-only rounded-full bg-fg px-4 py-2.5 text-sm font-semibold text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60]"
+          >
+            {t('skip')}
+          </a>
           <Ambient />
           <NavBar initials={profile.initials} items={site.nav} cta={site.navCta} />
           {children}

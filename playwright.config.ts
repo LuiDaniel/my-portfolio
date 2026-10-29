@@ -4,6 +4,7 @@ const PORT = 3000;
 
 export default defineConfig({
   testDir: 'tests/e2e',
+  globalSetup: './tests/e2e/global-setup.ts',
   // next dev compila cada ruta en la primera visita: margen para el arranque en frío.
   timeout: 60_000,
   expect: { timeout: 15_000 },
