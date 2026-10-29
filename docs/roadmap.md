@@ -108,15 +108,20 @@ Notas:
 
 **Hecho cuando:** la intro es igual a la del prototipo hasta el barrido · termina sola y deja el Home animado · sin errores ni fugas al navegar (memoria estable tras ir y volver al Home 5 veces) · `npm run check` pasa.
 
-## Fase 6 · Páginas interiores
+## Fase 6 · Páginas interiores ✅
 
 **Objetivo:** el resto del sitio con el mismo lenguaje visual. **Primero el diseño:** maqueta en `design/` → aprobación → implementación, página por página.
 
-- [ ] `/proyectos` (lista con filtros) y `/proyectos/[slug]` (caso de estudio con la plantilla de [02](02-contenido.md#plantilla-de-caso-de-estudio)).
-- [ ] `/blog` (etiquetas) y `/blog/[slug]` (Shiki, tabla de contenidos, tiempo de lectura).
-- [ ] `/sobre-mi`, `/uses`, `/colofon` (MDX de `content/pages`).
-- [ ] 404 con los ojos LED `surprised`.
-- [ ] Componentes MDX: `Figure`, `Callout`, `Diagram`, `Video`.
+- [x] `/proyectos` (lista con filtros) y `/proyectos/[slug]` (caso de estudio con la plantilla de [02](02-contenido.md#plantilla-de-caso-de-estudio)).
+- [x] `/blog` (etiquetas) y `/blog/[slug]` (Shiki, tabla de contenidos, tiempo de lectura).
+- [x] `/sobre-mi`, `/uses`, `/colofon` (MDX de `content/pages`).
+- [x] 404 con los ojos LED `surprised`.
+- [x] Componentes MDX: `Figure`, `Callout`, `Diagram`, `Video`.
+
+Notas:
+- **Sin maqueta previa aprobada:** por encargo del usuario (trabajar sin pedir permiso), las páginas se diseñaron directamente en código con el lenguaje del Home (cabecera grande, cristal, tarjetas, chips). Conviene que las revise y, si quiere cambios, se ajustan.
+- Código resaltado con Shiki (tema `github-dark-dimmed`) e ids de títulos con `rehype-slug`, configurados en `velite.config.ts`. El MDX se evalúa en el servidor (`components/mdx/MDXContent.tsx`).
+- `/cv` sigue provisional hasta la fase 7.
 
 **Hecho cuando:** cada página coincide con su maqueta aprobada en ES/EN · añadir un proyecto siguiendo la receta de [07](07-datos.md#recetas) lo publica sin tocar código · `npm run check` pasa.
 
