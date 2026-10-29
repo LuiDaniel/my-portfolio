@@ -73,6 +73,7 @@
       "title": { "es": "Herramientas", "en": "Tools" },
       "items": [
         { "name": "VS Code", "level": "daily" },
+        { "name": "Canva", "level": "daily"},
         { "name": "Figma", "level": "experienced" },
         { "name": "Blender", "level": "experienced" },
         { "name": "Postman", "level": "experienced" },
