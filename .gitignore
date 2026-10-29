@@ -26,3 +26,6 @@ playwright-report/
 
 # Imágenes del contenido copiadas por Velite
 public/static/
+
+# Resultados locales de Lighthouse CI
+.lighthouseci/

@@ -134,9 +134,10 @@
   }
 }
 
+/* Sin opacidad (la maqueta parte de 0,15): el texto aún no visto debe tener contraste AA para
+   lectores, axe y Lighthouse, que no lo desplazan a la vista. Se conservan subida, escala y desenfoque. */
 @keyframes reveal {
   from {
-    opacity: 0.15;
     transform: translateY(48px) scale(0.97);
     filter: blur(6px);
   }

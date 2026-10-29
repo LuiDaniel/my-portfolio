@@ -65,7 +65,12 @@ export function ProjectsGrid({ projects }: { projects: ProjectSummary[] }) {
       ) : (
         <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
           {shown.map((project) => (
-            <ProjectCard key={project.slug} project={project as Project} labels={labels} />
+            <ProjectCard
+              key={project.slug}
+              project={project as Project}
+              heading="h2"
+              labels={labels}
+            />
           ))}
         </div>
       )}

@@ -25,7 +25,7 @@ export async function BentoFeatured({ project, i }: { project: Project; i: numbe
           {t('featured')}
           {project.draft && <ExampleBadge label={t('example')} />}
         </CardLabel>
-        <h3 className="mb-1.5 text-[22px] font-bold tracking-[-0.02em]">{project.title}</h3>
+        <h2 className="mb-1.5 text-[22px] font-bold tracking-[-0.02em]">{project.title}</h2>
         <p className="text-sm text-muted">
           {project.stack.join(' · ')}. {project.summary}
         </p>

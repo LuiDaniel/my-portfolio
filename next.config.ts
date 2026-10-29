@@ -6,20 +6,21 @@ const production = process.env.NODE_ENV === 'production';
 
 // Content-Security-Policy (docs/06-calidad.md#seguridad). Sitio estático sin nonce: los scripts en
 // línea (el de <head> de la intro y los de Next) necesitan 'unsafe-inline'; el decodificador Draco
-// del robot necesita 'wasm-unsafe-eval'. Sin 'unsafe-eval' en producción.
+// del robot necesita 'wasm-unsafe-eval'. Sin 'unsafe-eval' en producción. Sin upgrade-insecure-requests:
+// HSTS ya fuerza HTTPS y esa directiva rompe `next start` en local (http).
 const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self'",
+  // GLTFLoader lee las texturas del .glb como blob:.
+  "connect-src 'self' blob: data:",
   "media-src 'self'",
   "worker-src 'self' blob:",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  'upgrade-insecure-requests',
 ].join('; ');
 
 const securityHeaders = [

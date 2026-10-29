@@ -23,11 +23,14 @@ export const PAIRS: Record<Accent, [Accent, Accent]> = {
 export function ProjectCard({
   project,
   big = false,
+  heading: Heading = 'h3',
   labels,
   className,
 }: {
   project: Project;
   big?: boolean;
+  /** h3 dentro de una sección del Home; h2 en la lista de proyectos (bajo el h1). */
+  heading?: 'h2' | 'h3';
   labels: { caseStudy: string; example: string };
   className?: string;
 }) {
@@ -60,9 +63,11 @@ export function ProjectCard({
           {project.kind}
           {project.draft && <ExampleBadge label={labels.example} className="ml-1.5" />}
         </div>
-        <h3 className={cn('font-bold tracking-[-0.02em]', big ? 'text-[28px]' : 'text-[22px]')}>
+        <Heading
+          className={cn('font-bold tracking-[-0.02em]', big ? 'text-[28px]' : 'text-[22px]')}
+        >
           {project.title}
-        </h3>
+        </Heading>
         <p className="text-[15px] text-muted">{project.summary}</p>
         <div className="mt-1 flex flex-wrap items-center justify-between gap-3">
           <Tags items={project.stack} />

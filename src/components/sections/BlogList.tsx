@@ -49,6 +49,7 @@ export function BlogList({ posts }: { posts: PostSummary[] }) {
               key={post.slug}
               post={post as Post}
               locale={locale}
+              heading="h2"
               labels={{
                 minutes: tHome('minutes', { minutes: post.metadata.readingTime }),
                 example: tHome('example'),

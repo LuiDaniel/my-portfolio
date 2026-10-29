@@ -23,11 +23,14 @@ export const COVERS: Record<Accent, string> = {
 export function PostCard({
   post,
   locale,
+  heading: Heading = 'h3',
   labels,
   className,
 }: {
   post: Post;
   locale: Locale;
+  /** h3 dentro de una sección del Home; h2 en la lista del blog (bajo el h1). */
+  heading?: 'h2' | 'h3';
   labels: { minutes: string; example: string };
   className?: string;
 }) {
@@ -60,9 +63,9 @@ export function PostCard({
         <span>{labels.minutes}</span>
         {post.draft && <ExampleBadge label={labels.example} />}
       </div>
-      <h3 className="text-[19px] leading-[1.3] font-bold tracking-[-0.01em] text-balance">
+      <Heading className="text-[19px] leading-[1.3] font-bold tracking-[-0.01em] text-balance">
         {post.title}
-      </h3>
+      </Heading>
       <p className="text-[14.5px] text-muted">{post.description}</p>
     </Card>
   );
