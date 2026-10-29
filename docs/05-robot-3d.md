@@ -145,6 +145,13 @@ Las piernas no se muestran nunca: `robot.ts` oculta las mallas de `B_Thigh/Shin/
 - **Mirada**: desde el barrido hasta la despedida, cabeza y cuello siguen el cursor; en móvil, el giroscopio (`deviceorientation`, pidiendo permiso en iOS al primer toque).
 - El resto del tiempo el robot sigue el clip; no hay clic ni gestos de inactividad (el robot ya no se queda en la página).
 
+### Implementación en Next.js (fase 5)
+
+- `src/three/robot.js`, `eyes.js` e `intro.js` son copias del prototipo (solo cambian la ruta de Draco, `/draco/`, y el nodo raíz de la tarjeta, que ahora se pasa al constructor). `stage.js` y `introSequence.js` salen de `main.js`.
+- `src/components/intro/IntroOverlay.tsx` + `intro.css`: capa fija (`#intro-overlay`) que solo se ve con `<html data-intro="play">`. Mientras está, el resto de la página tiene `visibility: hidden` y las animaciones de entrada del Home en pausa; al quitar el atributo, el Home entra con su coreografía.
+- Pausa de 1 s tras el barrido, despedida con caída (0,6 s la tarjeta, 0,8 s el escenario) y el Home empieza a los 0,6 s de la despedida. «Saltar intro» o `Esc`: fundido de 0,5 s.
+- Al terminar se llama a `dispose()` (bucle, listeners, geometrías, materiales, texturas, composer y contexto WebGL).
+
 ### Estado del prototipo
 
 El prototipo de Vite (`npm run prototype`; antes de la fase 1, `npm run dev`) llega hasta el paso 7 y todavía usa la **salida con scroll** anterior: al bajar, la tarjeta y el robot se desvanecen. La pausa, la despedida automática y la entrada del Home se programan directamente en Next.js (fase 5 del [roadmap](roadmap.md)); el prototipo no se actualiza.

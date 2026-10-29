@@ -88,17 +88,23 @@ Notas:
 
 **Hecho cuando:** comparación lado a lado con la maqueta a 1440, 1024 y 390 px sin diferencias visibles (salvo datos reales) · todas las interacciones de la maqueta funcionan · Lighthouse en el Home ≥ 90 en rendimiento y 100 en accesibilidad · `npm run check` pasa.
 
-## Fase 5 · Intro del robot
+## Fase 5 · Intro del robot ✅ (salvo 5.6)
 
 **Objetivo:** la intro en Next.js, con la salida automática hacia el Home ([05 · Robot 3D](05-robot-3d.md)).
 
-- [ ] 5.1 Copiar `prototype/src/*.js` a `src/three/` (en JS) y dividir `main.js` en `stage` e `introSequence`. `RobotStage` (`ssr: false`) con limpieza completa al desmontarse.
-- [ ] 5.2 `IntroOverlay` con `RobotLoader`, `WelcomeCard` (textos de `site.json → intro`) y `SkipIntro`. Script en `<head>` que decide `data-intro="play"`.
-- [ ] 5.3 Paridad con el prototipo hasta el barrido (pasos 1–6). Comparar con `npm run prototype`.
-- [ ] 5.4 Nuevo: pausa de ~1 s → despedida con **caída** → entrada del Home → desmontar y liberar la escena.
-- [ ] 5.5 «Saltar intro» + `Esc`, solo la primera visita de la sesión, `prefers-reduced-motion`, sin WebGL o con error de carga → Home directo.
+- [x] 5.1 Copiar `prototype/src/*.js` a `src/three/` (en JS) y dividir `main.js` en `stage` e `introSequence`. `RobotStage` (`ssr: false`) con limpieza completa al desmontarse.
+- [x] 5.2 `IntroOverlay` con `RobotLoader`, `WelcomeCard` (textos de `site.json → intro`) y `SkipIntro`. Script en `<head>` que decide `data-intro="play"`.
+- [x] 5.3 Paridad con el prototipo hasta el barrido (pasos 1–6). Comparar con `npm run prototype`.
+- [x] 5.4 Nuevo: pausa de ~1 s → despedida con **caída** → entrada del Home → desmontar y liberar la escena.
+- [x] 5.5 «Saltar intro» + `Esc`, solo la primera visita de la sesión, `prefers-reduced-motion`, sin WebGL o con error de carga → Home directo.
 - [ ] 5.6 Pasar `src/three/` a TypeScript.
-- [ ] 5.7 E2E con `?intro=fast` (solo fuera de producción).
+- [x] 5.7 E2E con `?intro=fast` (solo fuera de producción).
+
+Notas:
+- `RobotStage` no es un componente aparte: `IntroOverlay` importa `src/three/introSequence` de forma dinámica (mismo efecto que `next/dynamic` con `ssr: false`: Three.js y GSAP solo se descargan si la intro se reproduce). La capa (carga, tarjeta y «Saltar intro») llega en el HTML del servidor.
+- El script de `<head>` está en `src/lib/intro-script.ts`. Los navegadores automatizados no ven la intro salvo con `?intro=play` (o `?intro=fast`, solo fuera de producción).
+- Verificado en Chromium con WebGL por software: paridad con el prototipo hasta el barrido, despedida, entrada del Home y `dispose` (las capturas se compararon con las del prototipo). La memoria tras ir y volver al Home 5 veces no se ha medido.
+- 5.6 (pasar `src/three/` a TypeScript) queda pendiente: el código funciona en JS con `allowJs`.
 
 **Hecho cuando:** la intro es igual a la del prototipo hasta el barrido · termina sola y deja el Home animado · sin errores ni fugas al navegar (memoria estable tras ir y volver al Home 5 veces) · `npm run check` pasa.
 

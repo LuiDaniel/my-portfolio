@@ -31,8 +31,8 @@ Portafolio personal de un **desarrollador full stack y estudiante de Ingeniería
 
 ## Estado actual (2026-10-28)
 
-- **Fases 0–4 terminadas:** documentación, Home diseñado y aprobado (`design/home.html`), base de Next.js (tokens, fuentes, Prettier, Vitest, Playwright, CI) e idiomas + estructura (next-intl con `next/root-params`, menú, menú móvil, pie y páginas vacías) capa de datos (Velite + `content/`, con `[pendiente]` donde faltan datos) y Home completo según la maqueta.
-- **Siguiente:** fase 5 (intro del robot en Next.js).
+- **Fases 0–5 terminadas** (5.6, pasar `src/three/` a TS, pendiente): documentación, Home diseñado y aprobado (`design/home.html`), base de Next.js (tokens, fuentes, Prettier, Vitest, Playwright, CI) e idiomas + estructura (next-intl con `next/root-params`, menú, menú móvil, pie y páginas vacías) capa de datos (Velite + `content/`, con `[pendiente]` donde faltan datos) Home completo según la maqueta e intro del robot en Next.js con despedida automática.
+- **Siguiente:** fase 6 (páginas interiores).
 - **Código actual:** app Next.js en la raíz (`npm run dev` → http://localhost:3000) con menú, pie y páginas provisionales en ES/EN. El **prototipo de la intro** está en `prototype/` (`npm run prototype` → http://localhost:5173) y las maquetas se sirven con `npm run design` (http://localhost:5175/home.html).
 - **Versiones:** Next.js 16.4 (Turbopack, `proxy.ts`, sin `next lint`), React 19.3, **TypeScript 6.0** y **ESLint 9** (las versiones 7 y 10 aún no son compatibles con `eslint-config-next`), Tailwind 4.3 vía PostCSS. Antes de usar una API de Next, leer `node_modules/next/dist/docs/` (lo pide `AGENTS.md`, que regenera `next dev`).
 - **Sin Cache Components:** `cacheComponents` / `partialPrefetching` (activos por defecto en la plantilla de Next 16.4) están **desactivados**; se usa SSG + `revalidate` ([ADR 0008](docs/adr/0008-sin-cache-components.md)).
