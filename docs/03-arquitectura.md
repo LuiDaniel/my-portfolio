@@ -126,7 +126,7 @@ Todo el contenido vive en `content/` y se lee **solo** a través de `src/lib/con
 content/ ──Velite (Zod + MDX + imágenes)──► .velite/ ──► src/lib/content.ts ──► Server Components
 ```
 
-- **Velite** se ejecuta desde los scripts de npm (alternativa de su guía oficial), no desde `next.config.ts`: Next carga la configuración en varios procesos y dos Velite escribiendo `.velite/` a la vez dejaban JSON a medias. `predev`, `prebuild`, `pretypecheck` y `pretest` ejecutan `velite --strict --clean` (un error de contenido detiene el comando con archivo, campo y motivo) y `scripts/dev.mjs` arranca un único `velite --watch` junto a `next dev`.
+- **Velite** se ejecuta desde los scripts de npm (alternativa de su guía oficial), no desde `next.config.ts`: Next carga la configuración en varios procesos y dos Velite escribiendo `.velite/` a la vez dejaban JSON a medias. `predev`, `pretypecheck` y `pretest` ejecutan `velite --strict` y `prebuild`, `velite --strict --clean` (un error de contenido detiene el comando con archivo, campo y motivo) y `scripts/dev.mjs` arranca un único `velite --watch` junto a `next dev`.
 - `content.ts` devuelve los datos ya resueltos al idioma (`string`, no `{ es, en }`), ordenados y sin borradores en producción.
 - **Texto enriquecido:** los campos marcados como tal admiten solo `**negrita**`, que convierte `lib/rich-text.ts`. Sin HTML arbitrario, para que no haya inyección de código.
 
@@ -179,7 +179,7 @@ GITHUB_TOKEN=
 | Script | Qué hace |
 |---|---|
 | `dev` | `scripts/dev.mjs`: Velite en modo *watch* + `next dev` → http://localhost:3000 |
-| `content` | `velite --strict --clean`: compila `content/` (lo ejecutan `predev`, `prebuild`, `pretypecheck` y `pretest`) |
+| `content` | `velite --strict`: compila `content/` (lo ejecutan `predev`, `pretypecheck` y `pretest`; `prebuild` usa además `--clean`) |
 | `build` / `start` | Build de producción / servirlo |
 | `lint` | ESLint (con `eslint-config-prettier`) |
 | `format` / `format:check` | Prettier: formatear / comprobar |
@@ -187,7 +187,7 @@ GITHUB_TOKEN=
 | `test` | Vitest (incluye pruebas de contenido) |
 | `test:e2e` | Playwright + axe (Chromium y WebKit móvil; arranca `next dev` si no está en marcha) |
 | `check` | `lint` + `format:check` + `typecheck` + `test` + `build` (lo mismo que CI) |
-| `cv` | Genera los PDF del CV |
+| `cv` | `npm run build` + `scripts/build-cv.mjs`: imprime `/cv` y `/en/cv` con Playwright en `public/cv/` |
 | `prototype` / `prototype:build` | Prototipo Vite de la intro → http://localhost:5173 (hasta la fase 9) |
 | `design` | Sirve las maquetas de `design/` → http://localhost:5175/home.html |
 | `postinstall` | Copia los decodificadores Draco |

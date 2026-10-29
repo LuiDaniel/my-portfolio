@@ -125,10 +125,14 @@ Notas:
 
 **Hecho cuando:** cada página coincide con su maqueta aprobada en ES/EN · añadir un proyecto siguiendo la receta de [07](07-datos.md#recetas) lo publica sin tocar código · `npm run check` pasa.
 
-## Fase 7 · Contacto y CV
+## Fase 7 · Contacto y CV ✅ (falta verificar con claves reales)
 
-- [ ] Server Action del formulario: Zod, honeypot, Upstash y Resend ([03](03-arquitectura.md#formulario-de-contacto-srcappactionscontactts)), con mejora progresiva.
-- [ ] `/cv` imprimible (`print.css`) desde los mismos datos + `npm run cv` → `public/cv/*.pdf`.
+- [x] Server Action del formulario: Zod, honeypot, Upstash y Resend ([03](03-arquitectura.md#formulario-de-contacto-srcappactionscontactts)), con mejora progresiva.
+- [x] `/cv` imprimible (`print.css`) desde los mismos datos + `npm run cv` → `public/cv/*.pdf`.
+
+Notas:
+- Verificado: validación, honeypot, límite y errores con pruebas unitarias (servicios simulados), y envío de punta a punta en desarrollo (sin claves el mensaje va a la consola). **No verificado:** el envío real con Resend ni el límite real con Upstash, porque requieren `RESEND_API_KEY`, `CONTACT_*` y `UPSTASH_*` (ver `.env.example`).
+- `npm run cv` genera `public/cv/cv-es.pdf` y `cv-en.pdf` (una página A4 cada uno). Hoy contienen `[pendiente]`: hay que regenerarlos cuando estén los datos reales.
 
 **Hecho cuando:** un envío real llega al correo (en *preview*) · enviar más de 3 veces devuelve «demasiados intentos» · los PDF se generan en ES/EN y caben en una página A4.
 
