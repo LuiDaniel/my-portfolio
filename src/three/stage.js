@@ -257,6 +257,11 @@ export class Stage {
     });
   }
 
+  /** Congela la escena en el último fotograma (el lienzo se queda como está). */
+  stop() {
+    this.renderer.setAnimationLoop(null);
+  }
+
   /** Detiene el bucle, quita los listeners y libera geometrías, materiales, texturas y el contexto. */
   dispose() {
     this.renderer.setAnimationLoop(null);

@@ -191,6 +191,9 @@ export function startIntro(opts) {
     ended = true;
     for (const t of tweens) t.kill();
     gsap.globalTimeline.timeScale(1);
+    // La escena se congela durante el fundido: seguir dibujándola en un equipo lento frenaría la
+    // animación (GSAP compensa los fotogramas largos) y el Home tardaría en aparecer.
+    view.stop();
     onHome();
     gsap.to(opts.stage.parentElement, { opacity: 0, duration: 0.5, onComplete: end });
   }
