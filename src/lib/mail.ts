@@ -1,7 +1,8 @@
 import { Resend } from 'resend';
 
-// Envío del formulario de contacto con Resend. Sin RESEND_API_KEY (desarrollo), el mensaje se
-// escribe en la consola del servidor.
+// Envío del formulario de contacto con Resend. Sin RESEND_API_KEY, en desarrollo el mensaje se
+// escribe en la consola del servidor; en producción falla, para que el formulario pida escribir por
+// email en lugar de dar por enviado un mensaje que nadie recibirá.
 
 export type ContactMessage = { name: string; email: string; message: string };
 
@@ -14,6 +15,7 @@ export async function sendContactMail(data: ContactMessage) {
   const from = process.env.CONTACT_FROM_EMAIL;
 
   if (!key || !to || !from) {
+    if (process.env.NODE_ENV === 'production') throw new Error('Resend sin configurar');
     console.info('[contacto] Mensaje recibido (sin servicio de email configurado):', data);
     return;
   }
