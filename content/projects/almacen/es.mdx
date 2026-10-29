@@ -1,0 +1,40 @@
+---
+title: Sistema de almacén para una constructora
+summary: Aplicación web con Django para controlar los materiales del almacén de una constructora, con entradas, salidas e historial de movimientos.
+kind: Web · Full stack
+role: Desarrollo completo (mi primer proyecto individual)
+---
+
+## Contexto y problema
+
+Una constructora necesitaba saber en todo momento cuánto material tenía en su almacén, qué salía hacia la obra y qué entraba de los proveedores.
+
+## Mi rol
+
+Todo el proyecto, de principio a fin: modelo de datos, vistas, interfaz y puesta en marcha. Fue el primer sistema que construí yo solo.
+
+## Solución
+
+- **Inventario** con el stock y la unidad de cada material (bolsas, metros, unidades).
+- **Entradas y salidas** desde la misma tabla: cada material tiene su campo para consumir y para agregar stock.
+- **Historial de movimientos** con la fecha, la cantidad, el tipo de operación y el stock que queda después de cada una.
+- **Panel de administración** de Django, con el tema Jazzmin, para gestionar los materiales y los usuarios.
+
+## Arquitectura
+
+- **Backend:** Django con dos modelos, el material y su movimiento, y vistas que actualizan el stock y registran cada operación.
+- **Interfaz:** plantillas de Django con Tailwind CSS 4.
+- **Datos:** SQLite.
+
+## Resultados
+
+Funcionó bien en local y cubría casi toda la gestión del almacén. Quedó pendiente el control de asistencia del personal.
+
+## Qué haría distinto
+
+Al revisarlo hoy veo cosas que cambiaría, y quiero retomarlo para completarlo:
+
+- Actualizar el stock dentro de una transacción, para que dos operaciones a la vez no lo descuadren.
+- Validar las cantidades con un formulario en lugar de leerlas a mano, y no desactivar la protección CSRF.
+- Sacar la clave secreta y el modo de depuración a variables de entorno.
+- Añadir pruebas automáticas y el control de asistencia.

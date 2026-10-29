@@ -3,7 +3,7 @@
   "stack": ["Blender", "Three.js", "GSAP", "Next.js"],
   "color": "violet",
   "cover": "./cover.jpg",
-  "links": { "repo": "[pendiente]" },
+  "links": {},
   "featured": true,
   "order": 1,
   "draft": false

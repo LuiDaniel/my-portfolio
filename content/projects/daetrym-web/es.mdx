@@ -1,0 +1,39 @@
+---
+title: DaeTrym, sitio de ciberseguridad y software
+summary: Sitio corporativo bilingüe para DaeTrym, mi marca de ciberseguridad y desarrollo de software, con formularios con backend propio, anti-spam y una política de seguridad estricta.
+kind: Web · Full stack
+role: Diseño y desarrollo completo (proyecto propio)
+---
+
+## Contexto y problema
+
+DaeTrym es el nombre comercial con el que ofrezco servicios de ciberseguridad y desarrollo de software. Al ser un negocio de seguridad, el propio sitio tenía que ser la prueba de credibilidad: rápido, accesible, en dos idiomas y con una configuración de seguridad que aguante una revisión.
+
+## Mi rol
+
+Todo el proyecto: diseño de la interfaz, frontend, backend, contenido en español e inglés, pruebas y preparación del despliegue en Vercel.
+
+## Solución
+
+Un sitio en español e inglés con páginas de servicios, ciberseguridad, proyectos, blog, recursos y nosotros. Incluye un formulario de propuesta en cuatro pasos, contacto, newsletter con doble confirmación y textos legales redactados según la normativa peruana.
+
+## Arquitectura
+
+- **Frontend:** Next.js (App Router), React, TypeScript estricto, Tailwind CSS v4 y next-intl.
+- **Backend:** Server Actions con Drizzle ORM sobre PostgreSQL (Neon en producción y PGlite, una base de datos en memoria, en local y en las pruebas).
+- **Servicios:** correos con Resend, límite de envíos con Upstash y anti-spam con Cloudflare Turnstile y un honeypot.
+- **Contenido:** blog y casos de estudio en MDX.
+
+## Decisiones técnicas
+
+- **CSP estricta con un nonce por petición**, sin `unsafe-inline`. Obliga a renderizar en el servidor en lugar de generar páginas estáticas: un coste que acepté a cambio de la seguridad.
+- **Base de datos embebida para las pruebas**, para que la suite no dependa de servicios externos.
+- **Turnstile se carga solo al usar un formulario**, para no penalizar el rendimiento del resto del sitio.
+
+## Retos
+
+Comprobé que con Next.js 16 no se puede tener a la vez una CSP sin `unsafe-inline` y páginas estáticas: Next inserta scripts en línea sin hash que la política bloquea. La solución fue generar la CSP en el proxy con un nonce distinto en cada petición.
+
+## Resultados
+
+223 pruebas unitarias y 620 de extremo a extremo (incluidas las de accesibilidad con axe en todas las páginas, en tema claro y oscuro) contra la build de producción, y cabeceras de seguridad revisadas con el criterio de securityheaders.com. El sitio está terminado y pendiente de publicarse.

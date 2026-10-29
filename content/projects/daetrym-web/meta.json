@@ -1,0 +1,10 @@
+{
+  "period": { "start": "2026-09", "end": "2026-10" },
+  "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle", "PostgreSQL"],
+  "color": "mint",
+  "cover": "./cover.jpg",
+  "links": { "repo": "https://github.com/LuiDaniel/daetrym-web" },
+  "featured": true,
+  "order": 2,
+  "draft": false
+}

@@ -1,0 +1,40 @@
+---
+title: Warehouse system for a construction company
+summary: Django web application to track the materials in a construction company's warehouse, with stock in, stock out and a movement history.
+kind: Web · Full stack
+role: Full development (my first solo project)
+---
+
+## Context and problem
+
+A construction company needed to know at all times how much material was in its warehouse, what was going out to the site and what was coming in from suppliers.
+
+## My role
+
+The whole project, end to end: data model, views, interface and setup. It was the first system I built on my own.
+
+## Solution
+
+- **Inventory** with the stock and unit of each material (bags, meters, units).
+- **Stock in and out** from the same table: each material has a field to consume and another to add stock.
+- **Movement history** with the date, quantity, operation type and the stock left after each one.
+- **Admin panel** using Django's admin with the Jazzmin theme, to manage materials and users.
+
+## Architecture
+
+- **Backend:** Django with two models, the material and its movement, and views that update the stock and record every operation.
+- **Interface:** Django templates with Tailwind CSS 4.
+- **Data:** SQLite.
+
+## Results
+
+It worked well locally and covered almost all of the warehouse management. Staff attendance tracking was left pending.
+
+## What I'd do differently
+
+Looking at it today, there are things I'd change, and I want to pick it up again to finish it:
+
+- Update the stock inside a transaction, so two simultaneous operations can't throw it off.
+- Validate quantities with a form instead of reading them by hand, and not disable CSRF protection.
+- Move the secret key and debug mode to environment variables.
+- Add automated tests and attendance tracking.

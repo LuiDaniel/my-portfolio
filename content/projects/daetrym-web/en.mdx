@@ -1,0 +1,39 @@
+---
+title: DaeTrym, a cybersecurity and software website
+summary: Bilingual corporate website for DaeTrym, my cybersecurity and software development brand, with forms backed by its own backend, anti-spam and a strict security policy.
+kind: Web · Full stack
+role: Full design and development (own project)
+---
+
+## Context and problem
+
+DaeTrym is the trade name I use to offer cybersecurity and software development services. As a security business, the website itself had to prove its credibility: fast, accessible, in two languages and with a security setup that holds up to a review.
+
+## My role
+
+The whole project: interface design, frontend, backend, Spanish and English content, testing and getting it ready to deploy on Vercel.
+
+## Solution
+
+A Spanish and English website with services, cybersecurity, projects, blog, resources and about pages. It includes a four-step proposal form, contact, a double opt-in newsletter and legal texts written according to Peruvian regulations.
+
+## Architecture
+
+- **Frontend:** Next.js (App Router), React, strict TypeScript, Tailwind CSS v4 and next-intl.
+- **Backend:** Server Actions with Drizzle ORM on PostgreSQL (Neon in production and PGlite, an in-memory database, locally and in tests).
+- **Services:** email with Resend, rate limiting with Upstash and anti-spam with Cloudflare Turnstile and a honeypot.
+- **Content:** blog and case studies in MDX.
+
+## Technical decisions
+
+- **Strict CSP with a per-request nonce**, without `unsafe-inline`. It forces server rendering instead of static pages: a cost I accepted in exchange for security.
+- **Embedded database for tests**, so the suite doesn't depend on external services.
+- **Turnstile only loads when a form is used**, so it doesn't hurt the performance of the rest of the site.
+
+## Challenges
+
+I verified that with Next.js 16 you can't have both a CSP without `unsafe-inline` and static pages: Next inserts inline scripts without a hash that the policy blocks. The solution was to build the CSP in the proxy with a different nonce on every request.
+
+## Results
+
+223 unit tests and 620 end-to-end tests (including accessibility checks with axe on every page, in light and dark themes) against the production build, and security headers reviewed against the securityheaders.com criteria. The site is finished and waiting to be published.

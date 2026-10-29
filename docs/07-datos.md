@@ -109,11 +109,15 @@ content/
     { "id": "github", "label": "GitHub", "url": "https://github.com/[usuario]", "handle": "@[usuario]" },
     { "id": "linkedin", "label": "LinkedIn", "url": "https://www.linkedin.com/in/[usuario]", "handle": "/in/[usuario]" }
   ],
+  "languages": [
+    { "name": { "es": "Español", "en": "Spanish" }, "level": { "es": "nativo", "en": "native" } }
+  ],
   "cv": { "es": "/cv/cv-es.pdf", "en": "/cv/cv-en.pdf" }
 }
 ```
 
 - `tagline` es *enriquecido* (admite `**negrita**`).
+- `languages` (opcional) aparece en el CV, en la lista de habilidades.
 - `status.available: false` oculta la píldora verde del hero.
 - `timezone` (formato IANA) alimenta el reloj del bento: muestra **tu** hora, no la de quien visita. Mientras sea `[pendiente]`, el reloj muestra la hora de quien visita.
 - `socials[].id` elige el icono y el color de relleno al pasar el cursor: `github`, `linkedin`, `x`, `youtube`, `devto`, `email`.
@@ -134,7 +138,7 @@ content/
   "hero": {
     "primaryCta": { "label": { "es": "Ver proyectos", "en": "View projects" }, "route": "/", "section": "projects" },
     "secondaryCta": { "label": { "es": "Descargar CV", "en": "Download CV" }, "action": "cv" },
-    "bento": { "featuredProject": "plataforma-reservas", "showGithub": true, "showClock": true }
+    "bento": { "featuredProject": "este-portafolio", "showGithub": true, "showClock": true }
   },
   "about": {
     "eyebrow": { "es": "Sobre mí", "en": "About" },

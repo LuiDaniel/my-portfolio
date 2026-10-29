@@ -1,0 +1,10 @@
+{
+  "period": { "start": "2025-07", "end": "2025-08" },
+  "stack": ["Python", "Django", "Tailwind CSS", "SQLite"],
+  "color": "amber",
+  "cover": "./cover.jpg",
+  "links": {},
+  "featured": true,
+  "order": 3,
+  "draft": false
+}
