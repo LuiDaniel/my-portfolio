@@ -129,5 +129,17 @@
   "NotFound404": {
     "home": "Ir al inicio",
     "projects": "Ver proyectos"
+  },
+  "CV": {
+    "lede": "Versión imprimible, generada con los mismos datos que el sitio.",
+    "download": "Descargar PDF",
+    "print": "Imprimir",
+    "profile": "Perfil",
+    "experience": "Experiencia",
+    "projects": "Proyectos",
+    "education": "Formación",
+    "skills": "Habilidades",
+    "certifications": "Certificaciones",
+    "achievements": "Logros"
   }
 }

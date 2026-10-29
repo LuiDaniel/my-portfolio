@@ -2,6 +2,7 @@
 @import '../styles/tokens.css';
 @import '../styles/effects.css';
 @import '../styles/prose.css';
+@import '../styles/print.css';
 
 /* Título de sección (h2): 34–56 px, tracking -0,04 em. */
 @utility text-h2 {

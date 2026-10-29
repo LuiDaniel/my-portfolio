@@ -1,0 +1,27 @@
+/* Impresión del CV (/cv): A4, tema claro, solo la hoja. `npm run cv` imprime con estas reglas. */
+
+@page {
+  size: A4;
+  margin: 12mm 14mm;
+}
+
+@media print {
+  html:has(.cv-sheet),
+  html:has(.cv-sheet) body {
+    background: #fff !important;
+  }
+  body:has(.cv-sheet) > :not(main) {
+    display: none !important;
+  }
+  body:has(.cv-sheet) main > :not(.cv-sheet) {
+    display: none !important;
+  }
+  .cv-sheet {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+  }
+}

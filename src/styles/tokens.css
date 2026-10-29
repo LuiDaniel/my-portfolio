@@ -34,6 +34,12 @@
   --color-gh-3: #26a641;
   --color-gh-4: #39d353;
 
+  /* CV impreso: tema claro */
+  --color-paper: #ffffff;
+  --color-ink: #1b1d2a;
+  --color-ink-muted: #4a4f63;
+  --color-ink-faint: #8b90a8;
+
   /* manchas del fondo (Ambient) */
   --color-blob-blue: #2546d8;
   --color-blob-violet: #6b2fd9;
