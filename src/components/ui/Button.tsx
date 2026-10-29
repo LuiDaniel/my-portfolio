@@ -19,14 +19,15 @@ type Variant = keyof typeof variants;
 /** Botón-enlace interno (con idioma) del diseño: `primary` con flecha o `glass` con descarga. */
 export function ButtonLink({
   variant = 'primary',
+  icon = variant === 'primary' ? 'arrow' : 'download',
   className,
   children,
   ...props
-}: { variant?: Variant } & ComponentProps<typeof Link>) {
+}: { variant?: Variant; icon?: 'arrow' | 'download' } & ComponentProps<typeof Link>) {
   return (
     <Link className={cn(base, variants[variant], className)} {...props}>
       {children}
-      {variant === 'primary' ? <ArrowRight aria-hidden /> : <ArrowDownToLine aria-hidden />}
+      {icon === 'arrow' ? <ArrowRight aria-hidden /> : <ArrowDownToLine aria-hidden />}
     </Link>
   );
 }

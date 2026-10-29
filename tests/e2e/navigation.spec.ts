@@ -8,8 +8,19 @@ const ROUTES = [
   { es: '/cv', en: '/en/cv', h1: ['CV', 'CV'] },
   { es: '/uses', en: '/en/uses', h1: ['Uses', 'Uses'] },
   { es: '/colofon', en: '/en/colophon', h1: ['Colofón', 'Colophon'] },
-  { es: '/proyectos/ejemplo', en: '/en/projects/ejemplo', h1: ['Caso de estudio', 'Case study'] },
-  { es: '/blog/ejemplo', en: '/en/blog/ejemplo', h1: ['Artículo', 'Article'] },
+  {
+    es: '/proyectos/este-portafolio',
+    en: '/en/projects/este-portafolio',
+    h1: ['Este portafolio y su robot 3D', 'This portfolio and its 3D robot'],
+  },
+  {
+    es: '/blog/robot-3d-blender',
+    en: '/en/blog/robot-3d-blender',
+    h1: [
+      'Cómo hice un robot 3D en Blender y lo llevé a la web',
+      'How I built a 3D robot in Blender and brought it to the web',
+    ],
+  },
 ] as const;
 
 test.describe('rutas', () => {
@@ -46,13 +57,13 @@ test.describe('idioma', () => {
       await page.getByRole('link', { name }).locator('visible=true').first().click();
     };
 
-    await page.goto('/proyectos/ejemplo');
+    await page.goto('/proyectos/este-portafolio');
     await switchTo('EN · English', 'Abrir menú');
-    await expect(page).toHaveURL(/\/en\/projects\/ejemplo$/);
+    await expect(page).toHaveURL(/\/en\/projects\/este-portafolio$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
     await switchTo('ES · Español', 'Open menu');
-    await expect(page).toHaveURL(/\/proyectos\/ejemplo$/);
+    await expect(page).toHaveURL(/\/proyectos\/este-portafolio$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
 
     // Con la cookie en inglés, entrar a / lleva a /en aunque el navegador esté en español.

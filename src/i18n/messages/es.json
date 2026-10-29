@@ -98,5 +98,36 @@
   },
   "Intro": {
     "skip": "Saltar intro"
+  },
+  "Projects": {
+    "lede": "Proyectos en los que he trabajado: qué problema resolvían, cómo los construí y qué aprendí.",
+    "all": "Todos",
+    "tech": "Tecnología",
+    "kind": "Tipo",
+    "empty": "Ningún proyecto coincide con el filtro.",
+    "results": "{count, plural, one {# proyecto} other {# proyectos}}"
+  },
+  "Project": {
+    "role": "Rol",
+    "period": "Periodo",
+    "stack": "Stack",
+    "demo": "Ver demo",
+    "repo": "Ver código",
+    "back": "Todos los proyectos",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "toc": "En esta página"
+  },
+  "Blog": {
+    "lede": "Notas técnicas sobre lo que construyo y aprendo.",
+    "all": "Todas",
+    "tags": "Etiquetas",
+    "empty": "Ningún artículo con esa etiqueta.",
+    "back": "Todos los artículos",
+    "readingTime": "{minutes} min de lectura"
+  },
+  "NotFound404": {
+    "home": "Ir al inicio",
+    "projects": "Ver proyectos"
   }
 }

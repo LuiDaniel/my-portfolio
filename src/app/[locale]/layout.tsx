@@ -36,6 +36,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
     // suppressHydrationWarning: el script de <head> añade data-intro a <html> antes de hidratar.
     <html lang={locale} className={fontVariables} suppressHydrationWarning>
       <head>
+        {/* Script en línea a propósito: next/script (beforeInteractive) lo ejecuta después del
+            primer pintado y se vería un destello del Home antes de la intro. */}
         <script dangerouslySetInnerHTML={{ __html: introScript(site.intro.enabled) }} />
       </head>
       <body>

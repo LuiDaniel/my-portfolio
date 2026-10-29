@@ -184,3 +184,15 @@
   animation: pop 0.9s var(--ease-spring) both;
   animation-delay: calc(var(--i, 0) * 80ms + 500ms);
 }
+
+/* Parpadeo de los ojos LED (pantalla de carga de la intro y 404). */
+@keyframes led-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}

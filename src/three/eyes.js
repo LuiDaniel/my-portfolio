@@ -2,22 +2,9 @@
 // Dibujar un patrón aquí = cambiar la expresión del robot.
 import * as THREE from 'three';
 
-export const COLS = 10;
-export const ROWS = 6;
-// Encendidos: degradado de azul (fila de arriba) a violeta (fila de abajo).
-const ON = ['#6f9cff', '#6a8dff', '#707dff', '#7f70ff', '#8f66ff', '#a061ff'];
-const OFF = 'rgb(4, 5, 12)'; // LED apagado: apenas visible
+import { COLS, OFF, ON, PATTERNS, ROWS } from './patterns.js';
 
-// '#' = encendido. Filas de arriba a abajo, tal como se ven desde delante.
-export const PATTERNS = {
-  normal: ['..######..', '.########.', '##########', '##########', '.########.', '..######..'],
-  happy: ['...####...', '..######..', '.###..###.', '##......##', '#........#', '..........'],
-  focus: ['..........', '..........', '.########.', '##########', '..........', '..........'],
-  surprised: ['..######..', '.##....##.', '##......##', '##......##', '.##....##.', '..######..'],
-  love: ['.###..###.', '##########', '##########', '.########.', '..######..', '....##....'],
-  bored: ['..........', '..........', '..........', '##########', '.########.', '..........'],
-  off: ['..........', '..........', '..........', '..........', '..........', '..........'],
-};
+export { COLS, ROWS, PATTERNS };
 
 export class EyeDisplay {
   constructor() {

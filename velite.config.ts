@@ -1,3 +1,5 @@
+import rehypeShiki from '@shikijs/rehype';
+import rehypeSlug from 'rehype-slug';
 import { defineCollection, defineConfig, s } from 'velite';
 
 // Esquemas del contenido editable (docs/07-datos.md). Un error indica archivo, campo y motivo.
@@ -259,6 +261,10 @@ const pages = defineCollection({
 
 export default defineConfig({
   root: 'content',
+  // Ids en los títulos (los usa la tabla de contenidos) y código resaltado en el build con Shiki.
+  mdx: {
+    rehypePlugins: [rehypeSlug, [rehypeShiki, { theme: 'github-dark-dimmed' }]],
+  },
   output: {
     data: '.velite',
     assets: 'public/static',

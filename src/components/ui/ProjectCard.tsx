@@ -82,7 +82,7 @@ export function ProjectCard({
 }
 
 /** Maqueta abstracta de una app (dos variantes, según el orden del proyecto). */
-function Mock({ seed }: { seed: number }) {
+export function Mock({ seed }: { seed: number }) {
   const even = seed % 2 === 0;
   return (
     <div className={styles.mock} aria-hidden>

@@ -1,6 +1,6 @@
-import { placeholderPage } from '@/lib/placeholder-page';
+import { mdxPage } from '@/lib/mdx-page';
 
-const { generateMetadata, Page } = placeholderPage('about');
+const { generateMetadata, Page } = mdxPage('sobre-mi');
 
 export { generateMetadata };
 export default Page;

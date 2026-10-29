@@ -98,5 +98,36 @@
   },
   "Intro": {
     "skip": "Skip intro"
+  },
+  "Projects": {
+    "lede": "Projects I've worked on: the problem they solved, how I built them and what I learned.",
+    "all": "All",
+    "tech": "Technology",
+    "kind": "Type",
+    "empty": "No project matches the filter.",
+    "results": "{count, plural, one {# project} other {# projects}}"
+  },
+  "Project": {
+    "role": "Role",
+    "period": "Period",
+    "stack": "Stack",
+    "demo": "View demo",
+    "repo": "View code",
+    "back": "All projects",
+    "previous": "Previous",
+    "next": "Next",
+    "toc": "On this page"
+  },
+  "Blog": {
+    "lede": "Technical notes on what I build and learn.",
+    "all": "All",
+    "tags": "Tags",
+    "empty": "No article with that tag.",
+    "back": "All articles",
+    "readingTime": "{minutes} min read"
+  },
+  "NotFound404": {
+    "home": "Go home",
+    "projects": "View projects"
   }
 }
