@@ -112,7 +112,7 @@ Ancho de lectura máximo: **46ch** en el hero, **58ch** en «Sobre mí» y **68c
 | `BentoClock` | Reloj **analógico** (horas, minutos y segundero coral) + hora digital mono. Fondo de **cielo de día** (7–19 h: azul → violeta) o **de noche** (violeta oscuro con estrellas) | Usa la zona horaria de `profile.json`. |
 | `SectionHead` | Eyebrow mono con punto de color + `h2` + enlace «Ver más» a la derecha | La flecha avanza 4 px en hover. |
 | `ValueCard` | Icono cuadrado con el acento al 18 % + título + texto | — |
-| `ProjectCard` | Miniatura 16:10 (imagen o maqueta abstracta sobre degradado de dos colores) + tipo en mono del color + título + resumen + tags. La tarjeta grande ocupa dos filas. | La imagen hace zoom 1,04. |
+| `ProjectCard` | Miniatura 16:10 (imagen o maqueta abstracta sobre degradado de dos colores) + tipo en mono del color + título + resumen + tags. La tarjeta grande ocupa todo el ancho (miniatura a la izquierda, texto a la derecha) y las demás van debajo de dos en dos; en móvil se apilan. | La imagen hace zoom 1,04. |
 | `TimelineItem` | Línea vertical en degradado ámbar → violeta; nodo de 14 px con borde y brillo del color de la entrada; fechas en mono a la derecha; píldora «Actual» en `--mint` | — |
 | `SkillArea` | Icono + título; chips con tres estilos: **relleno** (a diario), **borde** (con experiencia) y **discontinuo** (aprendiendo), más una leyenda en la cabecera de la sección | Chip: sube 2 px. |
 | `EducationCard` | Universidad con brillo ámbar/coral y **barra de avance** en degradado; listas de certificaciones y logros con insignias de color | — |

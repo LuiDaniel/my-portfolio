@@ -4,7 +4,7 @@ import { SectionHead } from '@/components/ui/SectionHead';
 import type { Locale } from '@/i18n/routing';
 import { getHome, getProjects } from '@/lib/content';
 
-/** Proyectos destacados: el primero grande (dos filas) y los demás a su derecha. */
+/** Proyectos destacados: el primero grande, a todo el ancho, y los demás debajo de dos en dos. */
 export async function FeaturedProjects({ locale }: { locale: Locale }) {
   const t = await getTranslations('Home');
   const { projects: section } = getHome(locale);
@@ -21,7 +21,7 @@ export async function FeaturedProjects({ locale }: { locale: Locale }) {
         color="blue"
         more={section.more}
       />
-      <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4 max-md:grid-cols-1">
+      <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
         {projects.map((project, i) => (
           <ProjectCard
             key={project.slug}

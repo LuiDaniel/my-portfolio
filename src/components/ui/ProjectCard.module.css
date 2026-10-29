@@ -28,6 +28,26 @@
   height: 100%;
   object-fit: cover;
 }
+/* Tarjeta grande: todo el ancho, miniatura a la izquierda y texto a la derecha. */
+.wide {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: center;
+}
+.wide .media {
+  margin: 10px;
+}
+@media (max-width: 980px) {
+  .wide {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-items: stretch;
+  }
+  .wide .media {
+    margin: 10px 10px 0;
+  }
+}
+
 :global(.group\/card):hover .media img,
 :global(.group\/card):hover .mock {
   transform: scale(1.04);

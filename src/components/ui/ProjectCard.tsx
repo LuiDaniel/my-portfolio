@@ -40,7 +40,7 @@ export function ProjectCard({
       as={Link}
       flush
       href={{ pathname: '/proyectos/[slug]', params: { slug: project.slug } }}
-      className={cn('grid grid-rows-[auto_1fr]', big && 'row-span-2 max-md:row-auto', className)}
+      className={cn('grid', big ? styles.wide : 'grid-rows-[auto_1fr]', className)}
       style={vars({ '--c1': accent(c1), '--c2': accent(c2), '--glow': accent(c2, 80) })}
     >
       <div className={styles.media}>
