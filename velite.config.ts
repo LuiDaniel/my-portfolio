@@ -173,6 +173,11 @@ const education = defineCollection({
       .object({ current: s.number().or(pending), total: s.number().or(pending), unit: text })
       .optional(),
     courses: s.array(text),
+    previous: s
+      .array(
+        s.object({ degree: text, institution: s.string(), detail: text, courses: s.array(text) }),
+      )
+      .default([]),
     certifications: s.array(
       s.object({
         title: s.string(),

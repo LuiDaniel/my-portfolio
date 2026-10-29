@@ -219,12 +219,21 @@ content/
   "status": { "es": "En curso", "en": "In progress" },
   "progress": { "current": 7, "total": 10, "unit": { "es": "ciclo", "en": "term" } },
   "courses": [ { "es": "Bases de datos", "en": "Databases" } ],
+  "previous": [
+    {
+      "degree": { "es": "Ingeniería de Software con IA", "en": "Software Engineering with AI" },
+      "institution": "SENATI",
+      "detail": { "es": "Hasta el 5.º de 6 semestres", "en": "Up to semester 5 of 6" },
+      "courses": [ { "es": "Bases de datos", "en": "Databases" } ]
+    }
+  ],
   "certifications": [ { "title": "[certificación]", "issuer": "[emisor]", "year": 2025, "url": "https://…", "color": "blue" } ],
   "achievements": [ { "title": { "es": "[hackatón]", "en": "[hackathon]" }, "detail": { "es": "[puesto]", "en": "[place]" }, "year": 2025, "icon": "trophy", "color": "amber" } ]
 }
 ```
 
 - Sin `progress`, la barra de avance no se muestra.
+- `previous` (opcional): estudios anteriores o sin terminar; cada uno tiene su tarjeta junto a la universidad y una línea en el CV.
 - Listas vacías (`[]`) ocultan su tarjeta.
 
 ### Proyecto: `content/projects/<slug>/meta.json`

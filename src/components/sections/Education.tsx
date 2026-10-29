@@ -7,7 +7,7 @@ import { SectionHead } from '@/components/ui/SectionHead';
 import { Tags } from '@/components/ui/Tag';
 import type { Locale } from '@/i18n/routing';
 import { getEducation, getHome } from '@/lib/content';
-import { accent, vars, type Accent } from '@/lib/ui';
+import { accent, cn, vars, type Accent } from '@/lib/ui';
 
 /** Universidad con barra de avance, certificaciones y logros (las listas vacías se ocultan). */
 export async function Education({ locale }: { locale: Locale }) {
@@ -19,21 +19,26 @@ export async function Education({ locale }: { locale: Locale }) {
     progress && typeof progress.current === 'number' && typeof progress.total === 'number'
       ? Math.round((progress.current / progress.total) * 100)
       : null;
-  // Sin certificaciones ni logros, la tarjeta de la universidad ocupa toda la fila.
-  const alone = edu.certifications.length === 0 && edu.achievements.length === 0;
+  // Tarjetas junto a la universidad: estudios previos, certificaciones y logros. Con una sola, dos
+  // columnas; sin ninguna, la universidad ocupa toda la fila.
+  const side =
+    edu.previous.length +
+    Number(edu.certifications.length > 0) +
+    Number(edu.achievements.length > 0);
 
   return (
     <section id="education" aria-labelledby="t-edu" className="wrap section-gap">
       <SectionHead id="t-edu" eyebrow={section.eyebrow} title={section.title} color="coral" />
       <div
-        className={
-          alone
-            ? 'grid'
-            : 'grid grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1'
-        }
+        className={cn(
+          'grid gap-4',
+          side === 1 && 'grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] max-md:grid-cols-1',
+          side > 1 &&
+            'grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] max-lg:grid-cols-2 max-sm:grid-cols-1',
+        )}
       >
         <Card
-          className="reveal max-lg:col-span-full"
+          className={cn('reveal', side > 1 && 'max-lg:col-span-full')}
           style={{
             background:
               'radial-gradient(120% 120% at 0% 0%, rgb(246 181 90 / .16), transparent 55%), radial-gradient(100% 100% at 100% 100%, rgb(255 125 147 / .12), transparent 60%), var(--color-glass)',
@@ -67,6 +72,21 @@ export async function Education({ locale }: { locale: Locale }) {
           )}
           <Tags items={edu.courses} className="mt-[18px]" />
         </Card>
+
+        {edu.previous.map((p) => (
+          <Card
+            key={p.institution}
+            className="reveal"
+            style={vars({ '--glow': accent('cyan', 80) })}
+          >
+            <CardLabel>{t('previousStudies')}</CardLabel>
+            <h3 className="mb-1 text-[20px] font-bold tracking-[-0.02em]">{p.degree}</h3>
+            <div className="text-muted">
+              {p.institution} · {p.detail}
+            </div>
+            <Tags items={p.courses} className="mt-[18px]" />
+          </Card>
+        ))}
 
         {edu.certifications.length > 0 && (
           <ListCard label={t('certifications')} glow="blue">

@@ -95,6 +95,16 @@ export async function CvSheet({ locale }: { locale: Locale }) {
           </h4>
           <span className="text-ink-muted">{edu.status}</span>
         </div>
+        {edu.previous.map((p) => (
+          <div key={p.institution}>
+            <h4 className="font-bold">
+              {p.degree} <span className="font-normal text-ink-muted">· {p.institution}</span>
+            </h4>
+            <p>
+              {p.detail}: {p.courses.join(', ')}.
+            </p>
+          </div>
+        ))}
         {certifications.length > 0 && (
           <p>
             <b>{t('CV.certifications')}:</b>{' '}

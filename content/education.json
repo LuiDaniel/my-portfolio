@@ -19,20 +19,63 @@
   },
   "courses": [
     {
-      "es": "Bases de datos",
-      "en": "Databases"
+      "es": "Fundamentos de programación",
+      "en": "Programming fundamentals"
     },
     {
-      "es": "Ingeniería de software",
-      "en": "Software engineering"
+      "es": "Programación orientada a objetos",
+      "en": "Object-oriented programming"
     },
     {
-      "es": "Redes",
-      "en": "Networking"
+      "es": "Introducción a la Ingeniería de Sistemas",
+      "en": "Introduction to Systems Engineering"
     },
     {
-      "es": "Sistemas distribuidos",
-      "en": "Distributed systems"
+      "es": "Cálculo I",
+      "en": "Calculus I"
+    },
+    {
+      "es": "Álgebra lineal",
+      "en": "Linear algebra"
+    }
+  ],
+  "previous": [
+    {
+      "degree": {
+        "es": "Ingeniería de Software con Inteligencia Artificial",
+        "en": "Software Engineering with Artificial Intelligence"
+      },
+      "institution": "SENATI",
+      "detail": {
+        "es": "Profesional técnico · hasta el 5.º de 6 semestres",
+        "en": "Technical degree · up to semester 5 of 6"
+      },
+      "courses": [
+        {
+          "es": "Análisis de requerimientos",
+          "en": "Requirements analysis"
+        },
+        {
+          "es": "Bases de datos",
+          "en": "Databases"
+        },
+        {
+          "es": "Programación orientada a objetos",
+          "en": "Object-oriented programming"
+        },
+        {
+          "es": "Sistemas de información",
+          "en": "Information systems"
+        },
+        {
+          "es": "Algoritmos de IA",
+          "en": "AI algorithms"
+        },
+        {
+          "es": "Big Data y Machine Learning",
+          "en": "Big Data and Machine Learning"
+        }
+      ]
     }
   ],
   "certifications": [],

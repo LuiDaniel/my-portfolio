@@ -89,7 +89,9 @@
         { "name": "Algoritmos", "level": "experienced" },
         { "name": "Redes", "level": "experienced" },
         { "name": "Sistemas operativos", "level": "experienced" },
-        { "name": "Ing. de software", "level": "experienced" }
+        { "name": "Ing. de software", "level": "experienced" },
+        { "name": "Análisis de requerimientos", "level": "experienced" },
+        { "name": "Machine Learning", "level": "learning" }
       ]
     }
   ]
