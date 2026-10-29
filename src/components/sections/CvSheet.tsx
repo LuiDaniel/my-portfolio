@@ -38,9 +38,9 @@ export async function CvSheet({ locale }: { locale: Locale }) {
   return (
     <article className="cv-sheet mx-auto max-w-[820px] rounded-[18px] bg-paper px-[clamp(24px,5vw,56px)] py-[clamp(28px,5vw,52px)] text-[13.5px] leading-[1.5] text-ink shadow-[0_30px_80px_rgb(0_0_0/0.45)] print:text-[11.5px]">
       <header className="border-b-2 border-blue pb-4">
-        <h1 className="text-[30px] leading-tight font-bold tracking-[-0.03em] print:text-[24px]">
+        <h2 className="text-[30px] leading-tight font-bold tracking-[-0.03em] print:text-[24px]">
           {profile.fullName}
-        </h1>
+        </h2>
         <p className="mt-0.5 text-[16px] font-semibold text-indigo">{profile.role}</p>
         <p className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[12.5px] text-ink-muted">
           {contact.map((c) => (
@@ -58,9 +58,9 @@ export async function CvSheet({ locale }: { locale: Locale }) {
           {jobs.map((job) => (
             <div key={job.id} className="break-inside-avoid">
               <div className="flex flex-wrap justify-between gap-x-4">
-                <h3 className="font-bold">
+                <h4 className="font-bold">
                   {job.role} <span className="font-normal text-ink-muted">· {job.org}</span>
-                </h3>
+                </h4>
                 <span className="font-mono text-[11.5px] text-ink-muted">
                   {formatPeriod(job.start, job.end, locale, t('Home.today'))}
                 </span>
@@ -79,9 +79,9 @@ export async function CvSheet({ locale }: { locale: Locale }) {
         <CvSection title={t('CV.projects')}>
           {projects.map((p) => (
             <div key={p.slug} className="break-inside-avoid">
-              <h3 className="font-bold">
+              <h4 className="font-bold">
                 {p.title} <span className="font-normal text-ink-muted">· {p.stack.join(', ')}</span>
-              </h3>
+              </h4>
               <p>{p.summary}</p>
             </div>
           ))}
@@ -90,9 +90,9 @@ export async function CvSheet({ locale }: { locale: Locale }) {
 
       <CvSection title={t('CV.education')}>
         <div className="flex flex-wrap justify-between gap-x-4">
-          <h3 className="font-bold">
+          <h4 className="font-bold">
             {edu.degree} <span className="font-normal text-ink-muted">· {edu.university}</span>
-          </h3>
+          </h4>
           <span className="text-ink-muted">{edu.status}</span>
         </div>
         {certifications.length > 0 && (
@@ -126,9 +126,9 @@ export async function CvSheet({ locale }: { locale: Locale }) {
 function CvSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mt-5 grid gap-2.5">
-      <h2 className="font-mono text-[11px] font-medium tracking-[0.14em] text-blue uppercase">
+      <h3 className="font-mono text-[11px] font-medium tracking-[0.14em] text-blue uppercase">
         {title}
-      </h2>
+      </h3>
       {children}
     </section>
   );
