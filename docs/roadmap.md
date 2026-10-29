@@ -171,6 +171,8 @@ Notas:
 
 **Hecho cuando:** el sitio está en el dominio, la lista de comprobación completa y el portafolio enlazado desde LinkedIn, GitHub y el CV.
 
+**Avance (2026-10-28):** datos personales, estudios, experiencia (Sumak y proyectos académicos), habilidades, Sobre mí y Uses rellenados; casos reales de DaeTrym y del sistema de almacén (los de ejemplo, borrados); se lanza sin blog (se oculta solo mientras no haya artículos publicados); PDF del CV regenerados. Sin certificaciones ni logros por ahora (los certificados de Oracle de SENATI están por recuperar). Quedan tres `[pendiente]`: `site.url` e `intro.url` (dominio de Vercel) y el inicio de los proyectos académicos. Falta decidir si se borra `prototype/` (el usuario pidió conservarlo en la fase 1).
+
 ---
 
 ## Ideas para después
