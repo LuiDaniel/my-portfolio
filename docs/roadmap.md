@@ -136,11 +136,28 @@ Notas:
 
 **Hecho cuando:** un envío real llega al correo (en *preview*) · enviar más de 3 veces devuelve «demasiados intentos» · los PDF se generan en ES/EN y caben en una página A4.
 
-## Fase 8 · SEO, calidad y rendimiento
+## Fase 8 · SEO, calidad y rendimiento ✅ (salvo el LCP de la portada)
 
-- [ ] Metadatos por página, `opengraph-image`, JSON-LD (`Person`, `Article`, `CreativeWork`, `BreadcrumbList`), `sitemap.ts`, `robots.ts` y RSS por idioma.
-- [ ] Cabeceras de seguridad (CSP, HSTS…) en `next.config.ts`.
-- [ ] E2E completos + axe en todas las páginas y en ambos idiomas; Lighthouse CI con los presupuestos de [06](06-calidad.md#presupuestos-de-rendimiento).
+- [x] Metadatos por página, `opengraph-image`, JSON-LD (`Person`, `Article`, `CreativeWork`, `BreadcrumbList`), `sitemap.ts`, `robots.ts` y RSS por idioma.
+- [x] Cabeceras de seguridad (CSP, HSTS…) en `next.config.ts`.
+- [x] E2E completos + axe en todas las páginas y en ambos idiomas; Lighthouse CI con los presupuestos de [06](06-calidad.md#presupuestos-de-rendimiento).
+
+Resultados (Lighthouse 13, móvil simulado, build de producción en local):
+
+| Página | Rendimiento | Accesibilidad | Buenas prácticas | SEO | LCP |
+|---|---|---|---|---|---|
+| `/` | 90 | 100 | 96 | 92* | 3,6 s |
+| `/proyectos` | 95 | 100 | 100 | 92* | 2,9 s |
+| `/sobre-mi` | 100 | 100 | 100 | 92* | 0,8 s |
+
+* El único fallo de SEO es `canonical`: apunta a `localhost:3000` porque falta el dominio (`NEXT_PUBLIC_SITE_URL` / `site.json → url`). En Lighthouse CI se mide con esa variable y pasa.
+
+Notas:
+- **LCP de la portada por encima del presupuesto (3,6 s frente a 2,5 s):** el elemento LCP es el rol del hero, que llega en el HTML pero entra con opacidad 0 y 290 ms de retraso. Reducirlo implica tocar la entrada aprobada; queda como optimización pendiente (aviso en Lighthouse CI, no error).
+- La aparición con scroll ya no baja la opacidad (la maqueta partía de 0,15): con ella, el texto aún no visto no cumplía el contraste AA para axe y Lighthouse.
+- La CSP se comprobó en producción (consola limpia con y sin intro). Lleva `'unsafe-inline'` en scripts porque el sitio es estático (sin nonce).
+- Los E2E precompilan todas las rutas antes de empezar (`tests/e2e/global-setup.ts`): `next dev` falla de forma intermitente si se compilan muchas rutas a la vez.
+- Los workflows de Lighthouse y Dependabot no se han ejecutado en GitHub (no se ha hecho push); Lighthouse CI sí se probó en local con la misma configuración.
 
 **Hecho cuando:** todos los presupuestos de [06 · Calidad](06-calidad.md) se cumplen en CI.
 

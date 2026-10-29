@@ -146,7 +146,7 @@ Curva base `--spring: cubic-bezier(.22, 1, .36, 1)`: críticamente amortiguada, 
 | Entrada del menú | Baja 14 px + escala .96 → 1 + fundido | .9 s |
 | Entrada del texto del hero | Sube 18 px + desenfoque 8 px → 0 + fundido | .9 s, escalonado 70 ms desde 150 ms |
 | Entrada de las tarjetas del bento | Sube 16 px + escala .96 + desenfoque 6 px | .9 s, escalonado 80 ms desde 500 ms |
-| Secciones al hacer scroll | Sube 48 px + escala .97 + desenfoque 6 px, de opacidad .15 a 1 | Ligado al scroll (`animation-timeline: view()`, rango `entry 0% → cover 30%`). Sin soporte, el contenido se ve sin animación. |
+| Secciones al hacer scroll | Sube 48 px + escala .97 + desenfoque 6 px (sin cambiar la opacidad: el texto aún no visto mantiene el contraste AA) | Ligado al scroll (`animation-timeline: view()`, rango `entry 0% → cover 30%`). Sin soporte, el contenido se ve sin animación. |
 | Hover de tarjetas, iconos y chips | Desplazamientos de 2–4 px, rellenos y giros | .35–.5 s con `--spring` |
 | Pulsar | Escala .94–.97 | .1–.12 s `ease-out` |
 | Resaltado del menú | `left` y `width` | .45 s `--spring` |
