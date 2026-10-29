@@ -59,7 +59,6 @@ portafolio/
 │  ├─ draco/                   # decodificadores (postinstall; ignorados por git)
 │  ├─ cv/                      # cv-es.pdf, cv-en.pdf (generados con npm run cv)
 │  └─ favicon.svg, apple-touch-icon.png
-├─ referencias/                # imágenes de referencia del robot
 ├─ scripts/
 │  ├─ copy-draco.mjs           # copia los decodificadores de three a public/draco
 │  └─ build-cv.ts              # imprime /cv y /en/cv a PDF con Playwright
