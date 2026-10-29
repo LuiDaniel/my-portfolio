@@ -6,6 +6,7 @@ import { NavBar } from '@/components/layout/NavBar';
 import { routing, type Locale } from '@/i18n/routing';
 import { fontVariables } from '@/lib/fonts';
 import { getProfile, getSite } from '@/lib/content';
+import { introScript } from '@/lib/intro-script';
 import '../globals.css';
 
 // Solo existen los idiomas de routing: cualquier otro primer segmento (p. ej. /archivo.txt, que el
@@ -32,7 +33,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   const profile = getProfile(locale as Locale);
 
   return (
-    <html lang={locale} className={fontVariables}>
+    // suppressHydrationWarning: el script de <head> añade data-intro a <html> antes de hidratar.
+    <html lang={locale} className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introScript(site.intro.enabled) }} />
+      </head>
       <body>
         <NextIntlClientProvider>
           <Ambient />

@@ -18,8 +18,19 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'webkit-movil', use: { ...devices['iPhone 15'] } },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, testIgnore: /intro.spec/ },
+    { name: 'webkit-movil', use: { ...devices['iPhone 15'] }, testIgnore: /intro.spec/ },
+    {
+      // La intro dibuja WebGL por software (sin GPU) y satura la CPU: va sola, al final.
+      name: 'intro',
+      testMatch: /intro.spec/,
+      dependencies: ['chromium', 'webkit-movil'],
+      fullyParallel: false,
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
+      },
+    },
   ],
   webServer: {
     command: 'npm run dev',

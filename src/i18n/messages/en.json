@@ -95,5 +95,8 @@
       "server": "Couldn't send it. Please email me directly."
     },
     "success": "Thanks! I'll get back to you soon."
+  },
+  "Intro": {
+    "skip": "Skip intro"
   }
 }

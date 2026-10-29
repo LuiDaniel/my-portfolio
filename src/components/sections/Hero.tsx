@@ -71,11 +71,14 @@ export async function Hero({ locale }: { locale: Locale }) {
         >
           {profile.name}
         </h1>
+        {/* Entrada y brillo en elementos distintos: dos animaciones en el mismo se pisan. */}
         <p
-          className="mt-3.5 enter-text animate-sheen bg-(image:--grad) bg-size-[200%_100%] bg-clip-text text-[clamp(26px,3.4vw,44px)] leading-[1.1] font-semibold tracking-[-0.03em] text-transparent"
+          className="mt-3.5 enter-text text-[clamp(26px,3.4vw,44px)] leading-[1.1] font-semibold tracking-[-0.03em]"
           style={vars({ '--i': 2 })}
         >
-          {profile.role}
+          <span className="animate-sheen bg-(image:--grad) bg-size-[200%_100%] bg-clip-text text-transparent">
+            {profile.role}
+          </span>
         </p>
         <p
           className="mt-[22px] max-w-[46ch] enter-text text-[clamp(17px,1.35vw,19px)] leading-[1.6] text-muted"

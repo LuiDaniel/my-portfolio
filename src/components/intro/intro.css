@@ -1,0 +1,267 @@
+/* Intro del robot (de prototype/src/style.css, limitado a #intro-overlay). Solo se ve con
+   <html data-intro="play">, que decide el script de <head> antes del primer pintado. */
+
+#intro-overlay {
+  display: none;
+}
+
+html[data-intro='play'] {
+  overflow: hidden;
+}
+html[data-intro='play'] #intro-overlay {
+  display: block;
+}
+/* Mientras corre la intro, el Home está oculto y sus entradas en pausa: arrancan al terminar. */
+html[data-intro='play'] body > :not(#intro-overlay) {
+  visibility: hidden;
+}
+html[data-intro='play'] :is(.enter-text, .enter-card, .animate-drop) {
+  animation-play-state: paused;
+}
+
+#intro-overlay {
+  --led-size: 6px;
+  --led-gap: 4px;
+  --intro-muted: #9aa3b8;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #05060a;
+  color: #e7eaf3;
+}
+
+/* ---------------------------------------------------------------- escenario 3D */
+#intro-overlay .intro-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+#intro-overlay canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Funde al robot con el fondo de la cintura para abajo (--fade-* los fija stage.js). */
+#intro-overlay .stage-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent var(--fade-start, 70%),
+    color-mix(in srgb, #05060a 70%, transparent)
+      calc((var(--fade-start, 70%) + var(--fade-end, 85%)) / 2),
+    #05060a var(--fade-end, 85%)
+  );
+}
+
+/* ---------------------------------------------------------------- pantalla de carga */
+#intro-overlay .intro-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 28px;
+  background: #05060a;
+  transition: opacity 0.9s ease;
+}
+#intro-overlay .intro-loader.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+#intro-overlay .led-eyes {
+  display: flex;
+  gap: calc(var(--led-size) * 5);
+  filter: drop-shadow(0 0 6px rgb(110 120 255 / 0.7));
+}
+/* 10 × 6 LEDs con la forma de píldora del modelo; los puntos son una máscara. */
+#intro-overlay .led-eye {
+  --dots: radial-gradient(
+      circle,
+      #000 0 calc(var(--led-size) / 2 - 0.5px),
+      transparent calc(var(--led-size) / 2)
+    )
+    0 0 / calc(var(--led-size) + var(--led-gap)) calc(var(--led-size) + var(--led-gap));
+  width: calc(var(--led-size) * 10 + var(--led-gap) * 9);
+  height: calc(var(--led-size) * 6 + var(--led-gap) * 5);
+  background: linear-gradient(to bottom, #6f9cff, #7f70ff 60%, #a061ff);
+  mask: var(--dots);
+  clip-path: polygon(20% 0, 80% 0, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0 70%, 0 30%);
+  animation: led-blink 3.2s infinite;
+  transform-origin: center;
+}
+@keyframes led-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+#intro-overlay .loader-pct {
+  margin: 0;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.3em;
+  color: var(--intro-muted);
+  opacity: 0.7;
+}
+
+/* ---------------------------------------------------------------- tarjeta de bienvenida */
+#intro-overlay .intro-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+#intro-overlay .hero-stack {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#intro-overlay .hero-part {
+  margin: 0;
+  visibility: hidden; /* aparecen cuando el robot suelta su gema */
+}
+#intro-overlay .hero-icons {
+  display: flex;
+  gap: clamp(14px, 2vw, 22px);
+  margin-bottom: clamp(18px, 4.2vh, 40px);
+}
+#intro-overlay .hero-icon {
+  display: grid;
+  place-items: center;
+  width: clamp(44px, 4.2vw, 54px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgb(150 160 255 / 0.22);
+  background: rgb(255 255 255 / 0.03);
+  box-shadow: 0 0 24px rgb(110 110 255 / 0.12);
+}
+#intro-overlay .hero-icon svg,
+#intro-overlay .hero-url svg {
+  width: 42%;
+  fill: none;
+  stroke: #dfe4ff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#intro-overlay .hero-title {
+  display: grid;
+  justify-items: center;
+  gap: clamp(2px, 0.6vh, 8px);
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  filter: drop-shadow(0 0 28px rgb(110 110 255 / 0.16));
+}
+#intro-overlay .hero-kicker {
+  font: 500 clamp(11px, 1.05vw, 15px) / 1 var(--font-mono);
+  letter-spacing: 0.5em;
+  margin-right: -0.5em; /* compensa el espaciado de la última letra para centrar */
+  text-transform: uppercase;
+  color: var(--intro-muted);
+}
+#intro-overlay .hero-name {
+  font: 600 min(8.4vw, 11vh) / 1.1 var(--font-sans);
+  letter-spacing: -0.03em;
+  background: linear-gradient(100deg, #eef1ff 0%, #a9bcff 35%, #8f86ff 68%, #b98cff 100%);
+  background-clip: text;
+  color: transparent;
+  padding: 0 0.04em 0.06em; /* que el recorte del degradado no corte la «j» ni la «f» */
+}
+#intro-overlay .hero-url {
+  display: flex;
+  margin-top: clamp(12px, 2.6vh, 26px);
+  align-items: center;
+  gap: 0.75em;
+  font: 400 clamp(12px, 1vw, 15px) / 1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: #aab4ff;
+  white-space: nowrap;
+}
+#intro-overlay .hero-url svg {
+  width: 1.25em;
+  stroke: #aab4ff;
+}
+/* tras el barrido: a la izquierda, alineado a la izquierda y más pequeño */
+#intro-overlay .hero-stack.is-settled {
+  left: clamp(24px, 8vw, 140px);
+  top: 50%;
+  transform: translateY(-50%);
+  align-items: flex-start;
+}
+#intro-overlay .is-settled .hero-title {
+  justify-items: start;
+  text-align: left;
+}
+#intro-overlay .is-settled .hero-kicker {
+  margin-right: 0;
+}
+#intro-overlay .is-settled .hero-name {
+  font-size: min(5.6vw, 9vh);
+}
+@media (max-aspect-ratio: 17/20) {
+  #intro-overlay .hero-stack.is-settled {
+    left: 24px;
+    right: 24px;
+    top: auto;
+    bottom: 12vh;
+    transform: none;
+  }
+  #intro-overlay .is-settled .hero-name {
+    font-size: min(10vw, 8vh);
+  }
+}
+/* destello circular donde el robot suelta la gema */
+#intro-overlay .hero-burst {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  border: 2px solid rgb(205 208 255 / 0.9);
+  box-shadow:
+    0 0 24px rgb(120 120 255 / 0.85),
+    inset 0 0 12px rgb(150 110 255 / 0.6);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- saltar intro */
+#intro-overlay .intro-skip {
+  position: absolute;
+  right: max(20px, env(safe-area-inset-right, 0px));
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--intro-muted);
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.11);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    transform 0.12s ease-out;
+}
+#intro-overlay .intro-skip:hover {
+  color: #f4f5fb;
+  background: rgb(255 255 255 / 0.1);
+}
+#intro-overlay .intro-skip:active {
+  transform: scale(0.96);
+}

@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+import { IntroOverlay } from '@/components/intro/IntroOverlay';
 import { About } from '@/components/sections/About';
 import { Contact } from '@/components/sections/Contact';
 import { Education } from '@/components/sections/Education';
@@ -7,7 +9,7 @@ import { Hero } from '@/components/sections/Hero';
 import { LatestPosts } from '@/components/sections/LatestPosts';
 import { Skills } from '@/components/sections/Skills';
 import type { Locale } from '@/i18n/routing';
-import { getHome, type SectionId } from '@/lib/content';
+import { getHome, getSite, type SectionId } from '@/lib/content';
 
 const SECTIONS: Record<SectionId, (props: { locale: Locale }) => React.ReactNode> = {
   about: About,
@@ -23,14 +25,26 @@ const SECTIONS: Record<SectionId, (props: { locale: Locale }) => React.ReactNode
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const locale = (await params).locale as Locale;
   const { sections } = getHome(locale);
+  const { intro } = getSite(locale);
+  const t = await getTranslations('Intro');
 
   return (
-    <main>
-      <Hero locale={locale} />
-      {sections.map((id) => {
-        const Section = SECTIONS[id];
-        return <Section key={id} locale={locale} />;
-      })}
-    </main>
+    <>
+      {intro.enabled && (
+        <IntroOverlay
+          kicker={intro.kicker}
+          title={intro.title}
+          url={intro.url}
+          skipLabel={t('skip')}
+        />
+      )}
+      <main>
+        <Hero locale={locale} />
+        {sections.map((id) => {
+          const Section = SECTIONS[id];
+          return <Section key={id} locale={locale} />;
+        })}
+      </main>
+    </>
   );
 }

@@ -95,5 +95,8 @@
       "server": "No se pudo enviar. Escríbeme directamente por email."
     },
     "success": "¡Gracias! Te responderé pronto."
+  },
+  "Intro": {
+    "skip": "Saltar intro"
   }
 }
