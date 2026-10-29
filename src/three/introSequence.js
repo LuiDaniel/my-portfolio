@@ -48,12 +48,14 @@ export function startIntro(opts) {
       skip(); // sin modelo no hay intro: el Home aparece directamente
     });
 
+  // Si se saltó la intro mientras cargaba (ended), no se arranca la escena: compilar los shaders y
+  // dibujar bloquearía la página durante el fundido en un equipo lento.
   async function begin() {
-    if (disposed) return;
+    if (disposed || ended) return;
     onProgress(100);
     robot.mixer.timeScale = speed;
     await document.fonts.ready; // el layout de la tarjeta depende de las fuentes
-    if (disposed) return;
+    if (disposed || ended) return;
     intro = new Intro({ scene, camera, robot, root });
     if (window.__intro) window.__intro.intro = intro;
 
