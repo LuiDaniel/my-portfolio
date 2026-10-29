@@ -1,13 +1,13 @@
 {
-  "url": "[pendiente]",
+  "url": "https://luidaniel.vercel.app",
   "seo": {
     "title": {
       "es": "Luis Daniel · Desarrollador Full Stack",
       "en": "Luis Daniel · Full Stack Developer"
     },
     "description": {
-      "es": "Portafolio de Luis Daniel, desarrollador full stack y estudiante de Ingeniería de Sistemas: proyectos, experiencia y notas técnicas.",
-      "en": "Portfolio of Luis Daniel, full stack developer and Systems Engineering student: projects, experience and technical notes."
+      "es": "Portafolio de Luis Daniel, desarrollador full stack y estudiante de Ingeniería de Sistemas: proyectos, experiencia y formación.",
+      "en": "Portfolio of Luis Daniel, full stack developer and Systems Engineering student: projects, experience and education."
     }
   },
   "nav": [
@@ -22,7 +22,7 @@
     "enabled": true,
     "kicker": { "es": "Bienvenido a mi", "en": "Welcome to my" },
     "title": { "es": "Portafolio Web", "en": "Portfolio" },
-    "url": "[pendiente]"
+    "url": "luidaniel.vercel.app"
   },
   "footer": {
     "about": {
