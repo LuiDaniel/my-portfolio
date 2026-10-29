@@ -1,0 +1,16 @@
+# Lo que `vercel deploy` no sube desde este equipo (el build no lo necesita). Con el repositorio
+# conectado, Vercel clona solo lo que está en git.
+renders/
+blender/
+design/
+docs/
+tests/
+test-results/
+playwright-report/
+.lighthouseci/
+.claude/
+.velite/
+.next/
+public/static/
+public/draco/
+*.tsbuildinfo
