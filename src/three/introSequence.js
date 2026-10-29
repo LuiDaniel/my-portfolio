@@ -7,8 +7,11 @@ import { Robot } from './robot.js';
 import { Intro } from './intro.js';
 import { LIT, Stage } from './stage.js';
 
-const PAUSE = 1; // s con la tarjeta a la izquierda y el robot mirando al cursor
-const READ = 2.4; // s para leer la tarjeta completa antes del barrido (como en el prototipo)
+// Los tiempos de la coreografía están en segundos a velocidad 1; SPEED los acelera todos a la vez
+// (clips de Blender y animaciones de GSAP), así que robot, gemas y tarjeta siguen sincronizados.
+const SPEED = 1.25;
+const PAUSE = 0.6; // s con la tarjeta a la izquierda y el robot mirando al cursor
+const READ = 1.4; // s para leer la tarjeta completa antes del barrido
 
 /**
  * Arranca la intro. Devuelve un controlador con `skip()` y `dispose()`.
@@ -32,7 +35,7 @@ export function startIntro(opts) {
   const tweens = []; // timelines propios, para poder matarlos al saltar
 
   // Modo rápido para las pruebas (?intro=fast, nunca en producción): todo va 6 veces más rápido.
-  const speed = opts.fast ? 6 : 1;
+  const speed = opts.fast ? 6 : SPEED;
   gsap.globalTimeline.timeScale(speed);
 
   if (process.env.NODE_ENV !== 'production') window.__intro = { robot, camera, state, scene };
@@ -86,7 +89,7 @@ export function startIntro(opts) {
 
     let clip = null;
     const tl = gsap
-      .timeline({ delay: 0.8 })
+      .timeline({ delay: 0.3 })
       // 1. Despertar: solo se ven los ojos, que se encienden con un parpadeo de arranque
       .to(robot, { eyePower: 1, duration: 0.05 }, 0)
       .to(robot, { eyePower: 0.15, duration: 0.05 }, 0.1)
@@ -110,10 +113,10 @@ export function startIntro(opts) {
       }, 0.35)
       .add(() => (clip.timeScale = 0), 0.35 + 0.55)
       // 2. La cámara se aleja: aparece la silueta (luz de contorno + halo detrás)
-      .to(state, { ...shot('hero'), rim: 1, halo: 1, duration: 1.5, ease: 'power2.inOut' }, 0.75)
+      .to(state, { ...shot('hero'), rim: 1, halo: 1, duration: 1.2, ease: 'power2.inOut' }, 0.6)
       .add(() => (view.lockedShot = 'hero'))
       // 3. Retoma el clip: atrapa las gemas (los eventos del clip arman la tarjeta)
-      .add(() => (clip.timeScale = 1), 1.95);
+      .add(() => (clip.timeScale = 1), 1.55);
     tweens.push(tl);
   }
 

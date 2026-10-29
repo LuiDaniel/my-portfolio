@@ -157,7 +157,7 @@ Curva base `--spring: cubic-bezier(.22, 1, .36, 1)`: críticamente amortiguada, 
 
 ### Transición intro → Home
 
-Tras la pausa de ~1 s, la intro se despide sola con la **caída** ([05 · Robot 3D](05-robot-3d.md#salida-opciones)) y en la misma pantalla el Home hace su entrada normal (tabla de arriba), empezando a mitad de la despedida. En visitas sin intro, el Home hace la misma entrada al cargar.
+Tras la pausa de ~0,5 s, la intro se despide sola con la **caída** ([05 · Robot 3D](05-robot-3d.md#salida-opciones)) y en la misma pantalla el Home hace su entrada normal (tabla de arriba), empezando a mitad de la despedida. En visitas sin intro, el Home hace la misma entrada al cargar.
 
 ## Iconografía e imágenes
 

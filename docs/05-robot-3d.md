@@ -106,19 +106,21 @@ Los textos salen de `site.json → intro` ([07 · Datos](07-datos.md#sitejson)).
 
 ### Coreografía
 
+La web reproduce la intro a **1,25×** (`SPEED` en `introSequence.js`): acelera a la vez los clips de Blender y las animaciones de GSAP, así que robot, gemas y tarjeta siguen sincronizados. Las duraciones de la tabla ya son las reales.
+
 | # | Momento | Duración | Qué pasa |
 |---|---|---|---|
 | 1 | **Carga** | lo que tarde | Pantalla negra con los ojos LED (azul → violeta) y el %. Scroll bloqueado. "Saltar intro" ya disponible. |
-| 2 | **Despertar** | ~0,9 s | Plano `eyes`: los ojos se encienden con un parpadeo de arranque y empieza `Intro`, pausado justo antes de estirar el brazo. |
-| 3 | **Silueta** | 1,5 s | La cámara se aleja al plano `hero` (fov 25): luz de contorno azul/violeta + halo. Robot de la cintura para arriba. |
-| 4 | **Gemas** | ~6 s | En cada `grab_*` se enciende una gema en `B_Grip_*`; en cada `release_*` vuela a su pieza, estalla y la pieza se materializa delante del pecho (`ANCHOR`). |
-| 5 | **Lectura** | 1,5 s | Tarjeta completa, quieta. |
-| 6 | **Barrido** | ~2 s | `Intro_Sweep`: en el evento `sweep` las piezas salen despedidas y frenan en la columna izquierda (FLIP); la cámara pasa a `heroAside` (robot en el tercio derecho) y se encienden luces y líneas. |
-| 7 | **Pausa** | ~1 s | El estado de la captura de referencia: tarjeta a la izquierda, robot iluminado a la derecha que sigue el cursor con la mirada. **Sin aviso "desliza"**: no hace falta hacer nada. |
-| 8 | **Despedida** | ~1,2 s | Salida automática con **caída** (opción A, elegida): la tarjeta cae y se desvanece y el robot se apaga y se hunde en el fondo. |
+| 2 | **Despertar** | ~0,7 s | Plano `eyes`: los ojos se encienden con un parpadeo de arranque y empieza `Intro`, pausado justo antes de estirar el brazo. |
+| 3 | **Silueta** | ~1 s | La cámara se aleja al plano `hero` (fov 25): luz de contorno azul/violeta + halo. Robot de la cintura para arriba. |
+| 4 | **Gemas** | ~5 s | En cada `grab_*` se enciende una gema en `B_Grip_*`; en cada `release_*` vuela a su pieza, estalla y la pieza se materializa delante del pecho (`ANCHOR`). |
+| 5 | **Lectura** | ~1,1 s | Tarjeta completa, quieta. |
+| 6 | **Barrido** | ~1,7 s | `Intro_Sweep`: en el evento `sweep` las piezas salen despedidas y frenan en la columna izquierda (FLIP); la cámara pasa a `heroAside` (robot en el tercio derecho) y se encienden luces y líneas. |
+| 7 | **Pausa** | ~0,5 s | El estado de la captura de referencia: tarjeta a la izquierda, robot iluminado a la derecha que sigue el cursor con la mirada. **Sin aviso "desliza"**: no hace falta hacer nada. |
+| 8 | **Despedida** | ~1 s | Salida automática con **caída** (opción A, elegida): la tarjeta cae y se desvanece y el robot se apaga y se hunde en el fondo. |
 | 9 | **Home** | ~1,4 s (empieza a mitad del paso 8) | En la misma pantalla entra el Home con su coreografía ([02 · Contenido](02-contenido.md#1-hero), [04 · Diseño](04-diseno.md#transición-intro--home)). Al terminar se desbloquea el scroll y aparece el aviso "desliza" hacia las secciones. |
 
-Primera visita: el Home queda visible a los **≈ 12 s** (o al instante con "Saltar intro").
+Primera visita: el Home queda visible a los **≈ 10 s** tras la carga (antes ≈ 15 s; medido con GPU a 60 fps) (o al instante con "Saltar intro").
 
 ### Salida: opciones
 
@@ -149,7 +151,7 @@ Las piernas no se muestran nunca: `robot.ts` oculta las mallas de `B_Thigh/Shin/
 
 - `src/three/robot.js`, `eyes.js` e `intro.js` son copias del prototipo (solo cambian la ruta de Draco, `/draco/`, y el nodo raíz de la tarjeta, que ahora se pasa al constructor). `stage.js` y `introSequence.js` salen de `main.js`.
 - `src/components/intro/IntroOverlay.tsx` + `intro.css`: capa fija (`#intro-overlay`) que solo se ve con `<html data-intro="play">`. Mientras está, el resto de la página tiene `visibility: hidden` y las animaciones de entrada del Home en pausa; al quitar el atributo, el Home entra con su coreografía.
-- Pausa de 1 s tras el barrido, despedida con caída (0,6 s la tarjeta, 0,8 s el escenario) y el Home empieza a los 0,6 s de la despedida. «Saltar intro» o `Esc`: fundido de 0,5 s.
+- Todo a 1,25×: pausa de ~0,5 s tras el barrido, despedida con caída (~0,5 s la tarjeta, ~0,65 s el escenario) y el Home empieza a los ~0,5 s de la despedida. «Saltar intro» o `Esc`: fundido de 0,5 s.
 - Al terminar se llama a `dispose()` (bucle, listeners, geometrías, materiales, texturas, composer y contexto WebGL).
 
 ### El prototipo
