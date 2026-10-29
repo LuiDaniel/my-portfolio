@@ -1,11 +1,14 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { contactSchema, invalidFields, type ContactState } from '@/lib/contact-schema';
+import { sendContactMail } from '@/lib/mail';
+import { allowContact } from '@/lib/rate-limit';
 
 /**
- * Server Action del formulario de contacto (docs/03-arquitectura.md#backend). Valida con Zod y
- * descarta en silencio los envíos con el honeypot relleno. Sin claves de servicios (desarrollo),
- * el mensaje se escribe en la consola del servidor.
+ * Server Action del formulario de contacto (docs/03-arquitectura.md#backend): Zod, honeypot,
+ * límite de 3 envíos por IP cada 10 min (Upstash) y envío con Resend (reply-to = visitante).
+ * Sin claves (desarrollo) no hay límite y el mensaje se escribe en consola.
  */
 export async function sendContact(_prev: ContactState, form: FormData): Promise<ContactState> {
   // Honeypot: un campo oculto que solo rellenan los bots. Se responde «ok» para no darles pistas.
@@ -19,7 +22,15 @@ export async function sendContact(_prev: ContactState, form: FormData): Promise<
   const fields = invalidFields(values);
   if (fields.length > 0) return { status: 'invalid', fields };
 
-  const data = contactSchema.parse(values);
-  console.info('[contacto] Mensaje recibido (sin servicio de email configurado):', data);
-  return { status: 'ok' };
+  const h = await headers();
+  const ip = h.get('x-forwarded-for')?.split(',')[0]?.trim() || h.get('x-real-ip') || 'local';
+  if (!(await allowContact(ip))) return { status: 'rate_limited' };
+
+  try {
+    await sendContactMail(contactSchema.parse(values));
+    return { status: 'ok' };
+  } catch (err) {
+    console.error('[contacto] No se pudo enviar:', err);
+    return { status: 'error' };
+  }
 }
