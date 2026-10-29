@@ -1,45 +1,44 @@
 [
   {
-    "id": "dietrim",
-    "role": { "es": "Desarrollador full stack freelance", "en": "Freelance full stack developer" },
-    "org": "Dietrim",
-    "url": "[pendiente]",
-    "type": "freelance",
-    "start": "[pendiente]",
-    "end": null,
+    "id": "sumak",
+    "role": { "es": "Desarrollador backend", "en": "Backend developer" },
+    "org": "Sumak Desarrollo de Software y Marketing",
+    "type": "job",
+    "start": "2023-05",
+    "end": "2023-09",
     "color": "mint",
     "highlights": {
       "es": [
-        "Diseño y desarrollo de sitios y aplicaciones web para clientes, de la propuesta al despliegue. [pendiente]",
-        "Gestión directa con clientes: requisitos, estimaciones y entregas."
+        "Desarrollo de servicios backend en Go con el framework Fiber.",
+        "Procedimientos almacenados en MariaDB para la lógica de acceso a datos."
       ],
       "en": [
-        "Design and development of websites and web applications for clients, from proposal to deployment. [pendiente]",
-        "Direct client management: requirements, estimates and deliveries."
+        "Built backend services in Go with the Fiber framework.",
+        "Wrote MariaDB stored procedures for the data access logic."
       ]
     },
-    "stack": ["React", "Node", "PostgreSQL"]
-  },
-  {
-    "id": "otra-experiencia",
-    "role": { "es": "[pendiente]", "en": "[pendiente]" },
-    "org": "[pendiente]",
-    "type": "job",
-    "start": "[pendiente]",
-    "end": "[pendiente]",
-    "color": "violet",
-    "highlights": { "es": ["[pendiente]"], "en": ["[pendiente]"] },
-    "stack": []
+    "stack": ["Go", "Fiber", "MariaDB"]
   },
   {
     "id": "proyectos-academicos",
     "role": { "es": "Proyectos académicos", "en": "Academic projects" },
-    "org": "Ingeniería de Sistemas · [pendiente]",
+    "org": "SENATI · Universidad Peruana Unión",
     "type": "academic",
     "start": "[pendiente]",
     "end": null,
     "color": "amber",
-    "highlights": { "es": ["[pendiente]"], "en": ["[pendiente]"] },
-    "stack": []
+    "highlights": {
+      "es": [
+        "Aplicación de consola en Java para una empresa de transportes, con todo el backend.",
+        "Aplicación de ventas en Java con Maven e interfaz en JavaFX.",
+        "En curso: Vyra, un sistema para un consultorio dental, desarrollado en equipo."
+      ],
+      "en": [
+        "Java console application for a transport company, including the whole backend.",
+        "Sales application in Java with Maven and a JavaFX interface.",
+        "In progress: Vyra, a system for a dental clinic, built as a team."
+      ]
+    },
+    "stack": ["Java", "Maven", "JavaFX"]
   }
 ]

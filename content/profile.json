@@ -1,6 +1,6 @@
 {
   "name": "Luis Daniel",
-  "fullName": "Luis Daniel [pendiente]",
+  "fullName": "Luis Daniel Quecara Machaca",
   "initials": "LD",
   "role": { "es": "Desarrollador Full Stack", "en": "Full Stack Developer" },
   "tagline": {
@@ -11,14 +11,31 @@
     "available": true,
     "label": { "es": "Disponible para nuevas oportunidades", "en": "Open to new opportunities" }
   },
-  "location": { "city": "[pendiente]", "country": "[pendiente]", "timezone": "[pendiente]" },
+  "location": { "city": "Juliaca", "country": "Perú", "timezone": "America/Lima" },
   "workModes": { "es": "remoto o híbrido", "en": "remote or hybrid" },
   "responseTime": { "es": "Respondo en menos de 24 horas.", "en": "I reply within 24 hours." },
-  "email": "[pendiente]",
-  "github": { "username": "[pendiente]" },
+  "email": "lui.daniel.dev@gmail.com",
+  "github": { "username": "LuiDaniel" },
   "socials": [
-    { "id": "github", "label": "GitHub", "url": "[pendiente]", "handle": "@[pendiente]" },
-    { "id": "linkedin", "label": "LinkedIn", "url": "[pendiente]", "handle": "/in/[pendiente]" }
+    {
+      "id": "github",
+      "label": "GitHub",
+      "url": "https://github.com/LuiDaniel",
+      "handle": "@LuiDaniel"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/luis-daniel-quecara-machaca-b8b8bb447/",
+      "handle": "/in/luis-daniel-quecara-machaca"
+    }
+  ],
+  "languages": [
+    { "name": { "es": "Español", "en": "Spanish" }, "level": { "es": "nativo", "en": "native" } },
+    {
+      "name": { "es": "Inglés", "en": "English" },
+      "level": { "es": "intermedio", "en": "intermediate" }
+    }
   ],
   "cv": { "es": "/cv/cv-es.pdf", "en": "/cv/cv-en.pdf" }
 }

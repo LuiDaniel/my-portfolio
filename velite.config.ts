@@ -86,6 +86,7 @@ const profile = defineCollection({
         handle: s.string(),
       }),
     ),
+    languages: s.array(s.object({ name: text, level: text })).default([]),
     cv: s.object({ es: s.string(), en: s.string() }),
   }),
 });

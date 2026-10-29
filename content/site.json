@@ -54,8 +54,11 @@
       {
         "title": { "es": "Redes", "en": "Social" },
         "links": [
-          { "label": { "es": "GitHub", "en": "GitHub" }, "href": "[pendiente]" },
-          { "label": { "es": "LinkedIn", "en": "LinkedIn" }, "href": "[pendiente]" },
+          { "label": { "es": "GitHub", "en": "GitHub" }, "href": "https://github.com/LuiDaniel" },
+          {
+            "label": { "es": "LinkedIn", "en": "LinkedIn" },
+            "href": "https://www.linkedin.com/in/luis-daniel-quecara-machaca-b8b8bb447/"
+          },
           { "label": { "es": "Email", "en": "Email" }, "route": "/", "section": "contact" }
         ]
       }

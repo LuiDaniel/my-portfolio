@@ -69,7 +69,8 @@ describe.runIf(process.env.CONTENT_PUBLISH === '1')('listo para publicar', () =>
       data.projectDocs.filter((d) => !data.projectMeta.find((m) => m.slug === d.slug)?.draft),
       data.posts.filter((p) => !p.draft),
     ];
-    const found = JSON.stringify(visible).match(/.{0,40}\[pendiente\].{0,20}/g) ?? [];
+    // También detecta las notas del tipo [pendiente: …].
+    const found = JSON.stringify(visible).match(/.{0,40}\[pendiente[\]:].{0,20}/g) ?? [];
     expect(found).toEqual([]);
   });
 });

@@ -19,11 +19,19 @@ export async function Education({ locale }: { locale: Locale }) {
     progress && typeof progress.current === 'number' && typeof progress.total === 'number'
       ? Math.round((progress.current / progress.total) * 100)
       : null;
+  // Sin certificaciones ni logros, la tarjeta de la universidad ocupa toda la fila.
+  const alone = edu.certifications.length === 0 && edu.achievements.length === 0;
 
   return (
     <section id="education" aria-labelledby="t-edu" className="wrap section-gap">
       <SectionHead id="t-edu" eyebrow={section.eyebrow} title={section.title} color="coral" />
-      <div className="grid grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
+      <div
+        className={
+          alone
+            ? 'grid'
+            : 'grid grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1'
+        }
+      >
         <Card
           className="reveal max-lg:col-span-full"
           style={{

@@ -3,15 +3,15 @@
     "es": "Ingeniería de Sistemas",
     "en": "Systems Engineering"
   },
-  "university": "[pendiente]",
-  "city": "[pendiente]",
+  "university": "Universidad Peruana Unión",
+  "city": "Juliaca",
   "status": {
     "es": "En curso",
     "en": "In progress"
   },
   "progress": {
-    "current": "[pendiente]",
-    "total": "[pendiente]",
+    "current": 2,
+    "total": 10,
     "unit": {
       "es": "ciclo",
       "en": "term"
@@ -35,46 +35,6 @@
       "en": "Distributed systems"
     }
   ],
-  "certifications": [
-    {
-      "title": "[pendiente]",
-      "issuer": "[pendiente]",
-      "year": "[pendiente]",
-      "color": "blue"
-    },
-    {
-      "title": "[pendiente]",
-      "issuer": "[pendiente]",
-      "year": "[pendiente]",
-      "color": "cyan"
-    }
-  ],
-  "achievements": [
-    {
-      "title": {
-        "es": "[pendiente]",
-        "en": "[pendiente]"
-      },
-      "detail": {
-        "es": "[pendiente]",
-        "en": "[pendiente]"
-      },
-      "year": "[pendiente]",
-      "icon": "trophy",
-      "color": "amber"
-    },
-    {
-      "title": {
-        "es": "[pendiente]",
-        "en": "[pendiente]"
-      },
-      "detail": {
-        "es": "[pendiente]",
-        "en": "[pendiente]"
-      },
-      "year": "[pendiente]",
-      "icon": "star",
-      "color": "mint"
-    }
-  ]
+  "certifications": [],
+  "achievements": []
 }

@@ -5,7 +5,7 @@
     { "name": "Next.js", "color": "#ffffff" },
     { "name": "Node.js", "color": "#5fa04e" },
     { "name": "PostgreSQL", "color": "#4f7fd9" },
-    { "name": "Docker", "color": "#2496ed" }
+    { "name": "Go", "color": "#00add8" }
   ],
   "areas": [
     {
@@ -19,6 +19,7 @@
         { "name": "TypeScript", "level": "daily" },
         { "name": "Tailwind CSS", "level": "experienced" },
         { "name": "Three.js", "level": "experienced" },
+        { "name": "JavaFX", "level": "experienced" },
         { "name": "Svelte", "level": "learning" }
       ]
     },
@@ -32,7 +33,11 @@
         { "name": "Express", "level": "daily" },
         { "name": "REST", "level": "experienced" },
         { "name": "GraphQL", "level": "experienced" },
-        { "name": "Go", "level": "learning" }
+        { "name": "Go", "level": "experienced" },
+        { "name": "Fiber", "level": "experienced" },
+        { "name": "Python", "level": "experienced" },
+        { "name": "Django", "level": "experienced" },
+        { "name": "Java", "level": "experienced" }
       ]
     },
     {
@@ -42,6 +47,7 @@
       "title": { "es": "Datos", "en": "Data" },
       "items": [
         { "name": "PostgreSQL", "level": "daily" },
+        { "name": "MariaDB", "level": "experienced" },
         { "name": "MongoDB", "level": "experienced" },
         { "name": "Prisma", "level": "experienced" },
         { "name": "Redis", "level": "experienced" }
@@ -69,7 +75,8 @@
         { "name": "VS Code", "level": "daily" },
         { "name": "Figma", "level": "experienced" },
         { "name": "Blender", "level": "experienced" },
-        { "name": "Postman", "level": "experienced" }
+        { "name": "Postman", "level": "experienced" },
+        { "name": "Maven", "level": "experienced" }
       ]
     },
     {

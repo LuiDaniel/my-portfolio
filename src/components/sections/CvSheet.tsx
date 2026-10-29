@@ -29,7 +29,7 @@ export async function CvSheet({ locale }: { locale: Locale }) {
   const contact = [
     profile.email,
     [profile.location.city, profile.location.country].join(', '),
-    ...profile.socials.map((s) => s.url.replace(/^https?:\/\/(www\.)?/, '')),
+    ...profile.socials.map((s) => s.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')),
     site.url.replace(/^https?:\/\//, ''),
   ].filter(known);
   const certifications = edu.certifications.filter((c) => known(c.title));
@@ -117,6 +117,12 @@ export async function CvSheet({ locale }: { locale: Locale }) {
               <dd>{area.items.map((i) => i.name).join(', ')}</dd>
             </div>
           ))}
+          {profile.languages.length > 0 && (
+            <div className="contents">
+              <dt className="font-bold">{t('CV.languages')}</dt>
+              <dd>{profile.languages.map((l) => `${l.name} (${l.level})`).join(', ')}</dd>
+            </div>
+          )}
         </dl>
       </CvSection>
     </article>
