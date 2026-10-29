@@ -49,8 +49,10 @@ export type SectionId = ReturnType<typeof getHome>['sections'][number];
 export function getSite(locale: Locale) {
   const site = localize(data.site, locale);
   const visible = new Set<string>(getHome(locale).sections);
-  // El menú solo enlaza a secciones visibles del Home.
-  const shown = (link: { section?: string }) => !link.section || visible.has(link.section);
+  const hasPosts = getPosts(locale).length > 0;
+  // El menú solo enlaza a secciones visibles del Home, y al blog si hay algún artículo publicado.
+  const shown = (link: { route?: string; section?: string }) =>
+    (!link.section || visible.has(link.section)) && (link.route !== '/blog' || hasPosts);
   return {
     ...site,
     nav: site.nav.filter(shown),

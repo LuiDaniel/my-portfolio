@@ -296,7 +296,7 @@ draft: false
 3. Para que salga en el Home: `"featured": true` y un `"order"`.
 4. Ejecuta `npm run dev`: si algo está mal, la terminal dice qué archivo y qué campo.
 
-**Agregar un artículo:** copia `content/blog/_plantilla/` y rellena `es.mdx` (y `en.mdx` si lo traduces). Se publica cuando `draft` es `false`.
+**Agregar un artículo:** copia `content/blog/_plantilla/` y rellena `es.mdx` (y `en.mdx` si lo traduces). Se publica cuando `draft` es `false`. Mientras no haya ningún artículo publicado en un idioma, el blog no existe en ese idioma: el menú y el pie no lo enlazan, la sección del Home no aparece, `/blog` da 404 y no entra en el sitemap. Aparece solo con el primer artículo publicado.
 
 **Cambiar tu disponibilidad:** `profile.json` → `status.available` y `status.label`.
 

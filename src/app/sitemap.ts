@@ -18,7 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   });
 
-  const pages: Href[] = ['/', '/proyectos', '/blog', '/sobre-mi', '/cv', '/uses', '/colofon'];
+  const pages: Href[] = ['/', '/proyectos', '/sobre-mi', '/cv', '/uses', '/colofon'];
+  if (getPosts(routing.defaultLocale).length > 0) pages.splice(2, 0, '/blog');
   const projects = getProjects(routing.defaultLocale).map((p) =>
     entry({ pathname: '/proyectos/[slug]', params: { slug: p.slug } }),
   );
