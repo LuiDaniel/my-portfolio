@@ -29,27 +29,27 @@
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.2.0",
-    "@upstash/redis": "^1.40.0",
-    "gsap": "^3.15.0",
-    "lucide-react": "^1.63.0",
-    "next": "^16.4.3",
+    "@upstash/redis": "^1.41.0",
+    "gsap": "^3.15.1",
+    "lucide-react": "^1.70.0",
+    "next": "^16.4.5",
     "next-intl": "^4.14.9",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "resend": "^6.35.0",
-    "three": "^0.186.1",
+    "resend": "^6.37.0",
+    "three": "^0.187.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
-    "@playwright/test": "^1.64.1",
-    "@shikijs/rehype": "^4.5.0",
-    "@tailwindcss/postcss": "^4.3.3",
+    "@playwright/test": "^1.65.0",
+    "@shikijs/rehype": "^4.6.0",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^16.4.3",
+    "eslint-config-next": "^16.4.5",
     "eslint-config-prettier": "^10.1.8",
     "postcss": "^8.5.32",
     "prettier": "^3.9.10",
@@ -59,8 +59,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3",
     "velite": "^0.4.0",
-    "vite": "^8.3.3",
-    "vitest": "^5.0.5"
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0"
   },
   "overrides": {
     "sharp": "^0.35.5"
