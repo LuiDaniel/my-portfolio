@@ -1,15 +1,19 @@
 import { ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Card, CardLabel } from '@/components/ui/Card';
+import { PAIRS } from '@/components/ui/ProjectCard';
 import { ExampleBadge } from '@/components/ui/Tag';
 import { Link } from '@/i18n/navigation';
 import type { Project } from '@/lib/content';
-import { cn, vars } from '@/lib/ui';
+import { accent, cn, vars } from '@/lib/ui';
 import styles from './Bento.module.css';
 
-/** Tarjeta ancha: proyecto destacado con su miniatura; toda la tarjeta lleva al caso de estudio. */
+/** Tarjeta ancha: proyecto destacado con su portada (o una miniatura abstracta si no tiene) dentro de
+ *  un marco de ventana; toda la tarjeta lleva al caso de estudio. */
 export async function BentoFeatured({ project, i }: { project: Project; i: number }) {
   const t = await getTranslations('Home');
+  const [c1, c2] = PAIRS[project.color];
   return (
     <Card
       as={Link}
@@ -18,7 +22,7 @@ export async function BentoFeatured({ project, i }: { project: Project; i: numbe
         styles.featured,
         'col-span-2 grid enter-card grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] items-end gap-[18px] max-sm:col-span-1 max-sm:grid-cols-1',
       )}
-      style={vars({ '--i': i })}
+      style={vars({ '--i': i, '--c1': accent(c1), '--c2': accent(c2) })}
     >
       <div>
         <CardLabel>
@@ -43,17 +47,30 @@ export async function BentoFeatured({ project, i }: { project: Project; i: numbe
           <i />
           <i />
         </div>
-        <div className={styles.shotUi}>
-          <div>
-            <span />
-            <span />
-            <span />
+        {project.cover ? (
+          <Image
+            src={project.cover.src}
+            alt=""
+            width={project.cover.width}
+            height={project.cover.height}
+            placeholder={project.cover.blurDataURL ? 'blur' : 'empty'}
+            blurDataURL={project.cover.blurDataURL}
+            sizes="(max-width: 640px) 90vw, 360px"
+            className={styles.shotImg}
+          />
+        ) : (
+          <div className={styles.shotUi}>
+            <div>
+              <span />
+              <span />
+              <span />
+            </div>
+            <div>
+              <span />
+              <span />
+            </div>
           </div>
-          <div>
-            <span />
-            <span />
-          </div>
-        </div>
+        )}
       </div>
     </Card>
   );
