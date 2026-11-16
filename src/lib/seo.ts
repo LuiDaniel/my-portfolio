@@ -65,7 +65,8 @@ export function personJsonLd(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: profile.name,
+    name: profile.fullName,
+    alternateName: profile.name,
     jobTitle: profile.role,
     description: plainText(profile.tagline),
     url: siteUrl(),
