@@ -1,0 +1,67 @@
+---
+title: Vyra, dental clinic software
+summary: Desktop app to run a dental clinic (patients, scheduling, medical records, dental chart, treatments and payments), with role-based permissions and 15 business rules enforced in code.
+kind: Desktop · Java · University project
+role: Lead of a team of 4 · requirements, UI design and service layer
+---
+
+## Context and problem
+
+Most small dental clinics keep their patients, appointments and medical records on paper or in spreadsheets. That leads to double-booked appointments, incomplete histories and payments that are hard to track. Vyra started as a Systems Engineering course project at Universidad Peruana Unión to replace that manual process with a tool built for clinic staff: front desk, dentists and administration.
+
+## My role
+
+I led a team of four. I wrote the requirements (functional, non-functional and business rules), the use cases and the phased implementation plan; I designed how every screen looks and behaves, and I wrote most of the service layer, where the business rules live.
+
+## Solution
+
+A Windows desktop app with 13 screens:
+
+- **Home** with today's appointments, key metrics and weekly income.
+- **Schedule** in day, week and list views, which prevents a dentist from having two appointments at the same time.
+- **Patients** with search by name or ID and soft deletion (history is never lost).
+- **Medical record and dental chart** using FDI notation: every change to a tooth is stored with its date and practitioner, and can be exported to PDF.
+- **Treatments and payments**, with the outstanding balance of each treatment.
+- **Reports, practitioners and users**, with different permissions for administrator, receptionist and dentist.
+
+## Architecture
+
+- **Strict layers:** view (FXML + CSS) → controller → service → DAO → SQLite. No SQL outside the DAOs and no JavaFX outside the UI.
+- **Services** receive their DAOs through the constructor and throw errors with messages ready to show to the user.
+- **DAOs with two implementations:** SQLite for the app and in-memory for the tests.
+- **Stack:** Java 21, JavaFX 21, SQLite (JDBC), Lombok, Jakarta Bean Validation, OpenPDF, JUnit 5 and jpackage for the installer.
+
+## Technical decisions
+
+- **Document before coding:** requirements, use cases, data model, class diagram and UI guide were written first, so four people could work in parallel without stepping on each other.
+- **Every business rule states which layer enforces it** (model, service or database), so none is duplicated or forgotten.
+- **Three levels of validation:** the form responds instantly, the model checks formats and the service checks duplicates, schedule conflicts and balances.
+- **Defense-in-depth permissions:** the menu hides what a role can't use, and every service checks the role again.
+- **Nothing is deleted:** appointments are cancelled, patients are deactivated and the medical record only adds new entries.
+- **Passwords hashed with salted PBKDF2**, and a login that doesn't reveal which field was wrong.
+
+## Challenges
+
+Coordinating a team that was new to Java and JavaFX. The first CRUD screens were built in parallel, each in its own way, so I reorganized the work into phases with acceptance criteria and aligned the model and database with the documentation before building more screens.
+
+## Results
+
+Version 1.0 is done: all 13 menu screens, all 15 business rules, 163 JUnit 5 tests, PDF export, a user manual with screenshots and a Windows installer (`Vyra.exe`) built with jpackage.
+
+## Try it
+
+Vyra is a desktop app, so there's no online demo. With JDK 21 and Maven you can run it from the [repository](https://github.com/LuiDaniel/vyra-dentalSoftware) with sample data:
+
+```bash
+mvn javafx:run "-Dvyra.demo=true"
+```
+
+| User | Password | Role |
+| --- | --- | --- |
+| `admin` | `admin123` | Administrator |
+| `msalinas` | `demo1234` | Dentist |
+| `recepcion` | `demo1234` | Receptionist |
+
+## What I'd do differently
+
+I'd split the work only after locking down the DAO and service interfaces, not before: it would have avoided rewriting the first CRUD screens. And for a clinic with several computers, I'd move from SQLite to PostgreSQL, which the DAO layer is already set up for.

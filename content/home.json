@@ -15,7 +15,7 @@
       "section": "projects"
     },
     "secondaryCta": { "label": { "es": "Descargar CV", "en": "Download CV" }, "action": "cv" },
-    "bento": { "featuredProject": "este-portafolio", "showGithub": true, "showClock": true }
+    "bento": { "featuredProject": "vyra-dental", "showGithub": true, "showClock": true }
   },
   "about": {
     "eyebrow": { "es": "Sobre mí", "en": "About" },

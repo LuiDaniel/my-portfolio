@@ -1,0 +1,10 @@
+{
+  "period": { "start": "2026-09", "end": "2026-11" },
+  "stack": ["Java 21", "JavaFX", "SQLite", "Maven", "JUnit 5"],
+  "color": "cyan",
+  "cover": "./cover.jpg",
+  "links": { "repo": "https://github.com/LuiDaniel/vyra-dentalSoftware" },
+  "featured": true,
+  "order": 1,
+  "draft": false
+}

@@ -1,0 +1,67 @@
+---
+title: Vyra, software para consultorios dentales
+summary: Aplicación de escritorio para gestionar un consultorio dental (pacientes, agenda, historia clínica, odontograma, tratamientos y pagos), con permisos por rol y 15 reglas de negocio validadas en código.
+kind: Escritorio · Java · Proyecto universitario
+role: Líder de un equipo de 4 · requerimientos, diseño de la interfaz y capa de servicios
+---
+
+## Contexto y problema
+
+La mayoría de consultorios dentales pequeños llevan sus pacientes, citas e historias clínicas en papel o en hojas de cálculo. Eso provoca citas cruzadas, historiales incompletos y pagos difíciles de seguir. Vyra nació como proyecto del curso de Ingeniería de Sistemas en la Universidad Peruana Unión para reemplazar ese registro manual con una herramienta pensada para el personal del consultorio: recepción, odontólogos y administración.
+
+## Mi rol
+
+Lideré al equipo de cuatro personas. Redacté los requerimientos (funcionales, no funcionales y reglas de negocio), los casos de uso y el plan de implementación por fases; diseñé cómo se ve y se comporta cada pantalla, y programé la mayor parte de la capa de servicios, donde viven las reglas del negocio.
+
+## Solución
+
+Una aplicación de escritorio para Windows con 13 pantallas:
+
+- **Inicio** con las citas del día, indicadores e ingresos de la semana.
+- **Agenda** en vista de día, semana y lista, que impide que un odontólogo tenga dos citas a la misma hora.
+- **Pacientes** con búsqueda por nombre o DNI y baja lógica (el historial nunca se pierde).
+- **Historia clínica y odontograma** con notación FDI: cada cambio de una pieza queda registrado con fecha y profesional, y se puede exportar a PDF.
+- **Tratamientos y pagos**, con el saldo pendiente de cada tratamiento.
+- **Reportes, profesionales y usuarios**, con permisos distintos para administrador, recepcionista y odontólogo.
+
+## Arquitectura
+
+- **Capas estrictas:** vista (FXML + CSS) → controlador → servicio → DAO → SQLite. Sin SQL fuera de los DAO y sin JavaFX fuera de la interfaz.
+- **Servicios** que reciben sus DAO por constructor y lanzan errores con mensajes listos para mostrar al usuario.
+- **DAO con dos implementaciones:** SQLite para la app y en memoria para las pruebas.
+- **Stack:** Java 21, JavaFX 21, SQLite (JDBC), Lombok, Jakarta Bean Validation, OpenPDF, JUnit 5 y jpackage para el instalador.
+
+## Decisiones técnicas
+
+- **Documentar antes de programar:** requerimientos, casos de uso, modelo de datos, diagrama de clases y guía de interfaz quedaron escritos primero. Así cuatro personas podían trabajar en paralelo sin pisarse.
+- **Cada regla de negocio indica en qué capa se valida** (modelo, servicio o base de datos), para que no se duplique ni se olvide.
+- **Validación en tres niveles:** el formulario responde al instante, el modelo valida el formato y el servicio comprueba duplicados, cruces de horario y saldos.
+- **Permisos con defensa en profundidad:** el menú oculta lo que un rol no puede usar y, además, cada servicio vuelve a comprobar el rol.
+- **Nada se borra:** las citas se cancelan, los pacientes se dan de baja y la historia clínica solo suma entradas nuevas.
+- **Contraseñas con hash PBKDF2 y sal**, y un login que no revela qué dato falló.
+
+## Retos
+
+Coordinar a un equipo que empezaba con Java y JavaFX. Los primeros CRUD se hicieron en paralelo y cada uno a su manera, así que reorganicé el trabajo en fases con criterios de aceptación y alineé el modelo y la base de datos con la documentación antes de seguir construyendo pantallas.
+
+## Resultados
+
+Versión 1.0 terminada: las 13 pantallas del menú, las 15 reglas de negocio, 163 pruebas con JUnit 5, exportación a PDF, manual de usuario con capturas y un instalador para Windows (`Vyra.exe`) generado con jpackage.
+
+## Pruébalo
+
+Vyra es una aplicación de escritorio, así que no tiene demo en línea. Con JDK 21 y Maven puedes ejecutarla desde el [repositorio](https://github.com/LuiDaniel/vyra-dentalSoftware) con datos de ejemplo:
+
+```bash
+mvn javafx:run "-Dvyra.demo=true"
+```
+
+| Usuario | Contraseña | Rol |
+| --- | --- | --- |
+| `admin` | `admin123` | Administrador |
+| `msalinas` | `demo1234` | Odontólogo |
+| `recepcion` | `demo1234` | Recepcionista |
+
+## Qué haría distinto
+
+Repartiría el trabajo solo después de fijar las interfaces de los DAO y los servicios, y no antes: habría evitado rehacer los primeros CRUD. Y para un consultorio con varias computadoras, pasaría de SQLite a PostgreSQL, algo que la capa DAO ya deja preparado.
